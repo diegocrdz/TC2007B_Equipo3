@@ -16,7 +16,7 @@
 - La aplicación cuenta con niveles de acceso con sus respectivos permisos:
   - Administrador: puede visualizar todos los registros con sus respectivos datos, fecha de creación y folio
   - Jefe de turno: puede visualizar todos los registros de ese turno.
-  - Operador: puede visualizar solo los registros que él haga (No los puede editar una vez han sido creados).
+  - Operador: puede visualizar y editar únicamente el campo ‘folio’ de los reportes que él creó; no puede editar otros campos del reporte.
 - Se muestran los registros correspondientes dependiendo del nivel de permisos que posea la cuenta.
 
 **RF03**
@@ -131,7 +131,7 @@
 **Nombre**: Edición de folios e historial de cambios
 **Prioridad**: Media
 **Criterios de aceptación**:
-- El sistema permite que operadores (paramédicos y de emergencias urbanas), jefes de turno y administradores puedan entrar a un reporte y editar el número de folio de un reporte para su corrección.
+- El Operador puede editar solo el folio de sus reportes. Jefe de turno y Administrador pueden editar folios de cualquier reporte.
 - Cada edición realizada al folio queda almacenada en un historial de cambios (usuario que lo modificó y fecha con hora).
 - El historial de cambios es visible para los jefes de turno y administrador(es).
 
