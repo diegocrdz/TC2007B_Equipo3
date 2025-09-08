@@ -11,6 +11,9 @@ import {
     Show,
     SimpleShowLayout,
     TextField,
+    useNotify,
+    useRefresh,
+    useRedirect,
 } from "react-admin";
 
 export const PostFilters = [
@@ -33,16 +36,29 @@ export const PostsList = () => (
     </List>
 );
 
-export const PostsEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput disabled source="id" />
-            <ReferenceInput source="userId" reference="users" />
-            <TextInput required source="title" />
-            <TextInput source="body" />
-        </SimpleForm>
-    </Edit>
-);
+export const PostsEdit = () => {
+
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+
+    const onSuccess = () => {
+        notify('Cambios guardados', { undoable: true });
+        redirect('/posts');
+        refresh();
+    };
+
+    return (
+        <Edit mutationOptions={{onSuccess}} >
+            <SimpleForm warnWhenUnsavedChanges>
+                <TextInput disabled source="id" />
+                <ReferenceInput source="userId" reference="users" />
+                <TextInput required source="title" />
+                <TextInput source="body" />
+            </SimpleForm>
+        </Edit>
+    );
+};
 
 export const PostsCreate = () => (
     <Create>
