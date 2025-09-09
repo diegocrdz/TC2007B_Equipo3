@@ -3,11 +3,9 @@ import { AuthProvider } from "react-admin";
 export const authProvider: AuthProvider = {
     // called when the user attempts to log in
     async login({ username, password }) {
-        /*
-        if (username !== 'A01781166' || password !== 'TC2007B') {
+        if (username !== 'A01029680' || password !== 'TC2007B') { // Credenciales fijas para el ejemplo
             throw new Error("Invalid credentials, please try again");
         }
-        */
         localStorage.setItem("username", username);
     },
     // called when the user clicks on the logout button

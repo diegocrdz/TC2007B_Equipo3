@@ -21,6 +21,8 @@ import { Dashboard } from "./dashboard/Dashboard";
 import { authProvider } from "./authProvider";
 // Language
 import { i18nProviderNoLocale } from './i18nProvider';
+// Login Page
+import { LoginPage } from "./loginPage";
 
 export const App = () => (
     <Admin
@@ -30,6 +32,7 @@ export const App = () => (
         lightTheme={bwLightTheme}
         defaultTheme="dark"
         dashboard={Dashboard}
+        loginPage={LoginPage}
         authProvider={authProvider}
         i18nProvider={i18nProviderNoLocale}
         > 
