@@ -20,7 +20,7 @@ export const PostFilters = [
 
 export const PostsList = () => (
     <List filters={PostFilters}>
-        <DataTable>
+        <DataTable> 
             <DataTable.Col source="id" label="ID" />
             <DataTable.Col source="userId" label="Usuario">
                 <ReferenceField source="userId" reference="users" link="show" />
@@ -44,15 +44,29 @@ export const PostsEdit = () => (
     </Edit>
 );
 
-export const PostsCreate = () => (
-    <Create>
-        <SimpleForm>
-            <ReferenceInput required source="userId" reference="users" />
-            <TextInput required source="title" />
-            <TextInput required source="body" multiline rows={5} />
-        </SimpleForm>
-    </Create>
-);
+import { required, useUnique, FormDataConsumer } from "react-admin";
+
+export const PostsCreate = () => {
+    const unique = useUnique();
+
+    return (
+        <Create>
+            <SimpleForm>
+                <ReferenceInput required source="userId" reference="users" />
+                <FormDataConsumer>
+                    {({ formData }) => (
+                        <TextInput source="title" validate={
+                            [required(), unique({
+                                resource: "posts", message: "Ese título ya existe para este usuario", filter: { userId: formData.userId }, debounce: 600
+                            }),
+                        ]}/>
+                    )}
+                </FormDataConsumer>
+                <TextInput required source="body" multiline rows={5} />
+            </SimpleForm>
+        </Create>
+    );
+};
 
 export const PostsShow = () => (
     <Show>
