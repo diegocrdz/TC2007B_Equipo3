@@ -27,4 +27,14 @@ export const authProvider: AuthProvider = {
             throw new Error("Authentication required");
         }
     },
+    async getIdentity() {
+        const username = localStorage.getItem("username");
+        if (!username) {
+            throw new Error("No user logged in");
+        }
+        return {
+            id: username,
+            fullName: `${username}`
+        };
+    },
 };
