@@ -15,6 +15,10 @@ import AlbumIcon from '@mui/icons-material/Album';
 import PhotoIcon from '@mui/icons-material/Photo';
 import TodoIcon from '@mui/icons-material/CheckBox';
 import UserIcon from '@mui/icons-material/People';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import EmergencyIcon from '@mui/icons-material/Emergency';
+import BarChartIcon from '@mui/icons-material/BarChart';
+
 // Dashboard
 import { Dashboard } from "./dashboard/Dashboard";
 // Login
@@ -22,9 +26,11 @@ import { authProvider } from "./authProvider";
 // Language
 import { i18nProviderNoLocale } from './i18nProvider';
 
+import { MyLayout } from './MyLayout';
+
 export const App = () => (
     <Admin
-        layout={Layout}
+        layout={MyLayout}
         dataProvider={dataProvider} 
         darkTheme={bwDarkTheme} 
         lightTheme={bwLightTheme}
@@ -32,12 +38,15 @@ export const App = () => (
         dashboard={Dashboard}
         authProvider={authProvider}
         i18nProvider={i18nProviderNoLocale}
-        > 
+    >
         <Resource name='posts' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={PostIcon} options={{ label: 'Publicaciones'}} />
         <Resource name='comments' list={CommentsList} edit={CommentsEdit} create={CommentsCreate} show={CommentsShow} icon={CommentIcon} options={{ label: 'Comentarios'}} />
         <Resource name='albums' list={AlbumsList} edit={AlbumsEdit} create={AlbumsCreate} show={AlbumsShow} icon={AlbumIcon} options={{ label: 'Álbumes'}} />
         <Resource name='photos' list={PhotosList} edit={PhotosEdit} create={PhotosCreate} show={PhotosShow} icon={PhotoIcon} options={{ label: 'Fotos'}} />
         <Resource name='todos' list={TodosList} edit={TodosEdit} create={TodosCreate} show={TodosShow} icon={TodoIcon} options={{ label: 'Tareas'}} />
         <Resource name='users' list={UsersList} edit={UsersEdit} create={UsersCreate} show={UsersShow} icon={UserIcon} options={{ label: 'Usuarios'}} />
+        <Resource name='x1' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={LocalHospitalIcon} options={{ label: 'Médicas'}} />
+        <Resource name='x2' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Urbanas'}} />
+        <Resource name='x3' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={BarChartIcon} options={{ label: 'Tablero'}} />
     </Admin>
 );
