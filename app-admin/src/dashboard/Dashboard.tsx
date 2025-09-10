@@ -1,11 +1,5 @@
 import { usePermissions } from "react-admin";
 import { Card, CardContent, CardHeader } from "@mui/material";
-
-import { Photos } from "./Photo";
-import { Click_Example } from "./Click_Example";
-import { Counter } from "./Counter";
-import { EChart } from "./ECharts";
-
 import { Functions } from "./Functions";
 
 export const Dashboard = () => {
@@ -22,10 +16,6 @@ export const Dashboard = () => {
                 {permissions === 'admin' && // Administrador
                     <CardContent>
                         <h2>Portal de Administrador</h2>
-                        <EChart />
-                        <Photos />
-                        <Click_Example />
-                        <Counter />
                     </CardContent>
                 } 
                 {permissions === 'jefe' && // Jefe de turno

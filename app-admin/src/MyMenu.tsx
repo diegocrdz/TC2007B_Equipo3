@@ -49,23 +49,31 @@ export const MyMenu = () => (
 
         <SectionTitle>json</SectionTitle>
         <Menu.ResourceItem name="posts"/>
-        <Menu.ResourceItem name="comments"/>
-        <Menu.ResourceItem name="albums"/>
-        <Menu.ResourceItem name="photos"/>
-        <Menu.ResourceItem name="todos"/>
-        <Menu.ResourceItem name="users"/>
         <Divider />
 
-        <SectionTitle>Emergencias</SectionTitle>
+        <SectionTitle>Incidentes Médicos</SectionTitle>
         <Menu.ResourceItem
-            name="x1"
-            title="Emergencias Médicas"
-            aria-label='Emergencias Médicas'
+            name="reportes_medicos"
+            title="Reportes Médicos"
+            aria-label='Reportes Médicos'
         />
         <Menu.ResourceItem
-            name="x2"
-            title="Emergencias Urbanas"
-            aria-label='Emergencias Urbanas'
+            name="notas_medicas"
+            title="Notas Médicas"
+            aria-label='Notas Médicas'
+        />
+        <Divider />
+
+        <SectionTitle>Incidentes Urbanos</SectionTitle>
+        <Menu.ResourceItem
+          name="reportes_urbanos"
+          title="Reportes Urbanos"
+          aria-label='Reportes Urbanos'
+        />
+        <Menu.ResourceItem
+          name="notas_urbanas"
+          title="Notas Urbanas"
+          aria-label='Notas Urbanas'
         />
     </Menu>
 );

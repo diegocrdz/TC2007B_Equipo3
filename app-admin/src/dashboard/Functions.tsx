@@ -1,10 +1,10 @@
 import { useRedirect } from 'react-admin';
 
 const functionData = [
-    { title: 'Ver reportes médicos', to: '/x1' },
-    { title: 'Ver reportes urbanos', to: '/x2' },
-    { title: 'Ver notas médicas', to: '/x1' },
-    { title: 'Ver notas urbanas', to: '/x2' },
+    { title: 'Ver reportes médicos', to: '/reportes_medicos' },
+    { title: 'Ver reportes urbanos', to: '/reportes_urbanos' },
+    { title: 'Ver notas médicas', to: '/notas_medicas' },
+    { title: 'Ver notas urbanas', to: '/notas_urbanas' },
 ];
 
 const Function_Box = ({ title, to }: { title: string, to: string }) => {

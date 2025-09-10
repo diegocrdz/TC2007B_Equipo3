@@ -1,6 +1,7 @@
 import { Admin, Resource, bwDarkTheme, bwLightTheme } from "react-admin";
 import { Layout } from "./Layout";
-import {dataProvider} from "./dataProvider";
+// import {dataProvider} from "./dataProvider";
+import { mockDataProvider } from "./mockDataProvider";
 // jsonplaceholder
 import { PostsList, PostsEdit, PostsCreate, PostsShow } from "./posts";
 import { CommentsList, CommentsEdit, CommentsCreate, CommentsShow } from "./comments";
@@ -17,7 +18,8 @@ import TodoIcon from '@mui/icons-material/CheckBox';
 import UserIcon from '@mui/icons-material/People';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
 // Dashboard
 import { Dashboard } from "./dashboard/Dashboard";
@@ -28,10 +30,12 @@ import { i18nProviderNoLocale } from './i18nProvider';
 
 import { MyLayout } from './MyLayout';
 
+import { RMList, RMEdit, RMCreate, RMCreate2, RMShow } from "./reportes_medicos";
+
 export const App = () => (
     <Admin
         layout={MyLayout}
-        dataProvider={dataProvider} 
+    dataProvider={mockDataProvider}
         darkTheme={bwDarkTheme} 
         lightTheme={bwLightTheme}
         defaultTheme="dark"
@@ -45,8 +49,11 @@ export const App = () => (
         <Resource name='photos' list={PhotosList} edit={PhotosEdit} create={PhotosCreate} show={PhotosShow} icon={PhotoIcon} options={{ label: 'Fotos'}} />
         <Resource name='todos' list={TodosList} edit={TodosEdit} create={TodosCreate} show={TodosShow} icon={TodoIcon} options={{ label: 'Tareas'}} />
         <Resource name='users' list={UsersList} edit={UsersEdit} create={UsersCreate} show={UsersShow} icon={UserIcon} options={{ label: 'Usuarios'}} />
-        <Resource name='x1' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={LocalHospitalIcon} options={{ label: 'Médicas'}} />
-        <Resource name='x2' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Urbanas'}} />
-        <Resource name='x3' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={BarChartIcon} options={{ label: 'Tablero'}} />
+
+        <Resource name='reportes_medicos' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={LocalHospitalIcon} options={{ label: 'Reportes Médicos'}} />
+        <Resource name='notas_medicas' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
+
+        <Resource name='reportes_urbanos' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
+        <Resource name='notas_urbanas' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={StickyNote2Icon} options={{ label: 'Notas Urbanas'}} />
     </Admin>
 );
