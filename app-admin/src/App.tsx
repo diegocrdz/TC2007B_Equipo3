@@ -26,10 +26,11 @@ import { authProvider } from "./authProvider";
 // Language
 import { i18nProviderNoLocale } from './i18nProvider';
 
+import { MyLayout } from './MyLayout';
 
 export const App = () => (
     <Admin
-        layout={Layout}
+        layout={MyLayout}
         dataProvider={dataProvider} 
         darkTheme={bwDarkTheme} 
         lightTheme={bwLightTheme}
@@ -44,8 +45,8 @@ export const App = () => (
         <Resource name='photos' list={PhotosList} edit={PhotosEdit} create={PhotosCreate} show={PhotosShow} icon={PhotoIcon} options={{ label: 'Fotos'}} />
         <Resource name='todos' list={TodosList} edit={TodosEdit} create={TodosCreate} show={TodosShow} icon={TodoIcon} options={{ label: 'Tareas'}} />
         <Resource name='users' list={UsersList} edit={UsersEdit} create={UsersCreate} show={UsersShow} icon={UserIcon} options={{ label: 'Usuarios'}} />
-        <Resource name='x1' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={LocalHospitalIcon} options={{ label: 'Emergencias Médicas'}} />
-        <Resource name='x2' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Emergencias Urbanas'}} />
-        <Resource name='x3' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={BarChartIcon} options={{ label: 'Estadísticas'}} />
+        <Resource name='x1' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={LocalHospitalIcon} options={{ label: 'Médicas'}} />
+        <Resource name='x2' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Urbanas'}} />
+        <Resource name='x3' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={BarChartIcon} options={{ label: 'Tablero'}} />
     </Admin>
 );
