@@ -1,33 +1,42 @@
+import { useRedirect } from 'react-admin';
 
 const functionData = [
-    { title: 'Ver reportes médicos'},
-    { title: 'Ver reportes médicos'},
-    { title: 'Ver notas médicas'},
-    { title: 'Ver notas urbanas'},
+    { title: 'Ver reportes médicos', to: '/x1' },
+    { title: 'Ver reportes urbanos', to: '/x2' },
+    { title: 'Ver notas médicas', to: '/x1' },
+    { title: 'Ver notas urbanas', to: '/x2' },
 ];
 
-const Function_Box = ({ title }: { title: string }) => (
-    <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        border: '1px solid',
-        borderColor: 'divider',
-        borderRadius: '10px',
-        padding: '20px',
-        minHeight: '120px',
-    }}>
-        <p style={{
-            margin: 0,
-            fontSize: '1.2em',
-            fontWeight: 'bold',
-            color: 'text.primary',
+const Function_Box = ({ title, to }: { title: string, to: string }) => {
+    const redirect = useRedirect();
+
+    return (
+        <div
+        onClick={() => redirect(to)}
+        style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: '10px',
+            padding: '20px',
+            minHeight: '120px',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s',
         }}>
-            {title}
-        </p>
-    </div>
-);
+            <p style={{
+                margin: 0,
+                fontSize: '1.2em',
+                fontWeight: 'bold',
+                color: 'text.primary',
+            }}>
+                {title}
+            </p>
+        </div>
+    );
+};
 
 export const Functions = () => {
     return (
@@ -37,7 +46,7 @@ export const Functions = () => {
             gap: '20px',
         }}>
             {functionData.map((fn, idx) => (
-                <Function_Box key={idx} title={fn.title} />
+                <Function_Box key={idx} title={fn.title} to={fn.to} />
             ))}
         </div>
     );

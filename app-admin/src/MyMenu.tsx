@@ -1,6 +1,5 @@
 import { Menu, useSidebarState } from 'react-admin';
 import { Divider, ListSubheader } from '@mui/material';
-import { BorderRight } from '@mui/icons-material';
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => {
   const [open] = useSidebarState(); // true cuando el sidebar está expandido
