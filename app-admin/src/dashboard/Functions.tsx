@@ -17,16 +17,16 @@ const functionData = {
         { title: 'Ver notas urbanas', to: '/notas_urbanas' },
     ],
     paramedico: [
-        { title: 'Crear reporte médico', to: '/reportes_medicos/create' },
-        { title: 'Crear nota médica', to: '/reportes_medicos/create' },
-        { title: 'Ver mis reportes médicos', to: '/reportes_medicos' },
-        { title: 'Ver mis notas médicas', to: '/notas_medicas' },
+        { title: 'Crear reporte', to: '/reportes_medicos/create' },
+        { title: 'Crear nota', to: '/reportes_medicos/create' },
+        { title: 'Ver mis reportes', to: '/reportes_medicos' },
+        { title: 'Ver mis notas', to: '/notas_medicas' },
     ],
     urbano: [
-        { title: 'Crear reporte médico', to: '/reportes_medicos/create' },
-        { title: 'Crear nota médica', to: '/reportes_medicos/create' },
-        { title: 'Ver mis reportes médicos', to: '/reportes_medicos' },
-        { title: 'Ver mis notas médicas', to: '/notas_medicas' },
+        { title: 'Crear reporte', to: '/reportes_urbanos/create' },
+        { title: 'Crear nota', to: '/notas_urbanas/create' },
+        { title: 'Ver mis reportes', to: '/reportes_urbanos' },
+        { title: 'Ver mis notas', to: '/notas_urbanas' },
     ],
 };
 
@@ -86,14 +86,20 @@ export const Functions = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    margin: '0 1vw',
+                    margin: '0 18px',
                 }}
             >
                 <h2>Funciones rápidas</h2>
                 <Box
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        // Columnas para diferentes tamaños de pantalla
+                        gridTemplateColumns: {
+                            xs: 'repeat(2, 1fr)', // Muy pequeña
+                            sm: 'repeat(2, 1fr)', // Pequeña
+                            md: 'repeat(4, 1fr)', // Mediana
+                            lg: 'repeat(4, 1fr)', // Grande
+                        },
                         gap: '20px',
                     }}
                 >
