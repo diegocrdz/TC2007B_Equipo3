@@ -14,6 +14,7 @@ import {
     useNotify,
     useRefresh,
     useRedirect,
+    useCanAccess,
 } from "react-admin";
 
 export const PostFilters = [
@@ -21,20 +22,26 @@ export const PostFilters = [
     <ReferenceInput source="userId" label="User" reference="users" />,
 ]
 
-export const PostsList = () => (
-    <List filters={PostFilters}>
-        <DataTable>
-            <DataTable.Col source="id" label="ID" />
-            <DataTable.Col source="userId" label="Usuario">
-                <ReferenceField source="userId" reference="users" link="show" />
-            </DataTable.Col>
-            <DataTable.Col source="title" label="Título" />
-            <DataTable.Col>
-                <EditButton />
-            </DataTable.Col>
-        </DataTable>
-    </List>
-);
+export const PostsList = () => {
+    // check access
+    const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+
+    return (
+        // If the user has delete access, show filters
+        <List filters={canAccess ? PostFilters : undefined}>
+            <DataTable>
+                <DataTable.Col source="id" label="ID" />
+                <DataTable.Col source="userId" label="Usuario">
+                    <ReferenceField source="userId" reference="users" link="show" />
+                </DataTable.Col>
+                <DataTable.Col source="title" label="Título" />
+                <DataTable.Col>
+                    <EditButton />
+                </DataTable.Col>
+            </DataTable>
+        </List>
+    );
+};
 
 export const PostsEdit = () => {
 
