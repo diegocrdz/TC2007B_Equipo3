@@ -35,7 +35,7 @@ import { RMList, RMEdit, RMCreate, RMCreate2, RMShow } from "./reportes_medicos"
 export const App = () => (
     <Admin
         layout={MyLayout}
-    dataProvider={mockDataProvider}
+        dataProvider={mockDataProvider}
         darkTheme={bwDarkTheme} 
         lightTheme={bwLightTheme}
         defaultTheme="dark"

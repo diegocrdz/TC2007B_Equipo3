@@ -9,7 +9,6 @@ import {
     ReferenceInput,
     Create,
     Show,
-    SimpleShowLayout,
     TextField,
     useNotify,
     useRefresh,
@@ -32,11 +31,11 @@ const MOTIVO_CHOICES = [
 ];
 
 export const RMList = () => {
-    // check access
+    // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
-        // If the user has delete access, show filters
+        // Si el usuario tiene permiso, mostrar filtros
         <List filters={canAccess ? RMFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
@@ -93,7 +92,7 @@ export const RMCreate = () => (
     </Create>
 );
 
-export const RMCreate2 = () => ( // Protitipo con los campos del reporte de papel
+export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
     <Create>
         <TabbedForm>
             <TabbedForm.Tab label="Datos del Servicio">
@@ -146,6 +145,7 @@ export const RMShow = () => (
                 <TextField source="control.tum" label="T.U.M." />
                 <TextField source="control.socorrista" label="Socorrista" />
                 <TextField source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
-            </TabbedShowLayout.Tab>        </TabbedShowLayout>
+            </TabbedShowLayout.Tab>
+        </TabbedShowLayout>
     </Show>
 );

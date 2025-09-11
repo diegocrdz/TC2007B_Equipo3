@@ -4,15 +4,15 @@ type Role = 'admin' | 'jefe' | 'paramedico' | 'urbano';
 
 const permissions = {
     jefe: {
-        resources: ['x1', 'x2'],
+        resources: ['reportes_medicos', 'notas_medicas', 'reportes_urbanos', 'notas_urbanas'],
         actions: ['list', 'edit', 'show']
     },
     paramedico: {
-        resources: ['x1'],
+        resources: ['reportes_medicos', 'notas_medicas'],
         actions: ['create', 'list', 'edit', 'show']
     },
     urbano: {
-        resources: ['x2'],
+        resources: ['reportes_urbanos', 'notas_urbanas'],
         actions: ['create', 'list', 'edit', 'show']
     }
 }
@@ -39,7 +39,7 @@ const accessControlStrategies = {
 }
 
 export const authProvider: AuthProvider = {
-    // called when the user attempts to log in
+    // Cuando usuario intenta iniciar sesión
     async login({ username, password }) {
         localStorage.setItem("username", username);
         // assign role based on username
@@ -62,29 +62,41 @@ export const authProvider: AuthProvider = {
         }
         localStorage.setItem("permissions", role);
     },
-    // called when the user clicks on the logout button
+    // Cuando el usuario cierra sesión
     async logout() {
         localStorage.removeItem("username");
     },
-    // called when the API returns an error
+    // Cuando la API devuelve un error
     async checkError({ status }: { status: number }) {
         if (status === 401 || status === 403) {
             localStorage.removeItem("username");
             throw new Error("Session expired");
         }
     },
-    // called when the user navigates to a new location, to check for authentication
+    // Cuando el usuario cambia de interfaz, verificar si está autenticado
     async checkAuth() {
         if (!localStorage.getItem("username")) {
             throw new Error("Authentication required");
         }
     },
-    // Get user permissions
+    // Obtener los permisos del usuario
     async getPermissions() {
         return localStorage.getItem("permissions") || "user";
     },
+    // Verificar si el usuario tiene acceso a un recurso y acción específicos
     async canAccess({ resource, action }: { resource: string; action: string }) {
         const role = (localStorage.getItem("permissions") as Role);
         return accessControlStrategies[role]({ resource, action });
-    }
+    },
+    // Obtener la identidad del usuario
+    async getIdentity() {
+        const username = localStorage.getItem("username");
+        if (!username) {
+            throw new Error("No user logged in");
+        }
+        return {
+            id: username,
+            fullName: `${username}`
+        };
+    },
 };
