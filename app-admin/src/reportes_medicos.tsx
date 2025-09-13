@@ -20,6 +20,7 @@ import {
     DateInput,
     TimeInput,
     NumberInput,
+    DateTimeInput,
 } from "react-admin";
 
 import { useWatch } from "react-hook-form";
@@ -340,6 +341,18 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XII Ministerio Público
                         </AccordionSummary>
                         <AccordionDetails>
+                            <DateTimeInput
+                                source="ministerio_publico.fecha_notificacion"
+                                label="Fecha de notificación"
+                            />
+                            <TextInput
+                                source="ministerio_publico.sello"
+                                label="Sello Ministerio Público"
+                            />
+                            <TextInput
+                                source="ministerio_publico.funcionario"
+                                label="Funcionario que recibe"
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
