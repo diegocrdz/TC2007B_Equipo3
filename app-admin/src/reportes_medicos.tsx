@@ -22,9 +22,12 @@ import {
     NumberInput,
 } from "react-admin";
 
+import { useWatch } from "react-hook-form";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const RMFilters = [
@@ -142,6 +145,36 @@ const GridSection = ({ title, children }: { title: string, children: React.React
         </div>
     </div>
 );
+
+// Componente de TextInput con límite de caracteres
+const TextInputWithCounter = ({
+    source, label, maxLength = 0
+}: {
+    source: string;
+    label: string;
+    maxLength?: number;
+}) => {
+    const value = useWatch({ name: source }) || "";
+    return (
+        <Box width="100%">
+            <TextInput
+                source={source}
+                label={label}
+                multiline
+                fullWidth
+                slotProps={{ input: { inputProps: { maxLength } } }}
+            />
+            <Typography
+                variant="caption"
+                color={value.length > maxLength ? "error" : "textSecondary"}
+                sx={{ display: "block", textAlign: "right", mt: 0.5 }}
+            >{value.length}/{maxLength}
+            </Typography>
+        </Box>
+    );
+};
+
+export default TextInputWithCounter;
 
 export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
     <Create
@@ -295,6 +328,11 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XI Observaciones
                         </AccordionSummary>
                         <AccordionDetails>
+                            <TextInputWithCounter
+                                source="observaciones"
+                                label="Observaciones"
+                                maxLength={1000}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
