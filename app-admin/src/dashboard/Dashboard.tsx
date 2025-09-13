@@ -1,53 +1,29 @@
-import { usePermissions } from "react-admin";
+import { useGetIdentity, usePermissions } from "react-admin";
 import { Card, CardContent, CardHeader } from "@mui/material";
-
-import { Photos } from "./Photo";
-import { Click_Example } from "./Click_Example";
-import { Counter } from "./Counter";
-import { EChart } from "./ECharts";
-
 import { Functions } from "./Functions";
 
 export const Dashboard = () => {
-    // Obtener los permisos del usuario
-    const { isPending, permissions } = usePermissions();
+    // Obtener permisos e identidad de usuario
+    const { isPending: isPermPending, permissions } = usePermissions();
+    const { data: identityData, isPending: isIdentityPending } = useGetIdentity();
 
-    if (isPending) { // Indicador de carga
+    if (isPermPending || isIdentityPending) { // Ver si los datos están cargando
         return <div>Esperando permisos...</div>;
     } else {
         return (
-            <Card>
-                <CardHeader title="Inicio" />
+            <Card
+                sx={{
+                    minHeight: '100vh',
+                    padding: '1vw',
+                }}
+            >
+                <CardHeader title={`Bienvenido, ${identityData?.fullName ?? "Usuario"}`} />
                 <Functions />
-                {permissions === 'admin' && // Administrador
+                {permissions === 'admin' && // Solo mostrar para admin
                     <CardContent>
                         <h2>Portal de Administrador</h2>
-                        <EChart />
-                        <Photos />
-                        <Click_Example />
-                        <Counter />
                     </CardContent>
                 } 
-                {permissions === 'jefe' && // Jefe de turno
-                    <CardContent>
-                        <h2>Portal de Jefe de turno</h2>
-                    </CardContent>
-                }
-                {permissions === 'paramedico' && // Paramédico
-                    <CardContent>
-                        <h2>Portal de Emergencias Médias</h2>
-                    </CardContent>
-                }
-                {permissions === 'urbano' && // Emergencias Urbanas
-                    <CardContent>
-                        <h2>Portal de Emergencias Urbanas</h2>
-                    </CardContent>
-                }
-                {permissions === '' && // Otros
-                    <CardContent>
-                        <h2>No tienes acceso a este apartado.</h2>
-                    </CardContent>
-                }
             </Card>
         )
     }
