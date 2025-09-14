@@ -23,13 +23,17 @@ import {
     DateTimeInput,
 } from "react-admin";
 
-import { useWatch } from "react-hook-form";
+import { useWatch, useFormContext, useFieldArray } from "react-hook-form";
+import { useEffect } from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { IconButton, Button, Stack } from "@mui/material";
 
 export const RMFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
@@ -174,8 +178,74 @@ const TextInputWithCounter = ({
         </Box>
     );
 };
-
 export default TextInputWithCounter;
+
+// Componente para manejar un arreglo de vehículos con agregar/eliminar
+const VehiclesRepeater = () => {
+    const notify = useNotify();
+    const { control } = useFormContext();
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "datos_legales.vehiculos", // ← usamos un ARREGLO
+    });
+
+    useEffect(() => {
+        if (fields.length === 0) append({ tipo: "", placas: "" });
+    }, []);
+
+    const handleRemove = (index: number) => {
+        if (fields.length <= 1) {
+            notify("Debe permanecer al menos un vehículo.", { type: "warning" });
+            return;
+        }
+        remove(index);
+    };
+    const handleAdd = () => append({ tipo: "", placas: "" });
+
+    return (
+        <Box sx={{ width: "100%" }}>
+            {fields.map((field, index) => (
+                <Box
+                    key={field.id}
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr auto" },
+                        gap: 2,
+                        mb: 1,
+                        alignItems: "center",
+                    }}
+                >
+                    <TextInput
+                        source={`datos_legales.vehiculos.${index}.tipo`}
+                        label="Tipo y marca"
+                        fullWidth
+                    />
+                    <TextInput
+                        source={`datos_legales.vehiculos.${index}.placas`}
+                        label="Placas"
+                        fullWidth
+                    />
+                    <Stack
+                        direction="row"
+                        sx={{ alignSelf: 'flex-start' }}
+                    >
+                        <IconButton
+                            aria-label="Eliminar"
+                            onClick={() => handleRemove(index)}
+                            sx={{ transform: 'translateY(8px)' }}
+                        >
+                            <RemoveCircleOutlineIcon />
+                        </IconButton>
+                    </Stack>
+                </Box>
+            ))}
+            <Button variant="outlined" startIcon={<AddCircleOutlineIcon />} onClick={handleAdd}>
+                Agregar vehículo
+            </Button>
+        </Box>
+    );
+};
 
 export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
     <Create
@@ -360,6 +430,14 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XIII Datos Legales
                         </AccordionSummary>
                         <AccordionDetails>
+                            <ColumnSection title="Autoridades que tomaron conocimiento">
+                                <TextInput source="datos_legales.autoridad_dependencia" label="Dependencia" />
+                                <TextInput source="datos_legales.numero_unidad" label="Número de Unidad" />
+                                <TextInput source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
+                            </ColumnSection>
+                            <GridSection title="Vehículos involucrados">
+                                <VehiclesRepeater />
+                            </GridSection>
                         </AccordionDetails>
                     </Accordion>
                 </div>
