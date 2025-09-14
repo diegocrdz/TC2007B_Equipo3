@@ -20,12 +20,20 @@ import {
     DateInput,
     TimeInput,
     NumberInput,
+    DateTimeInput,
 } from "react-admin";
 
+import { useWatch, useFormContext, useFieldArray } from "react-hook-form";
+import { useEffect } from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { IconButton, Button, Stack } from "@mui/material";
 
 export const RMFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
@@ -142,6 +150,102 @@ const GridSection = ({ title, children }: { title: string, children: React.React
         </div>
     </div>
 );
+
+// Componente de TextInput con límite de caracteres
+const TextInputWithCounter = ({
+    source, label, maxLength = 0
+}: {
+    source: string;
+    label: string;
+    maxLength?: number;
+}) => {
+    const value = useWatch({ name: source }) || "";
+    return (
+        <Box width="100%">
+            <TextInput
+                source={source}
+                label={label}
+                multiline
+                fullWidth
+                slotProps={{ input: { inputProps: { maxLength } } }}
+            />
+            <Typography
+                variant="caption"
+                color={value.length > maxLength ? "error" : "textSecondary"}
+                sx={{ display: "block", textAlign: "right", mt: 0.5 }}
+            >{value.length}/{maxLength}
+            </Typography>
+        </Box>
+    );
+};
+export default TextInputWithCounter;
+
+// Componente para manejar un arreglo de vehículos con agregar/eliminar
+const VehiclesRepeater = () => {
+    const notify = useNotify();
+    const { control } = useFormContext();
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "datos_legales.vehiculos", // ← usamos un ARREGLO
+    });
+
+    useEffect(() => {
+        if (fields.length === 0) append({ tipo: "", placas: "" });
+    }, []);
+
+    const handleRemove = (index: number) => {
+        if (fields.length <= 1) {
+            notify("Debe permanecer al menos un vehículo.", { type: "warning" });
+            return;
+        }
+        remove(index);
+    };
+    const handleAdd = () => append({ tipo: "", placas: "" });
+
+    return (
+        <Box sx={{ width: "100%" }}>
+            {fields.map((field, index) => (
+                <Box
+                    key={field.id}
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr auto" },
+                        gap: 2,
+                        mb: 1,
+                        alignItems: "center",
+                    }}
+                >
+                    <TextInput
+                        source={`datos_legales.vehiculos.${index}.tipo`}
+                        label="Tipo y marca"
+                        fullWidth
+                    />
+                    <TextInput
+                        source={`datos_legales.vehiculos.${index}.placas`}
+                        label="Placas"
+                        fullWidth
+                    />
+                    <Stack
+                        direction="row"
+                        sx={{ alignSelf: 'flex-start' }}
+                    >
+                        <IconButton
+                            aria-label="Eliminar"
+                            onClick={() => handleRemove(index)}
+                            sx={{ transform: 'translateY(8px)' }}
+                        >
+                            <RemoveCircleOutlineIcon />
+                        </IconButton>
+                    </Stack>
+                </Box>
+            ))}
+            <Button variant="outlined" startIcon={<AddCircleOutlineIcon />} onClick={handleAdd}>
+                Agregar vehículo
+            </Button>
+        </Box>
+    );
+};
 
 export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
     <Create
@@ -295,6 +399,11 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XI Observaciones
                         </AccordionSummary>
                         <AccordionDetails>
+                            <TextInputWithCounter
+                                source="observaciones"
+                                label="Observaciones"
+                                maxLength={1000}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -302,6 +411,18 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XII Ministerio Público
                         </AccordionSummary>
                         <AccordionDetails>
+                            <DateTimeInput
+                                source="ministerio_publico.fecha_notificacion"
+                                label="Fecha de notificación"
+                            />
+                            <TextInput
+                                source="ministerio_publico.sello"
+                                label="Sello Ministerio Público"
+                            />
+                            <TextInput
+                                source="ministerio_publico.funcionario"
+                                label="Funcionario que recibe"
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -309,6 +430,14 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             XIII Datos Legales
                         </AccordionSummary>
                         <AccordionDetails>
+                            <ColumnSection title="Autoridades que tomaron conocimiento">
+                                <TextInput source="datos_legales.autoridad_dependencia" label="Dependencia" />
+                                <TextInput source="datos_legales.numero_unidad" label="Número de Unidad" />
+                                <TextInput source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
+                            </ColumnSection>
+                            <GridSection title="Vehículos involucrados">
+                                <VehiclesRepeater />
+                            </GridSection>
                         </AccordionDetails>
                     </Accordion>
                 </div>
