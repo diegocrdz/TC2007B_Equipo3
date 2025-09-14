@@ -322,7 +322,9 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                 }}>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            III Datos del Paciente
+                            <Typography variant='subtitle1'>
+                                III Datos del Paciente
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <SelectInput
@@ -347,56 +349,108 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            IV Parto
+                            <Typography variant="subtitle1">
+                                IV Parto
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <ColumnSection title="Datos de la madre">
+                                <TextInput source="parto.semanas" label="Semanas de gesta" />
+                                <TimeInput source="parto.hora_contracciones" label="Hora de inicio de contracciones" />
+                            </ColumnSection>
+                            <RowSection title="">
+                                <TextInput source="parto.frecuencia" label="Frecuencia" />
+                                <TextInput source="parto.duracion" label="Duración" />
+                            </RowSection>
+                            <ColumnSection title="Datos post-parto y del recién nacido">
+                                <TimeInput source="parto.hora_nacimiento" label="Hora de nacimiento" />
+                                <TextInput source="parto.placenta" label="Placenta expulsada" />
+                                <RowSection title="">
+                                    <SelectInput
+                                        source="parto.producto"
+                                        label="Producto"
+                                        choices={PRODUCTO_CHOICES}
+                                        optionText="name"
+                                        optionValue="id"
+                                    />
+                                    <SelectInput
+                                        source="parto.sexo"
+                                        label="Sexo"
+                                        choices={SEXO_CHOICES}
+                                        optionText="name"
+                                        optionValue="id"
+                                    />
+                                </RowSection>
+                                <ColumnSection title="Puntaje de APGAR">
+                                    <NumberInput source="parto.edad_gestacional" label="Edad gestacional" />
+                                    <NumberInput source="parto.apgar_1min" label="1 minuto" />
+                                    <NumberInput source="parto.apgar_5min" label="5 minutos" />
+                                    <NumberInput source="parto.apgar_10min" label="10 minutos" />
+                                    <NumberInput source="parto.apgar_15min" label="15 minutos" />
+                                    <NumberInput source="parto.apgar_20min" label="20 minutos" />
+                                </ColumnSection>
+                            </ColumnSection>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                V Causa Traumática
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            V Causa Traumática
+                            <Typography variant="subtitle1">
+                                VI Causa Clínica
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            VI Causa Clínica
+                            <Typography variant="subtitle1">
+                                VII Evaluación Inicial
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            VII Evaluación Inicial
+                            <Typography variant="subtitle1">
+                                VIII Evaluación Secundaria
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            VIII Evaluación Secundaria
+                            <Typography variant="subtitle1">
+                                IX Traslado
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            IX Traslado
+                            <Typography variant="subtitle1">
+                                X Tratamiento
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            X Tratamiento
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            XI Observaciones
+                            <Typography variant="subtitle1">
+                                XI Observaciones
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <TextInputWithCounter
@@ -408,26 +462,26 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            XII Ministerio Público
+                            <Typography variant="subtitle1">
+                                XII Ministerio Público
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <DateTimeInput
-                                source="ministerio_publico.fecha_notificacion"
-                                label="Fecha de notificación"
-                            />
                             <TextInput
                                 source="ministerio_publico.sello"
-                                label="Sello Ministerio Público"
+                                label="Sello Ministerio Público Notificado"
                             />
                             <TextInput
                                 source="ministerio_publico.funcionario"
-                                label="Funcionario que recibe"
+                                label="Nombre y firma quien recibe"
                             />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            XIII Datos Legales
+                            <Typography variant="subtitle1">
+                                XIII Datos Legales
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="Autoridades que tomaron conocimiento">
@@ -465,6 +519,11 @@ const OCURRENCIA_CHOICES = [
 const SEXO_CHOICES = [
     { id: 'masculino', name: 'MASC' },
     { id: 'femenino', name: 'FEM' },
+];
+
+const PRODUCTO_CHOICES = [
+    { id: 'vivo', name: 'Vivo' },
+    { id: 'muerto', name: 'Muerto' },
 ];
 
 export const RMShow = () => (
