@@ -151,7 +151,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
     >
         <TabbedForm>
             { /*------------------------------------------------------*/ }
-            <TabbedForm.Tab label="I Datos del Servicio">
+            <TabbedForm.Tab label="Datos Servicio">
                 <RowSection title="Folio y Fecha">
                     <TextInput required source="folio" label="Folio" />
                     <DateInput required source="fecha" label="Fecha"
@@ -203,7 +203,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                 </ColumnSection>
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/ }
-            <TabbedForm.Tab label="II Control">
+            <TabbedForm.Tab label="Control">
                 <TextInput source="control.numAmbulancia" label="Número de ambulancia" />
                 <TextInput source="control.operador" label="Operador" />
                 <TextInput source="control.tum" label="T.U.M." />
@@ -211,7 +211,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                 <TextInput source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/ }
-            <TabbedForm.Tab label="III-XIII Avanzado">
+            <TabbedForm.Tab label="Avanzado">
                 <div style={{
                     marginBottom: '1em',
                     width: '100%',
