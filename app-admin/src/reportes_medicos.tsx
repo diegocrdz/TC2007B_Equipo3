@@ -77,7 +77,7 @@ export const RMEdit = () => {
     };
 
     return (
-        <Edit mutationOptions={{onSuccess}} >
+        <Edit mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges>
                 <TextInput source="folio" label="Folio" />
                 <TextInput source="fecha" label="Fecha" />
@@ -121,11 +121,15 @@ const gridLayoutStyle: React.CSSProperties = {
     gap: '1em',
     width: '100%',
 };
-const gridLayout2Style: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
-    gap: '1em',
-    width: '100%',
+
+// Estilo personalizado para CheckboxGroupInput en 3 columnas
+const checkboxGrid3Style = {
+    '& .MuiFormGroup-root': {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '0.5em',
+        width: '80%'
+    }
 };
 
 // Componentes para secciones con diferentes layouts
@@ -153,16 +157,6 @@ const GridSection = ({ title, children }: { title: string, children: React.React
             {title}
         </h3>
         <div style={gridLayoutStyle}>
-            {children}
-        </div>
-    </div>
-);
-const GridSection2 = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
-            {title}
-        </h3>
-        <div style={gridLayout2Style}>
             {children}
         </div>
     </div>
@@ -272,7 +266,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
         }}
     >
         <TabbedForm>
-            { /*------------------------------------------------------*/ }
+            { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Datos Servicio">
                 <RowSection title="Folio y Fecha">
                     <TextInput required source="folio" label="Folio" />
@@ -324,7 +318,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                     <TextInput source="motivo" label="Otro (especificar)" />
                 </ColumnSection>
             </TabbedForm.Tab>
-            { /*------------------------------------------------------*/ }
+            { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Control">
                 <TextInput source="control.numAmbulancia" label="Número de ambulancia" />
                 <TextInput source="control.operador" label="Operador" />
@@ -332,7 +326,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                 <TextInput source="control.socorrista" label="Socorrista" />
                 <TextInput source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
             </TabbedForm.Tab>
-            { /*------------------------------------------------------*/ }
+            { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Avanzado">
                 <div style={{
                     marginBottom: '1em',
@@ -418,27 +412,29 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="Agente Causal">
-                                <CheckboxGroupInput
-                                    source="Agente.causal"
-                                    label="Agente Causal"
-                                    choices={[
-                                        { id: 'Agente.arma', name: 'Arma' },
-                                        { id: 'Agente.juguete', name: 'Juguete' },
-                                        { id: 'Agente.explosion', name: 'Explosión' },
-                                        { id: 'Agente.fuego', name: 'Fuego' },
-                                        { id: 'Agente.animal', name: 'Animal' },
-                                        { id: 'Agente.bicicleta', name: 'Bicicleta' },
-                                        { id: 'Agente.automotor', name: 'Automotor' },
-                                        { id: 'Agente.maquinaria', name: 'Maquinaria' },
-                                        { id: 'Agente.herramienta', name: 'Herramienta' },
-                                        { id: 'Agente.electricoDano', name: 'Eléctrico / Daño' },
-                                        { id: 'Agente.sustanciaCaliente', name: 'Sustancia caliente' },
-                                        { id: 'Agente.sustanciaToxica', name: 'Sustancia tóxica' },
-                                        { id: 'Agente.productoBiologico', name: 'Producto biológico' },
-                                        { id: 'Agente.serHumano', name: 'Ser humano' },
-                                        { id: 'Agente.otro', name: 'Otro' }
-                                    ]}
-                                />
+                                <Box sx={checkboxGrid3Style}>
+                                    <CheckboxGroupInput
+                                        source="Agente.causal"
+                                        label="Agente Causal"
+                                        choices={[
+                                            { id: 'Agente.arma', name: 'Arma' },
+                                            { id: 'Agente.juguete', name: 'Juguete' },
+                                            { id: 'Agente.explosion', name: 'Explosión' },
+                                            { id: 'Agente.fuego', name: 'Fuego' },
+                                            { id: 'Agente.animal', name: 'Animal' },
+                                            { id: 'Agente.bicicleta', name: 'Bicicleta' },
+                                            { id: 'Agente.automotor', name: 'Automotor' },
+                                            { id: 'Agente.maquinaria', name: 'Maquinaria' },
+                                            { id: 'Agente.herramienta', name: 'Herramienta' },
+                                            { id: 'Agente.electricoDano', name: 'Eléctrico / Daño' },
+                                            { id: 'Agente.sustanciaCaliente', name: 'Sustancia caliente' },
+                                            { id: 'Agente.sustanciaToxica', name: 'Sustancia tóxica' },
+                                            { id: 'Agente.productoBiologico', name: 'Producto biológico' },
+                                            { id: 'Agente.serHumano', name: 'Ser humano' },
+                                            { id: 'Agente.otro', name: 'Otro' }
+                                        ]}
+                                    />
+                                </Box>
                                 <TextInput source="Agente.especificar" label="Especifique" />
                             </ColumnSection>
                             <ColumnSection title="Accidente Automovilístico">
@@ -538,92 +534,26 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="Origen Probable">
-                                <GridSection2 title="">
+                                <Box sx={checkboxGrid3Style}>
                                     <CheckboxGroupInput
-                                        source="causa_clinica.neurologica"
-                                        label="Neurológica"
+                                        source="causa_clinica.origen_probable"
+                                        label="Origen Probable"
                                         choices={[
-                                            { id: 'causa_clinica.neurologica', name: 'Neurológica' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.infecciosa"
-                                        label="Infecciosa"
-                                        choices={[
-                                            { id: 'causa_clinica.infecciosa', name: 'Infecciosa' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.musculoEsqueletico"
-                                        label="Músculo esquelético"
-                                        choices={[
-                                            { id: 'causa_clinica.musculoEsqueletico', name: 'Músculo esquelético' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.urogenital"
-                                        label="Urogenital"
-                                        choices={[
-                                            { id: 'causa_clinica.urogenital', name: 'Urogenital' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.digestiva"
-                                        label="Digestiva"
-                                        choices={[
-                                            { id: 'causa_clinica.digestiva', name: 'Digestiva' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.cardiovascular"
-                                        label="Cardiovascular"
-                                        choices={[
-                                            { id: 'causa_clinica.cardiovascular', name: 'Cardiovascular' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.oncologico"
-                                        label="Oncológico"
-                                        choices={[
-                                            { id: 'causa_clinica.oncologico', name: 'Oncológico' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.metabolico"
-                                        label="Metabólico"
-                                        choices={[
-                                            { id: 'causa_clinica.metabolico', name: 'Metabólico' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.ginecoobstetrica"
-                                        label="Ginecoobstétrica"
-                                        choices={[
-                                            { id: 'causa_clinica.ginecoobstetrica', name: 'Ginecoobstétrica' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.respiratorio"
-                                        label="Respiratorio"
-                                        choices={[
-                                            { id: 'causa_clinica.respiratorio', name: 'Respiratorio' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.otro"
-                                        label="Otro"
-                                        choices={[
-                                            { id: 'causa_clinica.otro', name: 'Otro' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="causa_clinica.cognitivoEmocional"
-                                        label="Cognitivo emocional"
-                                        choices={[
+                                            { id: 'causa_clinica.neurologica', name: 'Neurológica' },
+                                            { id: 'causa_clinica.infecciosa', name: 'Infecciosa' },
+                                            { id: 'causa_clinica.musculoEsqueletico', name: 'Músculo esquelético' },
+                                            { id: 'causa_clinica.urogenital', name: 'Urogenital' },
+                                            { id: 'causa_clinica.digestiva', name: 'Digestiva' },
+                                            { id: 'causa_clinica.cardiovascular', name: 'Cardiovascular' },
+                                            { id: 'causa_clinica.oncologico', name: 'Oncológico' },
+                                            { id: 'causa_clinica.metabolico', name: 'Metabólico' },
+                                            { id: 'causa_clinica.ginecoobstetrica', name: 'Ginecoobstétrica' },
+                                            { id: 'causa_clinica.respiratorio', name: 'Respiratorio' },
+                                            { id: 'causa_clinica.otro', name: 'Otro' },
                                             { id: 'causa_clinica.cognitivoEmocional', name: 'Cognitivo emocional' }
                                         ]}
                                     />
-                                </GridSection2>
+                                </Box>
                             </ColumnSection>
                             <ColumnSection title="Especifique">
                                 <TextInput source="causa_clinica.especifique" label="Especifique" multiline />
@@ -680,109 +610,49 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                                 </RowSection>
                             </ColumnSection>
                             <ColumnSection title="Ventilación">
-                                <GridSection2 title="">
+                                <Box sx={checkboxGrid3Style}>
                                     <CheckboxGroupInput
-                                        source="evaluacion_inicial.automatismoRegular"
-                                        label="Automatismo regular"
+                                        source="evaluacion_inicial.ventilacion"
+                                        label="Ventilación"
                                         choices={[
-                                            { id: 'evaluacion.automatismoRegular', name: 'Automatismo regular' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.automatismoIrregular"
-                                        label="Automatismo irregular"
-                                        choices={[
-                                            { id: 'evaluacion.automatismoIrregular', name: 'Automatismo irregular' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.apnea"
-                                        label="Apnea"
-                                        choices={[
-                                            { id: 'evaluacion.apnea', name: 'Apnea' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.automatismoRapido"
-                                        label="Automatismo rápido"
-                                        choices={[
-                                            { id: 'evaluacion.automatismoRapido', name: 'Automatismo rápido' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.automatismoSuperficial"
-                                        label="Automatismo superficial"
-                                        choices={[
+                                            { id: 'evaluacion.automatismoRegular', name: 'Automatismo regular' },
+                                            { id: 'evaluacion.automatismoIrregular', name: 'Automatismo irregular' },
+                                            { id: 'evaluacion.apnea', name: 'Apnea' },
+                                            { id: 'evaluacion.automatismoRapido', name: 'Automatismo rápido' },
                                             { id: 'evaluacion.automatismoSuperficial', name: 'Automatismo superficial' }
                                         ]}
                                     />
-                                </GridSection2>
+                                </Box>
                             </ColumnSection>
                             <ColumnSection title="Auscultación">
-                                <GridSection2 title="">
+                                <Box sx={checkboxGrid3Style}>
                                     <CheckboxGroupInput
-                                        source="evaluacion_inicial.ruidosNormales"
-                                        label="Ruidos respiratorios normales"
+                                        source="evaluacion_inicial.auscultacion"
+                                        label="Auscultación"
                                         choices={[
-                                            { id: 'evaluacion.ruidosNormales', name: 'Ruidos respiratorios normales' }
+                                            { id: 'evaluacion.ruidosNormales', name: 'Ruidos respiratorios normales' },
+                                            { id: 'evaluacion.ruidosDisminuidos', name: 'Ruidos respiratorios disminuidos' },
+                                            { id: 'evaluacion.ruidosAusentes', name: 'Ruidos respiratorios ausentes' },
+                                            { id: 'evaluacion.hemitoraxD', name: 'Hemitórax Derecho' },
+                                            { id: 'evaluacion.hemitoraxI', name: 'Hemitórax Izquierdo' },
+                                            { id: 'evaluacion.sitioApical', name: 'Sitio Apical' },
+                                            { id: 'evaluacion.sitioBase', name: 'Sitio Base' }
                                         ]}
                                     />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.ruidosDisminuidos"
-                                        label="Ruidos respiratorios disminuidos"
-                                        choices={[
-                                            { id: 'evaluacion.ruidosDisminuidos', name: 'Ruidos respiratorios disminuidos' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.ruidosAusentes"
-                                        label="Ruidos respiratorios ausentes"
-                                        choices={[
-                                            { id: 'evaluacion.ruidosAusentes', name: 'Ruidos respiratorios ausentes' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.hemitorax"
-                                        label="Hemitórax"
-                                        choices={[
-                                            { id: 'evaluacion.hemitoraxD', name: 'Derecho' },
-                                            { id: 'evaluacion.hemitoraxI', name: 'Izquierdo' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.sitioApical"
-                                        label="Sitio"
-                                        choices={[
-                                            { id: 'evaluacion.sitioApical', name: 'Apical' },
-                                            { id: 'evaluacion.sitioBase', name: 'Base' }
-                                        ]}
-                                    />
-                                </GridSection2>
+                                </Box>
                             </ColumnSection>
                             <ColumnSection title="Presencia de Pulsos">
-                                <GridSection2 title="">
+                                <Box sx={checkboxGrid3Style}>
                                     <CheckboxGroupInput
-                                        source="evaluacion_inicial.carotideo"
-                                        label="Carótideo"
+                                        source="evaluacion_inicial.presencia_pulsos"
+                                        label="Presencia de Pulsos"
                                         choices={[
-                                            { id: 'evaluacion.carotideo', name: 'Carótideo' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.radial"
-                                        label="Radial"
-                                        choices={[
-                                            { id: 'evaluacion.radial', name: 'Radial' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.paroCardiorespiratorio"
-                                        label="Paro cardiorespiratorio"
-                                        choices={[
+                                            { id: 'evaluacion.carotideo', name: 'Carótideo' },
+                                            { id: 'evaluacion.radial', name: 'Radial' },
                                             { id: 'evaluacion.paroCardiorespiratorio', name: 'Paro cardiorespiratorio' }
                                         ]}
                                     />
-                                </GridSection2>
+                                </Box>
                             </ColumnSection>
                             <ColumnSection title="Calidad">
                                 <RowSection title="">
@@ -799,29 +669,17 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                                 </RowSection>
                             </ColumnSection>
                             <ColumnSection title="Piel">
-                                <GridSection2 title="">
+                                <Box sx={checkboxGrid3Style}>
                                     <CheckboxGroupInput
-                                        source="evaluacion_inicial.normal"
-                                        label="Normal"
+                                        source="evaluacion_inicial.piel"
+                                        label="Piel"
                                         choices={[
-                                            { id: 'evaluacion.normal', name: 'Normal' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.palida"
-                                        label="Pálida"
-                                        choices={[
-                                            { id: 'evaluacion.palida', name: 'Pálida' }
-                                        ]}
-                                    />
-                                    <CheckboxGroupInput
-                                        source="evaluacion_inicial.cianotica"
-                                        label="Cianótica"
-                                        choices={[
+                                            { id: 'evaluacion.normal', name: 'Normal' },
+                                            { id: 'evaluacion.palida', name: 'Pálida' },
                                             { id: 'evaluacion.cianotica', name: 'Cianótica' }
                                         ]}
                                     />
-                                </GridSection2>
+                                </Box>
                             </ColumnSection>
                             <ColumnSection title="Características">
                                 <RowSection title="">
@@ -929,9 +787,9 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
 );
 
 const MOTIVO_CHOICES = [
-  { id: "enfermedad", name: "Enfermedad" },
-  { id: "traumatismo", name: "Traumatismo" },
-  { id: "ginecoobstetrico", name: "Ginecoobstétrico" },
+    { id: "enfermedad", name: "Enfermedad" },
+    { id: "traumatismo", name: "Traumatismo" },
+    { id: "ginecoobstetrico", name: "Ginecoobstétrico" },
 ];
 
 const OCURRENCIA_CHOICES = [
