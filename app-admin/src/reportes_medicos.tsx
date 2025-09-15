@@ -20,6 +20,9 @@ import {
     DateInput,
     TimeInput,
     NumberInput,
+    CheckboxGroupInput,
+    ArrayInput,
+    SimpleFormIterator,
 } from "react-admin";
 
 import Accordion from '@mui/material/Accordion';
@@ -274,22 +277,81 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             VIII Evaluación Secundaria
                         </AccordionSummary>
                         <AccordionDetails>
+                            <NumberInput source="evalSec.signos.tas" label="TA Sistólica (mmHg)" />
+                            <NumberInput source="evalSec.signos.tad" label="TA Diastólica (mmHg)" />
+                            <NumberInput source="evalSec.signos.fc" label="Frecuencia cardiaca (lpm)" />
+                            <NumberInput source="evalSec.signos.fr" label="Frecuencia respiratoria (rpm)" />
+                            <NumberInput source="evalSec.signos.spo2" label="SpO₂ (%)" />
+                            <NumberInput source="evalSec.signos.temp" label="Temperatura (°C)" />
+                            <NumberInput source="evalSec.signos.glucosa" label="Glucosa (mg/dL)" />
+
+                            <TextInput source="evalSec.estado" label="Estado" />
+                            <TextInput source="evalSec.exploracionFisica" label="Exploración física" multiline />
+                            <TextInput source="evalSec.valoracionCirculatoria" label="Valoración circulatoria" multiline />
+                            <TextInput source="evalSec.escalas" label="Reevaluación de las escalas específicas" multiline />
                         </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
+                        </Accordion>
+                        <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             IX Traslado
                         </AccordionSummary>
                         <AccordionDetails>
+                            <TextInput source="traslado.hospital" label="Hospital" />
+                            <TextInput source="traslado.doctor" label="Doctor" />
+                            <TextInput source="traslado.cru" label="CRU" />
+                            <TextInput source="traslado.nombre" label="Nombre" />
+                            <TextInput source="traslado.firma" label="Firma" />
                         </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
+                        </Accordion>
+                        <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             X Tratamiento
                         </AccordionSummary>
                         <AccordionDetails>
+                            <CheckboxGroupInput
+                            source="tratamiento.viaAerea"
+                            label="Vía aérea"
+                            choices={VIA_AEREA_CHOICES}
+                            />
+                            <SelectInput
+                                source="tratamiento.controlCervical"
+                                label="Control cervical"
+                                choices={CONTROL_CERVICAL_CHOICES}
+                            />
+                            <CheckboxGroupInput
+                            source="tratamiento.asistenciaVentilatoria"
+                            label="Asistencia ventilatoria (Checklist)"
+                            choices={ASISTENCIA_VENTILATORIA_CHOICES}
+                            />
+                            <ArrayInput source="tratamiento.medicacion" label="Medicación administrada">
+                            <SimpleFormIterator inline>
+                                <TextInput source="medicamento" label="Medicamento" />
+                                <TextInput source="dosis" label="Dosis" />
+                                <TextInput source="via" label="Vía" />
+                                <TimeInput source="hora" label="Hora" />
+                            </SimpleFormIterator>
+                            </ArrayInput>
+                            <TextInput source="tratamiento.doctorTratante" label="Doctor Tratante" />
+                            <CheckboxGroupInput
+                                source="tratamiento.controlHemorragias"
+                                label="Control de hemorragias"
+                                choices={CONTROL_HEMORRAGIAS_CHOICES}
+                            />
+                            <CheckboxGroupInput
+                                source="tratamiento.viasVenosas.soluciones"
+                                label="Vías venosas y tipo de solución"
+                                choices={VIA_VENOSAS_CHOICES}
+                            />
+                            <TextInput source="tratamiento.viasVenosas.linea" label="Línea IV #" />
+                            <TextInput source="tratamiento.viasVenosas.cateter" label="Catéter #" />
+                            <TextInput source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
+                            <CheckboxGroupInput
+                                source="tratamiento.atencionBasica"
+                                label="Atención básica"
+                                choices={ATENCION_BASICA_CHOICES}
+                            />
                         </AccordionDetails>
-                    </Accordion>
+                        </Accordion>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             XI Observaciones
@@ -336,6 +398,57 @@ const OCURRENCIA_CHOICES = [
 const SEXO_CHOICES = [
     { id: 'masculino', name: 'MASC' },
     { id: 'femenino', name: 'FEM' },
+];
+
+const ASISTENCIA_VENTILATORIA_CHOICES = [
+  { id: "o2_canula_nasal", name: "O₂ cánula nasal" },
+  { id: "o2_mascara_simple", name: "O₂ máscara simple" },
+  { id: "o2_reservorio", name: "Máscara con reservorio" },
+  { id: "bvm", name: "Bolsa-válvula-mascarilla (BVM)" },
+  { id: "aspiracion_via_aerea", name: "Aspiración de vía aérea" },
+  { id: "cpap_peep", name: "CPAP/PEEP" },
+];
+
+const VIA_AEREA_CHOICES = [
+    { id: "permeable", name: "Permeable / espontánea" },
+    { id: "obstruida", name: "Obstruida" },
+    { id: "cannula_orofaringea", name: "Cánula orofaríngea" },
+    { id: "cannula_nasofaringea", name: "Cánula nasofaríngea" },
+    { id: "dispositivo_supraglotico", name: "Dispositivo supraglótico" },
+    { id: "intubacion", name: "Intubación orotraqueal" },
+];
+
+const CONTROL_CERVICAL_CHOICES = [
+    { id: "manual", name: "Manual" },
+    { id: "collarin_rigido", name: "Collarín rígido" },
+    { id: "collarin_blando", name: "Collarín blando" },
+    { id: "no_aplica", name: "No aplica" },
+];
+
+const CONTROL_HEMORRAGIAS_CHOICES = [
+    { id: "presion_directa", name: "Presión directa" },
+    { id: "presion_indirecta", name: "Presión indirecta" },
+    { id: "gravedad", name: "Gravedad" },
+    { id: "vendaje_compresivo", name: "Vendaje compresivo" },
+    { id: "criotepia", name: "Crioterapia" },
+    { id: "mast", name: "MAST" },
+];
+
+const VIA_VENOSAS_CHOICES = [
+    { id: "hartmann", name: "Hartmann" },
+    { id: "nacl_09", name: "NaCl 0.9 %" },
+    { id: "mixta", name: "Mixta" },
+    { id: "glucosa5", name: "Glucosa 5%" },
+    { id: "otra", name: "Otra" },
+];
+
+const ATENCION_BASICA_CHOICES = [
+    { id: "rcp_basica", name: "RCP básica" },
+    { id: "rcp_avanzada", name: "RCP avanzada" },
+    { id: "curacion", name: "Curación" },
+    { id: "inmovilizacion", name: "Inmovilización de extremidades" },
+    { id: "empaquetamiento", name: "Empaquetamiento" },
+    { id: "vendaje", name: "Vendaje" },
 ];
 
 export const RMShow = () => (
