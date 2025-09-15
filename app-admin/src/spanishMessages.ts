@@ -1,21 +1,6 @@
 import { TranslationMessages } from 'ra-core';
 
 const spanishMessages: TranslationMessages = {
-    dashboard: {
-        title: "Inicio",
-        welcome: "Bienvenido a mi aplicación en React Admin",
-        description: "Este es un dashboard simple para comenzar a explorar la aplicación. Basado en el tutorial de la documentación de React Admin."
-    },
-    boxes: {
-        h1: "¿Quién soy?",
-        p1: "Soy Diego Córdova Rodríguez",
-        h2: "¿Qué usé para construir esto?",
-        p2: "React-Admin",
-        h3: "¿Para quién se desarrollará la App final?",
-        p3: "Alcaldía Cuajimalpa",
-        h4: "¿Para qué clase es esto?",
-        p4: "Integración de seguridad informática en redes y sistemas de software"
-    },
     ra: {
         action: {
             add_filter: 'Agregar filtro',
