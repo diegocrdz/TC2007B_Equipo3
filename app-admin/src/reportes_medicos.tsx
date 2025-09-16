@@ -20,19 +20,19 @@ import {
     TimeInput,
     NumberInput,
     CheckboxGroupInput,
+    ArrayInput,
+    SimpleFormIterator,
+    ImageInput,
+    ImageField,
 } from "react-admin";
 
-import { useWatch, useFormContext, useFieldArray } from "react-hook-form";
-import { useEffect } from "react";
+import { useWatch } from "react-hook-form";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { IconButton, Button, Stack } from "@mui/material";
 // Opciones para los campos SelectInput
 import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     AGENTE_CHOICES, TIPO_ACCIDENTE_CHOICES, IMPACTO_CHOICES,
@@ -41,7 +41,10 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     ORIGEN_PROBABLE_CHOICES, NIVEL_CONSCIENCIA_CHOICES, DEGLUCION_CHOICES,
     VIA_AEREA_CHOICES, VENTILACION_CHOICES, AUSCULTACION_CHOICES,
     HEMITORAX_CHOICES, SITIO_CHOICES, PRESENCIA_PULSOS_CHOICES,
-    CALIDAD_CHOICES, PIEL_CHOICES, CARACTERISTICAS_CHOICES
+    CALIDAD_CHOICES, PIEL_CHOICES, CARACTERISTICAS_CHOICES,
+    CONDICION_PACIENTE_CHOICES, PRIORIDAD_CHOICES, CONTROL_CERVICAL_CHOICES,
+    ASISTENCIA_VENTILATORIA_CHOICES, VIA_VENOSAS_CHOICES,
+    CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
 } from "./opciones";
 
 export const RMFilters = [
@@ -135,8 +138,8 @@ export const checkboxGrid3Style = {
     '& .MuiFormGroup-root': {
         display: 'grid',
         gridTemplateColumns: {
-            xs: 'repeat(2, 1fr)',
-            sm: 'repeat(2, 1fr)',
+            xs: '1fr',
+            sm: '1fr',
             md: 'repeat(3, 1fr)',
         },
         gap: '0.5em',
@@ -175,13 +178,12 @@ const GridSection = ({ title, children }: { title: string, children: React.React
 );
 
 // Componente de TextInput con límite de caracteres
-const TextInputWithCounter = ({
-    source, label, maxLength = 0, multiline = true
-}: {
+const TextInputWithCounter = ({source, label, maxLength=0, multiline = true, rows}: {
     source: string;
     label: string;
     maxLength?: number;
     multiline?: boolean;
+    rows?: number;
 }) => {
     const value = useWatch({ name: source }) || "";
     return (
@@ -191,6 +193,7 @@ const TextInputWithCounter = ({
                 label={label}
                 multiline={multiline}
                 fullWidth
+                rows={rows}
                 slotProps={{ input: { inputProps: { maxLength } } }}
             />
             <Typography
@@ -202,74 +205,8 @@ const TextInputWithCounter = ({
         </Box>
     );
 };
-export default TextInputWithCounter;
 
-// Componente para manejar un arreglo de vehículos con agregar/eliminar
-const VehiclesRepeater = () => {
-    const notify = useNotify();
-    const { control } = useFormContext();
 
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "datos_legales.vehiculos", // ← usamos un ARREGLO
-    });
-
-    useEffect(() => {
-        if (fields.length === 0) append({ tipo: "", placas: "" });
-    }, []);
-
-    const handleRemove = (index: number) => {
-        if (fields.length <= 1) {
-            notify("Debe permanecer al menos un vehículo.", { type: "warning" });
-            return;
-        }
-        remove(index);
-    };
-    const handleAdd = () => append({ tipo: "", placas: "" });
-
-    return (
-        <Box sx={{ width: "100%" }}>
-            {fields.map((field, index) => (
-                <Box
-                    key={field.id}
-                    sx={{
-                        display: "grid",
-                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr auto" },
-                        gap: 2,
-                        mb: 1,
-                        alignItems: "center",
-                    }}
-                >
-                    <TextInput
-                        source={`datos_legales.vehiculos.${index}.tipo`}
-                        label="Tipo y marca"
-                        fullWidth
-                    />
-                    <TextInput
-                        source={`datos_legales.vehiculos.${index}.placas`}
-                        label="Placas"
-                        fullWidth
-                    />
-                    <Stack
-                        direction="row"
-                        sx={{ alignSelf: 'flex-start' }}
-                    >
-                        <IconButton
-                            aria-label="Eliminar"
-                            onClick={() => handleRemove(index)}
-                            sx={{ transform: 'translateY(8px)' }}
-                        >
-                            <RemoveCircleOutlineIcon />
-                        </IconButton>
-                    </Stack>
-                </Box>
-            ))}
-            <Button variant="outlined" startIcon={<AddCircleOutlineIcon />} onClick={handleAdd}>
-                Agregar vehículo
-            </Button>
-        </Box>
-    );
-};
 
 export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
     <Create
@@ -340,7 +277,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Avanzado">
-                <div style={{
+                <Box sx={{
                     marginBottom: '1em',
                     width: '100%',
                 }}>
@@ -423,21 +360,19 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Box sx={checkboxGrid3Style}>
-                                <CheckboxGroupInput
-                                    source="Agente.causal"
-                                    label="Agente Causal"
-                                    choices={AGENTE_CHOICES}
-                                />
-                            </Box>
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="Agente.causal"
+                                label="Agente Causal"
+                                choices={AGENTE_CHOICES}
+                            />
                             <TextInput source="Agente.especificar" label="Otro (Especifique)" />
                             <ColumnSection title="Accidente Automovilístico">
-                                <CheckboxGroupInput
+                                <CheckboxGroupInput sx={checkboxGrid3Style}
                                     source="accidente.tipo"
                                     label="Tipo de accidente"
                                     choices={TIPO_ACCIDENTE_CHOICES}
                                 />
-                                <CheckboxGroupInput
+                                <CheckboxGroupInput sx={checkboxGrid3Style}
                                     source="accidente.impacto"
                                     label="Impacto"
                                     choices={IMPACTO_CHOICES}
@@ -485,13 +420,11 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Box sx={checkboxGrid3Style}>
-                                <CheckboxGroupInput
-                                    source="causa_clinica.origen_probable"
-                                    label="Origen Probable"
-                                    choices={ORIGEN_PROBABLE_CHOICES}
-                                />
-                            </Box>
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="causa_clinica.origen_probable"
+                                label="Origen Probable"
+                                choices={ORIGEN_PROBABLE_CHOICES}
+                            />
                             <TextInput source="causa_clinica.especifique" label="Otro (Especifique)" />
                             <RowSection title="Frecuencia">
                                 <TextInput source="causa_clinica.primeraVez" label="1.ª vez" />
@@ -567,6 +500,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                                     label="Observaciones adicionales"
                                     maxLength={500}
                                     multiline
+                                    rows={3}
                                 />
                             </ColumnSection>
                         </AccordionDetails>
@@ -578,6 +512,45 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            <ImageInput
+                                source="evidencia"
+                                accept={{ 'image/*': ['.png', '.jpg'] }}
+                                maxSize={50000000} // 50 MB
+                                label="Exploración física"
+                            >
+                                <ImageField source="src" title="title" />
+                            </ImageInput>
+                            <ArrayInput source="evalSec.signosVitales" label="Signos Vitales y monitoreo">
+                                <SimpleFormIterator inline>
+                                    <TimeInput source="hora" label="Hora" />
+                                    <TextInput source="fr" label="FR" />
+                                    <TextInput source="fc" label="FC" />
+                                    <TextInput source="tas" label="TAS" />
+                                    <TextInput source="tad" label="TAD" />
+                                    <TextInput source="sao2" label="SaO2" />
+                                    <TextInput source="temp" label="Temp" />
+                                    <TextInput source="glucosa" label="Glucosa" />
+                                    <Typography variant="body1">NEURO TEST</Typography>
+                                    <TextInput source="a" label="A" />
+                                    <TextInput source="v" label="V" />
+                                    <TextInput source="d" label="D" />
+                                    <TextInput source="i" label="I" />
+                                </SimpleFormIterator>
+                            </ArrayInput>
+                            <TextInput source="evalSec.alergias" label="Alergias" />
+                            <TextInput source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
+                            <TextInput source="evalSec.padecimientos" label="Padecimientos cirugías" />
+                            <TextInput source="evalSec.ultimaComida" label="La última comida" />
+                            <SelectInput
+                                source="evalSec.condicion"
+                                label="Condición del paciente"
+                                choices={CONDICION_PACIENTE_CHOICES}
+                            />
+                            <SelectInput
+                                source="evalSec.prioridad"
+                                label="Prioridad"
+                                choices={PRIORIDAD_CHOICES}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -587,6 +560,11 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            <TextInput source="traslado.hospital" label="Hospital" />
+                            <TextInput source="traslado.doctor" label="Doctor" />
+                            <TextInput source="traslado.cru" label="Folio CRU" />
+                            <TextInput source="traslado.nombre" label="Nombre" />
+                            <TextInput source="traslado.firma" label="Firma" />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -596,6 +574,50 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            <SelectInput
+                                source="tratamiento.viaAerea"
+                                label="Vía aérea"
+                                choices={VIA_AEREA_CHOICES}
+                            />
+                            <SelectInput
+                                source="tratamiento.controlCervical"
+                                label="Control cervical"
+                                choices={CONTROL_CERVICAL_CHOICES}
+                            />
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="tratamiento.asistenciaVentilatoria"
+                                label="Asistencia ventilatoria"
+                                choices={ASISTENCIA_VENTILATORIA_CHOICES}
+                            />
+                            <ArrayInput source="tratamiento.medicacion" label="Medicación administrada">
+                                <SimpleFormIterator inline>
+                                    <TimeInput source="hora" label="Hora" />
+                                    <TextInput source="medicamento" label="Medicamento" />
+                                    <TextInput source="dosis" label="Dosis" />
+                                    <TextInput source="via" label="Vía administración" />
+                                </SimpleFormIterator>
+                            </ArrayInput>
+                            <TextInput source="tratamiento.doctorTratante" label="Doctor Tratante" />
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="tratamiento.controlHemorragias"
+                                label="Control de hemorragias"
+                                choices={CONTROL_HEMORRAGIAS_CHOICES}
+                            />
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="tratamiento.viasVenosas.soluciones"
+                                label="Vías venosas y Tipo de solución"
+                                choices={VIA_VENOSAS_CHOICES}
+                            />
+                            <RowSection title="Detalles Vía Venosa">
+                                <NumberInput source="tratamiento.viasVenosas.linea" label="Línea IV #" />
+                                <NumberInput source="tratamiento.viasVenosas.cateter" label="Catéter #" />
+                                <NumberInput source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
+                            </RowSection>
+                            <CheckboxGroupInput sx={checkboxGrid3Style}
+                                source="tratamiento.atencionBasica"
+                                label="Atención básica"
+                                choices={ATENCION_BASICA_CHOICES}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -610,6 +632,7 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                                 label="Observaciones"
                                 maxLength={1000}
                                 multiline
+                                rows={3}
                             />
                         </AccordionDetails>
                     </Accordion>
@@ -642,12 +665,24 @@ export const RMCreate2 = () => ( // Prototipo con los campos del reporte de pape
                                 <TextInput source="datos_legales.numero_unidad" label="Número de Unidad" />
                                 <TextInput source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
                             </ColumnSection>
-                            <GridSection title="Vehículos involucrados">
-                                <VehiclesRepeater />
-                            </GridSection>
+                            <ArrayInput source="datos_legales.vehiculos_involucrados" label="Vehículos involucrados">
+                                <SimpleFormIterator inline>
+                                    <TextInput source="tipo" label="Tipo y marca" />
+                                    <TextInput source="placas" label="Placas" />
+                                </SimpleFormIterator>
+                            </ArrayInput>
                         </AccordionDetails>
                     </Accordion>
-                </div>
+                    <ImageInput
+                        source="evidencia"
+                        accept={{ 'image/*': ['.png', '.jpg'] }}
+                        maxSize={50000000} // 50 MB
+                        multiple // Acepta múltiples imágenes
+                        label="Evidencias"
+                    >
+                        <ImageField source="src" title="title" />
+                    </ImageInput>
+                </Box>
             </TabbedForm.Tab>
         </TabbedForm>
     </Create>

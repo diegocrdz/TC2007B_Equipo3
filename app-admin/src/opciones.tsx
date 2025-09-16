@@ -178,3 +178,63 @@ export const CARACTERISTICAS_CHOICES = [
     { id: 'evaluacion.diaforesis', name: 'Diaforesis' },
     { id: 'evaluacion.normotermico', name: 'Normotérmico' }
 ];
+
+export const ASISTENCIA_VENTILATORIA_CHOICES = [
+    { id: "balon_valvula_mascarilla", name: "Balón válvula mascarilla" },
+    { id: "valvula_demanda", name: "Válvula de demanda" },
+    { id: "hiperventilacion", name: "Hiperventilación" },
+    { id: "puntas_nasales", name: "Puntas nasales" },
+    { id: "mascarilla_simple", name: "Mascarilla simple" },
+    { id: "ventilador_automatico", name: "Ventilador automático" },
+    { id: "hemitorax_derecho", name: "Hemitorax derecho" },
+    { id: "hemitorax_izquierdo", name: "Hemitorax izquierdo" },
+    { id: "descompresion_pleural", name: "Descompresión pleural con agua" },
+    { id: "mascarilla_reservorio", name: "Mascarilla con reservorio" },
+    { id: "mascarilla_venturi", name: "Mascarilla Venturi" },
+];
+
+export const CONTROL_CERVICAL_CHOICES = [
+    { id: "manual", name: "Manual" },
+    { id: "collarin_rigido", name: "Collarín rígido" },
+    { id: "collarin_blando", name: "Collarín blando" },
+];
+
+export const CONTROL_HEMORRAGIAS_CHOICES = [
+    { id: "presion_directa", name: "Presión directa" },
+    { id: "presion_indirecta", name: "Presión indirecta" },
+    { id: "gravedad", name: "Gravedad" },
+    { id: "vendaje_compresivo", name: "Vendaje compresivo" },
+    { id: "criotepia", name: "Crioterapia" },
+    { id: "mast", name: "MAST" },
+];
+
+export const VIA_VENOSAS_CHOICES = [
+    { id: "hartmann", name: "Hartmann" },
+    { id: "nacl_09", name: "NaCl 0.9 %" },
+    { id: "mixta", name: "Mixta" },
+    { id: "glucosa5", name: "Glucosa 5%" },
+    { id: "otra", name: "Otra" },
+];
+
+export const ATENCION_BASICA_CHOICES = [
+    { id: "rcp_basica", name: "RCP básica" },
+    { id: "rcp_avanzada", name: "RCP avanzada" },
+    { id: "curacion", name: "Curación" },
+    { id: "inmovilizacion", name: "Inmovilización de extremidades" },
+    { id: "empaquetamiento", name: "Empaquetamiento" },
+    { id: "vendaje", name: "Vendaje" },
+];
+
+export const CONDICION_PACIENTE_CHOICES = [
+    { id: "critico", name: "Crítico" },
+    { id: "estable", name: "Estable" },
+    { id: "no_critico", name: "No crítico" },
+    { id: "inestable", name: "Inestable" },
+];
+
+export const PRIORIDAD_CHOICES = [
+    { id: "rojo", name: "Rojo" },
+    { id: "amarillo", name: "Amarillo" },
+    { id: "verde", name: "Verde" },
+    { id: "negra", name: "Negra" },
+];
