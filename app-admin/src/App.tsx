@@ -5,6 +5,9 @@ import { mockDataProvider } from "./mockDataProvider";
 import { PostsList, PostsEdit, PostsCreate, PostsShow } from "./posts";
 // Recursos
 import { RMList, RMEdit, RMCreate2, RMShow } from "./reportes_medicos";
+import { NMList, NMEdit, NMCreate, NMShow } from "./notas_medicas";
+import { RUList, RUEdit, RUCreate2, RUShow } from "./reportes_urbanos";
+
 // Icons
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
@@ -37,8 +40,8 @@ const AppWrapper = () => {
             lightTheme={themes.light}
         >
             <Resource name='reportes_medicos' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={LocalHospitalIcon} options={{ label: 'Reportes Médicos'}} />
-            <Resource name='notas_medicas' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
-            <Resource name='reportes_urbanos' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
+            <Resource name='notas_medicas' list={NMList} edit={NMEdit} create={NMCreate} show={NMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
+            <Resource name='reportes_urbanos' list={RUList} edit={RUEdit} create={RUCreate2} show={RUShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
             <Resource name='notas_urbanas' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={StickyNote2Icon} options={{ label: 'Notas Urbanas'}} />
         </Admin>
     );

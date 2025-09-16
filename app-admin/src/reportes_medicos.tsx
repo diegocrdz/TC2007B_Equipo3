@@ -122,7 +122,6 @@ const gridLayoutStyle: React.CSSProperties = {
     width: '100%',
 };
 
-// Estilo personalizado para CheckboxGroupInput en 3 columnas
 const checkboxGrid3Style = {
     '& .MuiFormGroup-root': {
         display: 'grid',
