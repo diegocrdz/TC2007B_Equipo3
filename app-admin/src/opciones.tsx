@@ -1,5 +1,5 @@
 /*
-Opciones para los campos SelectInput de los reportes médicos
+    Opciones para los campos SelectInput de los reportes y notas médicas y urbanas
 */
 
 export const MOTIVO_CHOICES = [

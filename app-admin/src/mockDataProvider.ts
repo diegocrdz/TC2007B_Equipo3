@@ -8,26 +8,22 @@ const data: DataStore = {
     reportes_medicos: [
         {
             id: 1,
-            folio: 'RM-001',
-            fecha: '2025-09-10',
-            nombre_paciente: 'Juan Pérez',
-            nombre_testigo: 'Ana López',
-            nombre_paramedico: 'Carlos Ruiz',
-            nombre_medico: 'Dra. Martínez',
-        },
-        {
-            id: 2,
-            folio: 'RM-002',
-            fecha: '2025-09-09',
-            nombre_paciente: 'María Gómez',
-            nombre_testigo: 'Luis Torres',
-            nombre_paramedico: 'Sofía Díaz',
-            nombre_medico: 'Dr. Ramírez',
         },
     ],
-    users: [
-        { id: 1, name: 'Usuario Uno' },
-        { id: 2, name: 'Usuario Dos' },
+    notas_medicas: [
+        {
+            id: 1,
+        }
+    ],
+    reportes_urbanos: [
+        {
+            id: 1,
+        }
+    ],
+    notas_urbanas: [
+        {
+            id: 1,
+        }
     ],
 };
 

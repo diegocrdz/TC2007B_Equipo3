@@ -1,3 +1,8 @@
+/*
+    Formularios para Reportes Médicos
+*/
+
+// react-admin
 import {
     List,
     DataTable,
@@ -25,8 +30,7 @@ import {
     ImageInput,
     ImageField,
 } from "react-admin";
-
-import { useWatch } from "react-hook-form";
+// MUI
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -46,7 +50,10 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     ASISTENCIA_VENTILATORIA_CHOICES, VIA_VENOSAS_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
 } from "./opciones";
+// Componentes personalizados
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter } from "./componentes";
 
+// Filtros para la lista
 export const RMFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
     <ReferenceInput source="userId" label="User" reference="users" />,
@@ -101,120 +108,13 @@ export const RMEdit = () => {
     );
 };
 
-export const RMCreate = () => (
-    <Create>
-        <SimpleForm>
-            <TextInput source="folio" label="Folio" />
-            <TextInput source="fecha" label="Fecha" />
-            <TextInput source="nombre_paciente" label="Nombre paciente" />
-            <TextInput source="nombre_testigo" label="Nombre testigo" />
-            <TextInput source="nombre_paramedico" label="Nombre paramédico" />
-            <TextInput source="nombre_medico" label="Nombre médico" />
-        </SimpleForm>
-    </Create>
-);
-
-// Estilos para diferentes layouts en las secciones del formulario
-const rowLayoutStyle: React.CSSProperties = {
-    display: 'flex',
-    gap: '1em',
-    width: '100%',
-};
-const columnLayoutStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5em',
-    width: '100%',
-};
-const gridLayoutStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '1em',
-    width: '100%',
-};
-
-// Estilo personalizado para CheckboxGroupInput en 3 columnas
-export const checkboxGrid3Style = {
-    '& .MuiFormGroup-root': {
-        display: 'grid',
-        gridTemplateColumns: {
-            xs: '1fr',
-            sm: '1fr',
-            md: 'repeat(3, 1fr)',
-        },
-        gap: '0.5em',
-        width: '80%'
-    }
-};
-
-// Componentes para secciones con diferentes layouts
-const RowSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
-            {title}
-        </h3>
-        <div style={rowLayoutStyle}>
-            {children}
-        </div>
-    </div>
-);
-const ColumnSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
-            {title}
-        </h3>
-        {children}
-    </div>
-);
-const GridSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
-            {title}
-        </h3>
-        <div style={gridLayoutStyle}>
-            {children}
-        </div>
-    </div>
-);
-
-// Componente de TextInput con límite de caracteres
-const TextInputWithCounter = ({source, label, maxLength=0, multiline = true, rows}: {
-    source: string;
-    label: string;
-    maxLength?: number;
-    multiline?: boolean;
-    rows?: number;
-}) => {
-    const value = useWatch({ name: source }) || "";
-    return (
-        <Box width="100%">
-            <TextInput
-                source={source}
-                label={label}
-                multiline={multiline}
-                fullWidth
-                rows={rows}
-                slotProps={{ input: { inputProps: { maxLength } } }}
-            />
-            <Typography
-                variant="caption"
-                color={value.length > maxLength ? "error" : "textSecondary"}
-                sx={{ display: "block", textAlign: "right", mt: 0.5 }}
-            >{value.length}/{maxLength}
-            </Typography>
-        </Box>
-    );
-};
-
-
-
-export const RMCreate2 = () => ( // Prototipo con los campos del reporte de papel
+export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
     <Create
         sx={{
             marginBottom: '5em',
         }}
     >
-        <TabbedForm>
+        <TabbedForm warnWhenUnsavedChanges>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Datos Servicio">
                 <RowSection title="Folio y Fecha">
@@ -709,6 +609,190 @@ export const RMShow = () => (
                 <TextField source="control.tum" label="T.U.M." />
                 <TextField source="control.socorrista" label="Socorrista" />
                 <TextField source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
+            </TabbedShowLayout.Tab>
+
+            <TabbedShowLayout.Tab label="Avanzado">
+                <Box sx={{
+                    marginBottom: '1em',
+                    width: '100%',
+                }}>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant='subtitle1'>
+                                III Datos del Paciente
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="paciente.sexo" label="Sexo" />
+                            <TextField source="paciente.edad" label="Edad" />
+                            <TextField source="paciente.domicilio" label="Domicilio" />
+                            <TextField source="paciente.colonia" label="Colonia o Comunidad" />
+                            <TextField source="paciente.municipio" label="Alcaldía o Municipio" />
+                            <TextField source="paciente.derechohabiente" label="Derechohabiente a" />
+                            <TextField source="paciente.telefono" label="Teléfono" />
+                            <TextField source="paciente.ocupacion" label="Ocupación" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                IV Parto
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="parto.semanas" label="Semanas de gesta" />
+                            <TextField source="parto.hora_contracciones" label="Hora de inicio de contracciones" />
+                            <TextField source="parto.frecuencia" label="Frecuencia" />
+                            <TextField source="parto.duracion" label="Duración" />
+                            <TextField source="parto.hora_nacimiento" label="Hora de nacimiento" />
+                            <TextField source="parto.placenta" label="Placenta expulsada" />
+                            <TextField source="parto.producto" label="Producto" />
+                            <TextField source="parto.sexo" label="Sexo" />
+                            <TextField source="parto.edad_gestacional" label="Edad gestacional" />
+                            <TextField source="parto.apgar_1min" label="1 minuto" />
+                            <TextField source="parto.apgar_5min" label="5 minutos" />
+                            <TextField source="parto.apgar_10min" label="10 minutos" />
+                            <TextField source="parto.apgar_15min" label="15 minutos" />
+                            <TextField source="parto.apgar_20min" label="20 minutos" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                V Causa Traumática
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="Agente.causal" label="Agente Causal" />
+                            <TextField source="Agente.especificar" label="Otro (Especifique)" />
+                            <TextField source="accidente.tipo" label="Tipo de accidente" />
+                            <TextField source="accidente.impacto" label="Impacto" />
+                            <TextField source="accidente.cms" label="CMS" />
+                            <TextField source="accidente.parabrisas" label="Parabrisas" />
+                            <TextField source="accidente.volante" label="Volante" />
+                            <TextField source="accidente.bolsa" label="Bolsa de aire" />
+                            <TextField source="accidente.cinturon" label="Cinturón de seguridad" />
+                            <TextField source="accidente.dentroVehiculo" label="Dentro del vehículo" />
+                            <TextField source="atropellado.vehiculo" label="Tipo de vehículo" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                VI Causa Clínica
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="causa_clinica.origen_probable" label="Origen Probable" />
+                            <TextField source="causa_clinica.especifique" label="Otro (Especifique)" />
+                            <TextField source="causa_clinica.primeraVez" label="1.ª vez" />
+                            <TextField source="causa_clinica.subsecuente" label="Subsecuente" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                VII Evaluación Inicial
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="evaluacion_inicial.nivelConsciencia" label="Nivel de Consciencia" />
+                            <TextField source="evaluacion_inicial.deglucion" label="Deglución" />
+                            <TextField source="evaluacion_inicial.viaAerea" label="Vía Aérea" />
+                            <TextField source="evaluacion_inicial.ventilacion" label="Ventilación" />
+                            <TextField source="evaluacion_inicial.auscultacion" label="Auscultación" />
+                            <TextField source="evaluacion_inicial.hemitorax" label="Hemitórax" />
+                            <TextField source="evaluacion_inicial.sitio" label="Sitio" />
+                            <TextField source="evaluacion_inicial.presencia_pulsos" label="Presencia de Pulsos" />
+                            <TextField source="evaluacion_inicial.calidad" label="Calidad" />
+                            <TextField source="evaluacion_inicial.piel" label="Piel" />
+                            <TextField source="evaluacion_inicial.caracteristicas" label="Características" />
+                            <TextField source="evaluacion_inicial.observaciones" label="Observaciones adicionales" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                VIII Evaluación Secundaria
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="evalSec.alergias" label="Alergias" />
+                            <TextField source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
+                            <TextField source="evalSec.padecimientos" label="Padecimientos cirugías" />
+                            <TextField source="evalSec.ultimaComida" label="La última comida" />
+                            <TextField source="evalSec.condicion" label="Condición del paciente" />
+                            <TextField source="evalSec.prioridad" label="Prioridad" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                IX Traslado
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="traslado.hospital" label="Hospital" />
+                            <TextField source="traslado.doctor" label="Doctor" />
+                            <TextField source="traslado.cru" label="Folio CRU" />
+                            <TextField source="traslado.nombre" label="Nombre" />
+                            <TextField source="traslado.firma" label="Firma" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                X Tratamiento
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="tratamiento.viaAerea" label="Vía aérea" />
+                            <TextField source="tratamiento.controlCervical" label="Control cervical" />
+                            <TextField source="tratamiento.asistenciaVentilatoria" label="Asistencia ventilatoria" />
+                            <TextField source="tratamiento.doctorTratante" label="Doctor Tratante" />
+                            <TextField source="tratamiento.controlHemorragias" label="Control de hemorragias" />
+                            <TextField source="tratamiento.viasVenosas.soluciones" label="Vías venosas y Tipo de solución" />
+                            <TextField source="tratamiento.viasVenosas.linea" label="Línea IV #" />
+                            <TextField source="tratamiento.viasVenosas.cateter" label="Catéter #" />
+                            <TextField source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
+                            <TextField source="tratamiento.atencionBasica" label="Atención básica" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                XI Observaciones
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="observaciones" label="Observaciones" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                XII Ministerio Público
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="ministerio_publico.sello" label="Sello Ministerio Público Notificado" />
+                            <TextField source="ministerio_publico.funcionario" label="Nombre y firma quien recibe" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">
+                                XIII Datos Legales
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TextField source="datos_legales.autoridad_dependencia" label="Dependencia" />
+                            <TextField source="datos_legales.numero_unidad" label="Número de Unidad" />
+                            <TextField source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <TextField source="evidencia" label="Evidencias" />
+                </Box>
             </TabbedShowLayout.Tab>
         </TabbedShowLayout>
     </Show>

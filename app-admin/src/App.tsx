@@ -4,7 +4,10 @@ import { mockDataProvider } from "./mockDataProvider";
 // jsonplaceholder
 import { PostsList, PostsEdit, PostsCreate, PostsShow } from "./posts";
 // Recursos
-import { RMList, RMEdit, RMCreate2, RMShow } from "./reportes_medicos";
+import { RMList, RMEdit, RMCreate, RMShow } from "./reportes_medicos";
+import { NMList, NMEdit, NMCreate, NMShow } from "./notas_medicas";
+import { RUList, RUEdit, RUCreate, RUShow } from "./reportes_urbanos";
+import { NUList, NUEdit, NUCreate, NUShow } from "./notas_urbanas";
 // Icons
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
@@ -36,10 +39,10 @@ const AppWrapper = () => {
             darkTheme={themes.dark}
             lightTheme={themes.light}
         >
-            <Resource name='reportes_medicos' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={LocalHospitalIcon} options={{ label: 'Reportes Médicos'}} />
-            <Resource name='notas_medicas' list={RMList} edit={RMEdit} create={RMCreate2} show={RMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
-            <Resource name='reportes_urbanos' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
-            <Resource name='notas_urbanas' list={PostsList} edit={PostsEdit} create={PostsCreate} show={PostsShow} icon={StickyNote2Icon} options={{ label: 'Notas Urbanas'}} />
+            <Resource name='reportes_medicos' list={RMList} edit={RMEdit} create={RMCreate} show={RMShow} icon={LocalHospitalIcon} options={{ label: 'Reportes Médicos'}} />
+            <Resource name='notas_medicas' list={NMList} edit={NMEdit} create={NMCreate} show={NMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
+            <Resource name='reportes_urbanos' list={RUList} edit={RUEdit} create={RUCreate} show={RUShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
+            <Resource name='notas_urbanas' list={NUList} edit={NUEdit} create={NUCreate} show={NUShow} icon={StickyNote2Icon} options={{ label: 'Notas Urbanas'}} />
         </Admin>
     );
 };
