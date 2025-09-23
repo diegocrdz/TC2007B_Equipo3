@@ -41,6 +41,9 @@ const accessControlStrategies = {
 export const authProvider: AuthProvider = {
     // Cuando usuario intenta iniciar sesión
     async login({ username, password }) {
+        if (!(username && password)) {
+            throw new Error("Credenciales inválidas");
+        }
         localStorage.setItem("username", username);
         // assign role based on username
         let role = "";

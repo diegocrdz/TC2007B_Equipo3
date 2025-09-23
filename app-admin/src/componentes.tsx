@@ -7,7 +7,7 @@ import { useWatch } from "react-hook-form";
 import { TextInput } from "react-admin";
 import { Box, Typography } from "@mui/material";
 // Toolbar
-import { Toolbar, SaveButton, Button, useRedirect } from 'react-admin';
+import { Toolbar, SaveButton } from 'react-admin';
 
 // Estilos para diferentes layouts en las secciones del formulario
 // Estilo para filas
