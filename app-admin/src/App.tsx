@@ -23,6 +23,8 @@ import { i18nProviderNoLocale } from './i18nProvider';
 import { MyLayout } from './MyLayout';
 // Tema y accesibilidad
 import { AccThemeProvider, useAccSettings } from './MyTheme';
+// Página de inicio de sesión
+import { LoginPage } from './loginPage';
 
 // Componente que envuelve Admin para aplicar el tema con ajustes de accesibilidad
 const AppWrapper = () => {
@@ -38,6 +40,7 @@ const AppWrapper = () => {
             i18nProvider={i18nProviderNoLocale}
             darkTheme={themes.dark}
             lightTheme={themes.light}
+            loginPage={LoginPage}
         >
             <Resource name='reportes_medicos' list={RMList} edit={RMEdit} create={RMCreate} show={RMShow} icon={LocalHospitalIcon} options={{ label: 'Reportes Médicos'}} />
             <Resource name='notas_medicas' list={NMList} edit={NMEdit} create={NMCreate} show={NMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
