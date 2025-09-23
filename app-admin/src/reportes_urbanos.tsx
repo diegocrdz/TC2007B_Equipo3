@@ -29,7 +29,8 @@ import {
     DateField,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter } from "./componentes";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar } from "./componentes";
+import { Typography } from "@mui/material";
 
 // Filtros para la lista
 export const RUFilters = [
@@ -101,7 +102,7 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
             marginBottom: '5em',
         }}
     >
-        <SimpleForm warnWhenUnsavedChanges>
+        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
             <RowSection title="Folio y Fecha">
                 <TextInput required source="folio" label="Folio" />
                 <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
@@ -112,6 +113,7 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
             </RowSection>
             <ColumnSection title="Activación del Servicio">
                 <SelectInput
+                    required
                     source="modo_activacion"
                     label="Modo de Activación"
                     choices={MODO_ACTIVACION_CHOICES}
@@ -119,26 +121,23 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                     optionValue="id"
                 />
             </ColumnSection>
-            <TextInput source="tipo_servicio" label="Tipo de Servicio" />
+            <TextInput required source="tipo_servicio" label="Tipo de Servicio" />
             <GridSection title="Horarios de Atención">
-                <DateTimeInput source="fecha_hora_atencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
-                <NumberInput source="tiempo_traslado_minutos" label="Tiempo de Traslado (minutos)" />
+                <DateTimeInput required source="fecha_hora_atencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
+                <NumberInput required source="tiempo_traslado_minutos" label="Tiempo de Traslado (minutos)" />
             </GridSection>
             <ColumnSection title="Ubicación">
-                <TextInput source="ubicacion.direccion" label="Dirección" />
+                <TextInput required source="ubicacion.direccion" label="Dirección" />
                 <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
-                    <TextInput source="ubicacion.entre_calles_1" label="Entre" />
-                    <TextInput source="ubicacion.entre_calles_2" label="Y" />
+                    <TextInput required source="ubicacion.entre_calles_1" label="Entre" />
+                    <TextInput required source="ubicacion.entre_calles_2" label="Y" />
                 </div>
-                <TextInput source="ubicacion.colonia" label="Colonia o Comunidad" />
-                <TextInput source="ubicacion.municipio" label="Alcaldía o Municipio" />
-                <RowSection title="Coordenadas GPS">
-                    <NumberInput source="ubicacion.latitud" label="Latitud" />
-                    <NumberInput source="ubicacion.longitud" label="Longitud" />
-                </RowSection>
+                <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
+                <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
             <RowSection title="Gravedad">
                 <SelectInput
+                    required
                     source="gravedad"
                     label="Gravedad de la Emergencia"
                     choices={GRAVEDAD_CHOICES}
@@ -150,7 +149,10 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 <NumberInput required source="km_recorridos" label="Kilómetros Recorridos" />
             </RowSection>
             <ColumnSection title="Observaciones">
-                <TextInputWithCounter source="observaciones_generales" label="Observaciones Generales" maxLength={500} rows={2} />
+                <TextInputWithCounter required source="observaciones_generales" label="Observaciones Generales" maxLength={500} rows={2} />
+                <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
+                    Evidencias Adicionales
+                </Typography>
                 <ImageInput
                     source="evidencia"
                     accept={{ 'image/*': ['.png', '.jpg'] }}
@@ -163,8 +165,8 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
             </ColumnSection>
             <TextInput required source="dictamen" label="Dictamen" />
             <ColumnSection title="Responsables de la Emergencia">
-                <TextInput source="responsable_inmueble" label="Responsable del Inmueble" />
-                <TextInput source="responsable_zona" label="Responsable de la Zona" />
+                <TextInput required source="responsable_inmueble" label="Responsable del Inmueble" />
+                <TextInput required source="responsable_zona" label="Responsable de la Zona" />
             </ColumnSection>
             <CheckboxGroupInput sx={checkboxGrid3Style}
                 source="autoridades_participantes"

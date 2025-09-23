@@ -24,7 +24,7 @@ import {
     DateField,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter } from "./componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar } from "./componentes";
 
 // Filtros para la lista
 export const NMFilters = [
@@ -84,15 +84,16 @@ export const NUCreate = () => (
             marginBottom: '5em',
         }}
     >
-        <SimpleForm warnWhenUnsavedChanges>
+        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
             <RowSection title="Fecha y hora">
-                <DateInput source="fecha" label="Fecha" />
-                <TimeInput source="hora" label="Hora" />
+                <DateInput required source="fecha" label="Fecha" />
+                <TimeInput required source="hora" label="Hora" />
             </RowSection>
             <ColumnSection title="Detalles">
-                <TextInput source="nombre_operador" label="Nombre operador" />
-                <TextInput source="asunto" label="Asunto" />
+                <TextInput required source="nombre_operador" label="Nombre operador" />
+                <TextInput required source="asunto" label="Asunto" />
                 <TextInputWithCounter
+                    required
                     source="observaciones"
                     label="Observaciones"
                     maxLength={500}

@@ -51,7 +51,7 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
 } from "./opciones";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter } from "./componentes";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar } from "./componentes";
 
 // Filtros para la lista
 export const RMFilters = [
@@ -114,7 +114,7 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
             marginBottom: '5em',
         }}
     >
-        <TabbedForm warnWhenUnsavedChanges>
+        <TabbedForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Datos Servicio">
                 <RowSection title="Folio y Fecha">
@@ -124,22 +124,23 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     />
                 </RowSection>
                 <GridSection title="Horas">
-                    <TimeInput source="horaLlam" label="Hora Llamada" />
-                    <TimeInput source="horaSal" label="Hora Salida" />
-                    <TimeInput source="horaLlegada" label="Hora Llegada" />
-                    <TimeInput source="horaTras" label="Hora Traslado" />
-                    <TimeInput source="horaHos" label="Hora Hospital" />
-                    <TimeInput source="salodaHos" label="Salida Hospital" />
-                    <TimeInput source="horaBase" label="Hora Base" />
+                    <TimeInput required source="horaLlam" label="Hora Llamada" />
+                    <TimeInput required source="horaSal" label="Hora Salida" />
+                    <TimeInput required source="horaLlegada" label="Hora Llegada" />
+                    <TimeInput required source="horaTras" label="Hora Traslado" />
+                    <TimeInput required source="horaHos" label="Hora Hospital" />
+                    <TimeInput required source="salodaHos" label="Salida Hospital" />
+                    <TimeInput required source="horaBase" label="Hora Base" />
                 </GridSection>
                 <ColumnSection title="Involucrados">
                     <TextInput required source="nombre_paciente" label="Nombre paciente" />
                     <TextInput required source="nombre_testigo" label="Nombre testigo" />
                     <TextInput required source="nombre_paramedico" label="Nombre paramédico" />
-                    <TextInput source="nombre_medico" label="Nombre médico" />
+                    <TextInput required source="nombre_medico" label="Nombre médico" />
                 </ColumnSection>
                 <ColumnSection title="Motivo del Servicio">
                     <SelectInput
+                        required
                         source="motivo"
                         label="Motivo"
                         choices={MOTIVO_CHOICES}
@@ -148,23 +149,24 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     />
                 </ColumnSection>
                 <ColumnSection title="Ubicación">
-                    <TextInput source="ubicacion.calle" label="Calle" />
+                    <TextInput required source="ubicacion.calle" label="Calle" />
                     <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
-                        <TextInput source="ubicacion.numExt" label="Entre" />
-                        <TextInput source="ubicacion.numInt" label="Y" />
+                        <TextInput required source="ubicacion.numExt" label="Entre" />
+                        <TextInput required source="ubicacion.numInt" label="Y" />
                     </div>
-                    <TextInput source="ubicacion.colonia" label="Colonia o Comunidad" />
-                    <TextInput source="ubicacion.municipio" label="Alcaldía o Municipio" />
+                    <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
+                    <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
                 </ColumnSection>
                 <ColumnSection title="Motivo del Servicio">
                     <SelectInput
+                        required
                         source="motivo"
                         label="Motivo"
                         choices={OCURRENCIA_CHOICES}
                         optionText="name"
                         optionValue="id"
                     />
-                    <TextInput source="motivo" label="Otro (especificar)" />
+                    <TextInput required source="motivo" label="Otro (especificar)" />
                 </ColumnSection>
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/}
@@ -573,12 +575,15 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </ArrayInput>
                         </AccordionDetails>
                     </Accordion>
+                    <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
+                        Evidencias Adicionales
+                    </Typography>
                     <ImageInput
+                        label="Cargar imágenes"
                         source="evidencia"
                         accept={{ 'image/*': ['.png', '.jpg'] }}
                         maxSize={50000000} // 50 MB
                         multiple // Acepta múltiples imágenes
-                        label="Evidencias"
                     >
                         <ImageField source="src" title="title" />
                     </ImageInput>

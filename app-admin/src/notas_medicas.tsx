@@ -27,6 +27,8 @@ import {
 import { RowSection, ColumnSection, TextInputWithCounter } from "./componentes";
 // Opciones para SelectInput
 import { OCURRENCIA_CHOICES } from "./opciones";
+// Componentes
+import { MyToolbar } from "./componentes";
 
 // Filtros para la lista
 export const NMFilters = [
@@ -92,7 +94,7 @@ export const NMCreate = () => (
             marginBottom: '5em',
         }}
     >
-        <SimpleForm warnWhenUnsavedChanges>
+        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
             { /*------------------------------------------------------*/}
             <RowSection title="Fecha y Hora">
                 <DateInput required source="fecha" label="Fecha"
@@ -106,13 +108,13 @@ export const NMCreate = () => (
                 <TextInput required source="nombre_paciente" label="Nombre paciente" />
                 <TextInput required source="nombre_testigo" label="Nombre testigo" />
                 <TextInput required source="nombre_paramedico" label="Nombre paramédico" />
-                <TextInput source="nombre_medico" label="Nombre médico" />
+                <TextInput required source="nombre_medico" label="Nombre médico" />
             </ColumnSection>
             <ColumnSection title="Ubicación">
                 <TextInput required source="ubicacion.calle" label="Calle" />
                 <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
-                    <TextInput source="ubicacion.numExt" label="Entre" />
-                    <TextInput source="ubicacion.numInt" label="Y" />
+                    <TextInput required source="ubicacion.numExt" label="Entre" />
+                    <TextInput required source="ubicacion.numInt" label="Y" />
                 </div>
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
@@ -126,7 +128,7 @@ export const NMCreate = () => (
                     optionText="name"
                     optionValue="id"
                 />
-                <TextInput source="ocurrencia_otro" label="Otro (especificar)" />
+                <TextInput required source="ocurrencia_otro" label="Otro (especificar)" />
             </ColumnSection>
             <ColumnSection title="Detalles">
                 <TextInput required source="asunto" label="Asunto" />

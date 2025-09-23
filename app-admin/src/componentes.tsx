@@ -6,6 +6,8 @@ import * as React from "react";
 import { useWatch } from "react-hook-form";
 import { TextInput } from "react-admin";
 import { Box, Typography } from "@mui/material";
+// Toolbar
+import { Toolbar, SaveButton, Button, useRedirect } from 'react-admin';
 
 // Estilos para diferentes layouts en las secciones del formulario
 // Estilo para filas
@@ -79,12 +81,13 @@ export const GridSection = ({ title, children }: { title: string, children: Reac
 );
 
 // Componente de entrada de texto con límite de caracteres
-export const TextInputWithCounter = ({source, label, maxLength=0, multiline = true, rows}: {
+export const TextInputWithCounter = ({source, label, maxLength=0, multiline = true, rows, required = false}: {
     source: string;
     label: string;
     maxLength?: number;
     multiline?: boolean;
     rows?: number;
+    required?: boolean;
 }) => {
     // Observa el valor del campo para contar caracteres
     const value = useWatch({ name: source }) || "";
@@ -96,6 +99,7 @@ export const TextInputWithCounter = ({source, label, maxLength=0, multiline = tr
                 multiline={multiline}
                 fullWidth
                 rows={rows}
+                required={required}
                 slotProps={{ input: { inputProps: { maxLength } } }}
             />
             <Typography
@@ -108,3 +112,27 @@ export const TextInputWithCounter = ({source, label, maxLength=0, multiline = tr
         </Box>
     );
 };
+
+// Componente de Toolbar personalizado para formularios
+export const MyToolbar = () => (
+    <Toolbar
+        sx={{
+            backgroundColor: 'toolbar',
+
+            // Estilos para el botón de guardar
+            '& .MuiButton-contained': {
+                backgroundColor: 'success.main',
+                color: 'white',
+            },
+            '& .MuiButton-contained:hover': {
+                backgroundColor: 'success.dark',
+            },
+            '& .MuiButton-containedPrimary:disabled': {
+                backgroundColor: 'error.main',
+                color: 'text.disabled',
+            },
+        }}
+    >
+        <SaveButton label="Guardar" aria-label="Guardar" />
+    </Toolbar>
+);

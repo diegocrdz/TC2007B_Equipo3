@@ -1,3 +1,8 @@
+/*
+    Generación de temas personalizados con opciones de accesibilidad (tamaño y tipo de letra)
+    Basado en los temas bwDarkTheme y bwLightTheme de react-admin
+*/
+
 import React from 'react';
 import { bwDarkTheme, bwLightTheme } from 'react-admin';
 import { deepmerge } from '@mui/utils';
@@ -74,9 +79,13 @@ function buildThemes(settings: AccSettings) {
         palette: {
             background: { default: "#1b1b1bff", paper: "#1b1b1bff" },
             divider: "#b4b4b4ff",
+            toolbar: "#333f56ff", // Para barra de herramientas de formularios
         },
         components: {
             MuiAppBar: { styleOverrides: { root: { backgroundColor: "#1b1b1bff" } } },
+            MuiCard: { styleOverrides: { root: { background: "linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)" } } },
+            MuiFormControl: { styleOverrides: { root: { backgroundColor: "none" } } },
+            MuiAccordion: { styleOverrides: { root: { backgroundColor: "#1b1b1bff" } } },
         },
     });
 
@@ -86,9 +95,13 @@ function buildThemes(settings: AccSettings) {
         palette: {
             background: { default: "#c1cbddff", paper: "#c1cbddff" },
             divider: "#313131ff",
+            toolbar: "#8d9ab4ff", // Para barra de herramientas de formularios
         },
         components: {
             MuiAppBar: { styleOverrides: { root: { backgroundColor: "#6a7996ff" } } },
+            MuiCard: { styleOverrides: { root: { background: "linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)" } } },
+            MuiFormControl: { styleOverrides: { root: { backgroundColor: "none" } } },
+            MuiAccordion: { styleOverrides: { root: { backgroundColor: "#ffffffcc" } } },
         },
     });
     
