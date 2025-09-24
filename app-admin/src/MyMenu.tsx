@@ -10,9 +10,9 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => {
 		<ListSubheader
             component="div"
             sx={{
-                    fontSize: '1em',
-                    letterSpacing: 1,
-                    color: 'text.secondary',
+				fontSize: '1em',
+				letterSpacing: 1,
+				color: 'text.secondary',
             }}
 		>
 			{children}

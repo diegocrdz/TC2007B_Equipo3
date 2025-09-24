@@ -1,14 +1,12 @@
 import { Admin, Resource } from "react-admin";
 // import {dataProvider} from "./dataProvider";
 import { mockDataProvider } from "./mockDataProvider";
-// jsonplaceholder
-import { PostsList, PostsEdit, PostsCreate, PostsShow } from "./posts";
 // Recursos
 import { RMList, RMEdit, RMCreate, RMShow } from "./reportes_medicos";
 import { NMList, NMEdit, NMCreate, NMShow } from "./notas_medicas";
 import { RUList, RUEdit, RUCreate, RUShow } from "./reportes_urbanos";
 import { NUList, NUEdit, NUCreate, NUShow } from "./notas_urbanas";
-// Icons
+// Iconos
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';

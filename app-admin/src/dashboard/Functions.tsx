@@ -1,37 +1,41 @@
 import { Box, useTheme } from '@mui/material';
-import { lightBlue, orange } from '@mui/material/colors';
 import { useRedirect, usePermissions } from 'react-admin';
+// Icons
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import EmergencyIcon from '@mui/icons-material/Emergency';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
 // Funciones rápidas para cada rol
 const functionData = {
     admin: [
-        { title: 'Ver reportes médicos', to: '/reportes_medicos' },
-        { title: 'Ver reportes urbanos', to: '/reportes_urbanos' },
-        { title: 'Ver notas médicas', to: '/notas_medicas' },
-        { title: 'Ver notas urbanas', to: '/notas_urbanas' },
+        { title: 'Ver reportes médicos', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
+        { title: 'Ver reportes urbanos', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
+        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
+        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
     ],
     jefe: [
-        { title: 'Ver reportes médicos', to: '/reportes_medicos' },
-        { title: 'Ver reportes urbanos', to: '/reportes_urbanos' },
-        { title: 'Ver notas médicas', to: '/notas_medicas' },
-        { title: 'Ver notas urbanas', to: '/notas_urbanas' },
+        { title: 'Ver reportes médicos', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
+        { title: 'Ver reportes urbanos', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
+        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
+        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
     ],
     paramedico: [
-        { title: 'Crear reporte', to: '/reportes_medicos/create' },
-        { title: 'Crear nota', to: '/reportes_medicos/create' },
-        { title: 'Ver mis reportes', to: '/reportes_medicos' },
-        { title: 'Ver mis notas', to: '/notas_medicas' },
+        { title: 'Crear reporte', to: '/reportes_medicos/create', icon: <LocalHospitalIcon fontSize="large" /> },
+        { title: 'Crear nota', to: '/notas_medicas/create', icon: <StickyNote2Icon fontSize="large" /> },
+        { title: 'Ver mis reportes', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
+        { title: 'Ver mis notas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
     ],
     urbano: [
-        { title: 'Crear reporte', to: '/reportes_urbanos/create' },
-        { title: 'Crear nota', to: '/notas_urbanas/create' },
-        { title: 'Ver mis reportes', to: '/reportes_urbanos' },
-        { title: 'Ver mis notas', to: '/notas_urbanas' },
+        { title: 'Crear reporte', to: '/reportes_urbanos/create', icon: <EmergencyIcon fontSize="large" /> },
+        { title: 'Crear nota', to: '/notas_urbanas/create', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver mis reportes', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
+        { title: 'Ver mis notas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
     ],
 };
 
 // Componente para cada función rápida
-const Function_Box = ({ title, to, idx }: { title: string, to: string, idx: number }) => {
+const Function_Box = ({ title, to, idx, icon }: { title: string, to: string, idx: number, icon: any }) => {
     const redirect = useRedirect();
     const theme = useTheme();
     // Colores para los cuadros
@@ -59,12 +63,25 @@ const Function_Box = ({ title, to, idx }: { title: string, to: string, idx: numb
                 cursor: 'pointer',
                 transition: 'background-color 0.3s',
                 backgroundColor: bgColor,
+                position: 'relative',
                 '&:hover': {
-                    backgroundColor: 'action.hover',
+                    backgroundColor: 'transparent',
                 },
             }}
         >
             <h3>{title}</h3>
+            <Box
+                sx={{
+                    color: 'primary.main',
+                    opacity: 0.5,
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    width: '100%',
+                }}
+            >
+                {icon}
+            </Box>
         </Box>
     );
 };
@@ -103,8 +120,8 @@ export const Functions = () => {
                         gap: '20px',
                     }}
                 >
-                    {functions.map((fn: { title: string; to: string }, idx: number) => (
-                        <Function_Box key={idx} title={fn.title} to={fn.to} idx={idx} />
+                    {functions.map((fn: { title: string; to: string; icon: any }, idx: number) => (
+                        <Function_Box key={idx} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
                     ))}
                 </Box>
             </Box>

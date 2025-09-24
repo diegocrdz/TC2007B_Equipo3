@@ -1,5 +1,5 @@
 import { useGetIdentity, usePermissions } from "react-admin";
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Box, Card, CardContent, CardHeader } from "@mui/material";
 import { Functions } from "./Functions";
 // Librerías para menús desplegables
 import Accordion from '@mui/material/Accordion';
@@ -23,7 +23,32 @@ export const Dashboard = () => {
                     padding: '1vw',
                 }}
             >
-                <CardHeader title={`Bienvenido, ${identityData?.fullName ?? "Usuario"}`} />
+                <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        backgroundColor: 'background.paper',
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        borderRadius: '8px',
+                        margin: '18px 18px 0 18px',
+                        gap: 2,
+                        padding: 2,
+                        minHeight: '80px',
+                        maxHeight: '100px',
+                    }}
+                >
+                    <CardHeader
+                        title={`Bienvenido, ${identityData?.fullName ?? "Usuario"}`}
+                        sx={{ color: 'text.primary', padding: 0 }}
+                    />
+                    <Typography variant="h6" sx={{ color: 'text.primary' }} >
+                        {new Date().toLocaleDateString(
+                            'es-ES', 
+                            { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' }
+                        )}
+                    </Typography>
+                </Box>
                 <Functions />
                 {permissions === 'admin' && // Solo mostrar para admin
                     <CardContent>
