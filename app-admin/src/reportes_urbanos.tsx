@@ -31,6 +31,8 @@ import {
 // Componentes personalizados
 import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar } from "./componentes";
 import { Typography } from "@mui/material";
+// Opciones para SelectInput
+import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "./opciones";
 
 // Filtros para la lista
 export const RUFilters = [
@@ -48,9 +50,9 @@ export const RUList = () => {
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="tipo_servicio" label="Tipo de Servicio" />
+                <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
                 <DataTable.Col source="gravedad" label="Gravedad" />
-                <DataTable.Col source="personal_a_cargo" label="Personal a Cargo" />
+                <DataTable.Col source="personalACargo" label="Personal a Cargo" />
                 <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
                 <DataTable.Col>
                     <EditButton />
@@ -76,21 +78,24 @@ export const RUEdit = () => {
         <Edit mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges>
                 <TextInput source="folio" label="Folio" />
-                <DateInput source="fecha" label="Fecha" />
-                <TextInput source="personal_a_cargo" label="Personal a Cargo" />
+                <DateInput disabled source="fecha" label="Fecha" />
                 <SelectInput
-                    source="tipo_servicio"
+                    disabled
+                    source="tipoServicio"
                     label="Tipo de Servicio"
                     optionText="name"
                     optionValue="id"
                 />
                 <SelectInput
+                    disabled
                     source="gravedad"
                     label="Gravedad"
                     choices={GRAVEDAD_CHOICES}
                     optionText="name"
                     optionValue="id"
                 />
+                <TextInput disabled source="personalACargo" label="Personal a Cargo" />
+                <TextInput disabled source="ubicacion.direccion" label="Dirección" />
             </SimpleForm>
         </Edit>
     );
@@ -109,28 +114,28 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
             </RowSection>
             <RowSection title="Turno y Personal">
                 <TextInput required source="turno" label="Turno" />
-                <TextInput required source="personal_a_cargo" label="Nombre del Personal a Cargo" />
+                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
             </RowSection>
             <ColumnSection title="Activación del Servicio">
                 <SelectInput
                     required
-                    source="modo_activacion"
+                    source="modoActivacion"
                     label="Modo de Activación"
                     choices={MODO_ACTIVACION_CHOICES}
                     optionText="name"
                     optionValue="id"
                 />
             </ColumnSection>
-            <TextInput required source="tipo_servicio" label="Tipo de Servicio" />
+            <TextInput required source="tipoServicio" label="Tipo de Servicio" />
             <GridSection title="Horarios de Atención">
-                <DateTimeInput required source="fecha_hora_atencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
-                <NumberInput required source="tiempo_traslado_minutos" label="Tiempo de Traslado (minutos)" />
+                <DateTimeInput required source="fechaHoraAtencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
+                <NumberInput required source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
             </GridSection>
             <ColumnSection title="Ubicación">
                 <TextInput required source="ubicacion.direccion" label="Dirección" />
                 <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
-                    <TextInput required source="ubicacion.entre_calles_1" label="Entre" />
-                    <TextInput required source="ubicacion.entre_calles_2" label="Y" />
+                    <TextInput required source="ubicacion.entreCalles1" label="Entre" />
+                    <TextInput required source="ubicacion.entreCalles2" label="Y" />
                 </div>
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
@@ -146,10 +151,10 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 />
             </RowSection>
             <RowSection title="Recorrido">
-                <NumberInput required source="km_recorridos" label="Kilómetros Recorridos" />
+                <NumberInput required source="kmRecorridos" label="Kilómetros Recorridos" />
             </RowSection>
             <ColumnSection title="Observaciones">
-                <TextInputWithCounter required source="observaciones_generales" label="Observaciones Generales" maxLength={500} rows={2} />
+                <TextInputWithCounter required source="observacionesGenerales" label="Observaciones Generales" maxLength={500} rows={2} />
                 <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                     Evidencias Adicionales
                 </Typography>
@@ -165,11 +170,11 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
             </ColumnSection>
             <TextInput required source="dictamen" label="Dictamen" />
             <ColumnSection title="Responsables de la Emergencia">
-                <TextInput required source="responsable_inmueble" label="Responsable del Inmueble" />
-                <TextInput required source="responsable_zona" label="Responsable de la Zona" />
+                <TextInput required source="responsableInmueble" label="Responsable del Inmueble" />
+                <TextInput required source="responsableZona" label="Responsable de la Zona" />
             </ColumnSection>
             <CheckboxGroupInput sx={checkboxGrid3Style}
-                source="autoridades_participantes"
+                source="autoridadesParticipantes"
                 label="Autoridades y Dependencias Participantes"
                 choices={AUTORIDADES_CHOICES}
             />
@@ -177,51 +182,30 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
     </Create>
 );
 
-const MODO_ACTIVACION_CHOICES = [
-    { id: "llamada_emergencia", name: "Llamada de emergencia" },
-    { id: "seguimiento_oficio", name: "Seguimiento de oficio" },
-];
-
-const GRAVEDAD_CHOICES = [
-    { id: "baja", name: "Baja" },
-    { id: "media", name: "Media" },
-    { id: "alta", name: "Alta" },
-];
-
-const AUTORIDADES_CHOICES = [
-    { id: "seguridad_publica", name: "Seguridad Pública" },
-    { id: "policia", name: "Policía" },
-    { id: "bomberos", name: "Bomberos" },
-    { id: "cruz_roja", name: "Cruz Roja" },
-    { id: "otra", name: "Otra" },
-];
-
 export const RUShow = () => (
     <Show>
         <SimpleShowLayout>
             <TextField source="folio" label="Folio" />
             <DateField source="fecha" label="Fecha" showTime />
             <TextField source="turno" label="Turno" />
-            <TextField source="personal_a_cargo" label="Nombre del Personal a Cargo" />
-            <TextField source="modo_activacion" label="Modo de Activación" />
-            <TextField source="tipo_servicio" label="Tipo de Servicio" />
-            <DateField source="fecha_hora_atencion" label="Fecha y Hora de Atención" showTime />
-            <TextField source="tiempo_traslado_minutos" label="Tiempo de Traslado (minutos)" />
+            <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+            <TextField source="modoActivacion" label="Modo de Activación" />
+            <TextField source="tipoServicio" label="Tipo de Servicio" />
+            <DateField source="fechaHoraAtencion" label="Fecha y Hora de Atención" showTime />
+            <TextField source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
             <TextField source="ubicacion.direccion" label="Dirección" />
-            <TextField source="ubicacion.entre_calles_1" label="Entre" />
-            <TextField source="ubicacion.entre_calles_2" label="Y" />
+            <TextField source="ubicacion.entreCalles1" label="Entre" />
+            <TextField source="ubicacion.entreCalles2" label="Y" />
             <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
             <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
-            <TextField source="ubicacion.latitud" label="Latitud" />
-            <TextField source="ubicacion.longitud" label="Longitud" />
             <TextField source="gravedad" label="Gravedad de la Emergencia" />
-            <TextField source="km_recorridos" label="Kilómetros Recorridos" />
-            <TextField source="observaciones_generales" label="Observaciones Generales" />
+            <TextField source="kmRecorridos" label="Kilómetros Recorridos" />
+            <TextField source="observacionesGenerales" label="Observaciones Generales" />
             <ImageField source="evidencia" label="Evidencias" />
             <TextField source="dictamen" label="Dictamen" />
-            <TextField source="responsable_inmueble" label="Responsable del Inmueble" />
-            <TextField source="responsable_zona" label="Responsable de la Zona" />
-            <TextField source="autoridades_participantes" label="Autoridades y Dependencias Participantes" />
+            <TextField source="responsableInmueble" label="Responsable del Inmueble" />
+            <TextField source="responsableZona" label="Responsable de la Zona" />
+            <TextField source="autoridadesParticipantes" label="Autoridades y Dependencias Participantes" />
         </SimpleShowLayout>
     </Show>
 );

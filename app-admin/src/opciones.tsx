@@ -238,3 +238,24 @@ export const PRIORIDAD_CHOICES = [
     { id: "verde", name: "Verde" },
     { id: "negra", name: "Negra" },
 ];
+
+// Reportes urbanos
+
+export const MODO_ACTIVACION_CHOICES = [
+    { id: "llamada_emergencia", name: "Llamada de emergencia" },
+    { id: "seguimiento_oficio", name: "Seguimiento de oficio" },
+];
+
+export const GRAVEDAD_CHOICES = [
+    { id: "baja", name: "Baja" },
+    { id: "media", name: "Media" },
+    { id: "alta", name: "Alta" },
+];
+
+export const AUTORIDADES_CHOICES = [
+    { id: "seguridad_publica", name: "Seguridad Pública" },
+    { id: "policia", name: "Policía" },
+    { id: "bomberos", name: "Bomberos" },
+    { id: "cruz_roja", name: "Cruz Roja" },
+    { id: "otra", name: "Otra" },
+];

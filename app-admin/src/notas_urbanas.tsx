@@ -27,7 +27,7 @@ import {
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar } from "./componentes";
 
 // Filtros para la lista
-export const NMFilters = [
+export const NUFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
     <ReferenceInput source="userId" label="User" reference="users" />,
 ]
@@ -38,11 +38,11 @@ export const NUList = () => {
 
     return (
         // Si el usuario tiene permiso, mostrar filtros
-        <List filters={canAccess ? NMFilters : undefined}>
+        <List filters={canAccess ? NUFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="fecha" label="Fecha" />
                 <DataTable.Col source="hora" label="Hora" />
-                <DataTable.Col source="nombre_operador" label="Nombre operador" />
+                <DataTable.Col source="nombreOperador" label="Nombre operador" />
                 <DataTable.Col source="asunto" label="Asunto" />
                 <DataTable.Col>
                     <EditButton />
@@ -60,17 +60,16 @@ export const NUEdit = () => {
 
     const onSuccess = () => {
         notify('Cambios guardados', { undoable: true });
-        redirect('/notas_medicas');
+        redirect('/notas_urbanas');
         refresh();
     };
 
     return (
         <Edit mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges>
-                <TextInput disabled source="id" />
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
-                <TextInput disabled source="nombre_operador" label="Nombre operador" />
+                <TextInput disabled source="nombreOperador" label="Nombre operador" />
                 <TextInput disabled source="asunto" label="Asunto" />
                 <TextInput disabled source="observaciones" label="Observaciones" multiline fullWidth rows={3} />
             </SimpleForm>
@@ -86,11 +85,15 @@ export const NUCreate = () => (
     >
         <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
             <RowSection title="Fecha y hora">
-                <DateInput required source="fecha" label="Fecha" />
-                <TimeInput required source="hora" label="Hora" />
+                <DateInput required source="fecha" label="Fecha"
+                    defaultValue={new Date()} // Fecha actual por defecto
+                />
+                <TimeInput required source="hora" label="Hora"
+                    defaultValue={new Date()} // Hora actual por defecto
+                />
             </RowSection>
             <ColumnSection title="Detalles">
-                <TextInput required source="nombre_operador" label="Nombre operador" />
+                <TextInput required source="nombreOperador" label="Nombre operador" />
                 <TextInput required source="asunto" label="Asunto" />
                 <TextInputWithCounter
                     required
@@ -108,10 +111,9 @@ export const NUCreate = () => (
 export const NUShow = () => (
     <Show>
         <SimpleShowLayout>
-            <TextField source="id" />
             <DateField source="fecha" label="Fecha" />
             <TextField source="hora" label="Hora" />
-            <TextField source="nombre_operador" label="Nombre operador" />
+            <TextField source="nombreOperador" label="Nombre operador" />
             <TextField source="asunto" label="Asunto" />
             <TextField source="observaciones" label="Observaciones" />
         </SimpleShowLayout>

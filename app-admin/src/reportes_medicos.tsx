@@ -29,6 +29,7 @@ import {
     SimpleFormIterator,
     ImageInput,
     ImageField,
+    SimpleShowLayout,
 } from "react-admin";
 // MUI
 import Accordion from '@mui/material/Accordion';
@@ -68,12 +69,11 @@ export const RMList = () => {
         <List filters={canAccess ? RMFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
-                <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="nombre_paciente" label="Nombre paciente" />
-                <DataTable.Col source="nombre_testigo" label="Nombre testigo" />
-                <DataTable.Col source="nombre_paramedico" label="Nombre paramédico" />
-                <DataTable.Col source="nombre_medico" label="Nombre médico" />
+                <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                <DataTable.Col source="nombreMedico" label="Nombre médico" />
                 <DataTable.Col>
                     <EditButton />
                 </DataTable.Col>
@@ -98,11 +98,11 @@ export const RMEdit = () => {
         <Edit mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges>
                 <TextInput source="folio" label="Folio" />
-                <TextInput source="fecha" label="Fecha" />
-                <TextInput source="nombre_paciente" label="Nombre paciente" />
-                <TextInput source="nombre_testigo" label="Nombre testigo" />
-                <TextInput source="nombre_paramedico" label="Nombre paramédico" />
-                <TextInput source="nombre_medico" label="Nombre médico" />
+                <TextInput disabled source="fecha" label="Fecha" />
+                <TextInput disabled source="nombrePaciente" label="Nombre paciente" />
+                <TextInput disabled source="nombreTestigo" label="Nombre testigo" />
+                <TextInput disabled source="nombreParamedico" label="Nombre paramédico" />
+                <TextInput disabled source="nombreMedico" label="Nombre médico" />
             </SimpleForm>
         </Edit>
     );
@@ -129,14 +129,14 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TimeInput required source="horaLlegada" label="Hora Llegada" />
                     <TimeInput required source="horaTras" label="Hora Traslado" />
                     <TimeInput required source="horaHos" label="Hora Hospital" />
-                    <TimeInput required source="salodaHos" label="Salida Hospital" />
+                    <TimeInput required source="horaSalidaHos" label="Salida Hospital" />
                     <TimeInput required source="horaBase" label="Hora Base" />
                 </GridSection>
                 <ColumnSection title="Involucrados">
-                    <TextInput required source="nombre_paciente" label="Nombre paciente" />
-                    <TextInput required source="nombre_testigo" label="Nombre testigo" />
-                    <TextInput required source="nombre_paramedico" label="Nombre paramédico" />
-                    <TextInput required source="nombre_medico" label="Nombre médico" />
+                    <TextInput required source="nombrePaciente" label="Nombre paciente" />
+                    <TextInput required source="nombreTestigo" label="Nombre testigo" />
+                    <TextInput required source="nombreParamedico" label="Nombre paramédico" />
+                    <TextInput required source="nombreMedico" label="Nombre médico" />
                 </ColumnSection>
                 <ColumnSection title="Motivo del Servicio">
                     <SelectInput
@@ -199,14 +199,14 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             />
                             <NumberInput source="paciente.edad" label="Edad" />
                             <ColumnSection title="Ubicación">
-                                <TextInput source="" label="Domicilio" />
-                                <TextInput source="" label="Colonia o Comunidad" />
-                                <TextInput source="" label="Alcaldía o Municipio" />
+                                <TextInput source="paciente.domicilio" label="Domicilio" />
+                                <TextInput source="paciente.colonia" label="Colonia o Comunidad" />
+                                <TextInput source="paciente.alcaldia" label="Alcaldía o Municipio" />
                             </ColumnSection>
                             <ColumnSection title="Detalles">
-                                <TextInput source="" label="Derechohabiente a" />
-                                <NumberInput source="" label="Teléfono" />
-                                <TextInput source="" label="Ocupación" />
+                                <TextInput source="paciente.derechohabiente" label="Derechohabiente a" />
+                                <NumberInput source="paciente.telefono" label="Teléfono" />
+                                <TextInput source="paciente.ubicacion" label="Ocupación" />
                             </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
@@ -219,14 +219,14 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         <AccordionDetails>
                             <ColumnSection title="Datos de la madre">
                                 <TextInput source="parto.semanas" label="Semanas de gesta" />
-                                <TimeInput source="parto.hora_contracciones" label="Hora de inicio de contracciones" />
+                                <TimeInput source="parto.horaContracciones" label="Hora de inicio de contracciones" />
                             </ColumnSection>
                             <RowSection title="">
                                 <TextInput source="parto.frecuencia" label="Frecuencia" />
                                 <TextInput source="parto.duracion" label="Duración" />
                             </RowSection>
                             <ColumnSection title="Datos post-parto y del recién nacido">
-                                <TimeInput source="parto.hora_nacimiento" label="Hora de nacimiento" />
+                                <TimeInput source="parto.horaNacimiento" label="Hora de nacimiento" />
                                 <TextInput source="parto.placenta" label="Placenta expulsada" />
                                 <RowSection title="">
                                     <SelectInput
@@ -245,12 +245,12 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                     />
                                 </RowSection>
                                 <ColumnSection title="Puntaje de APGAR">
-                                    <NumberInput source="parto.edad_gestacional" label="Edad gestacional" />
-                                    <NumberInput source="parto.apgar_1min" label="1 minuto" />
-                                    <NumberInput source="parto.apgar_5min" label="5 minutos" />
-                                    <NumberInput source="parto.apgar_10min" label="10 minutos" />
-                                    <NumberInput source="parto.apgar_15min" label="15 minutos" />
-                                    <NumberInput source="parto.apgar_20min" label="20 minutos" />
+                                    <NumberInput source="parto.edadGestacional" label="Edad gestacional" />
+                                    <NumberInput source="parto.apgar1min" label="1 minuto" />
+                                    <NumberInput source="parto.apgar5min" label="5 minutos" />
+                                    <NumberInput source="parto.apgar10min" label="10 minutos" />
+                                    <NumberInput source="parto.apgar15min" label="15 minutos" />
+                                    <NumberInput source="parto.apgar20min" label="20 minutos" />
                                 </ColumnSection>
                             </ColumnSection>
                         </AccordionDetails>
@@ -263,11 +263,11 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="Agente.causal"
+                                source="agente.causal"
                                 label="Agente Causal"
                                 choices={AGENTE_CHOICES}
                             />
-                            <TextInput source="Agente.especificar" label="Otro (Especifique)" />
+                            <TextInput source="agente.especificar" label="Otro (Especifique)" />
                             <ColumnSection title="Accidente Automovilístico">
                                 <CheckboxGroupInput sx={checkboxGrid3Style}
                                     source="accidente.tipo"
@@ -323,14 +323,14 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="causa_clinica.origen_probable"
+                                source="causaClinica.origenProbable"
                                 label="Origen Probable"
                                 choices={ORIGEN_PROBABLE_CHOICES}
                             />
-                            <TextInput source="causa_clinica.especifique" label="Otro (Especifique)" />
+                            <TextInput source="causaClinica.especifique" label="Otro (Especifique)" />
                             <RowSection title="Frecuencia">
-                                <TextInput source="causa_clinica.primeraVez" label="1.ª vez" />
-                                <TextInput source="causa_clinica.subsecuente" label="Subsecuente" />
+                                <TextInput source="causaClinica.primeraVez" label="1.ª vez" />
+                                <TextInput source="causaClinica.subsecuente" label="Subsecuente" />
                             </RowSection>
                         </AccordionDetails>
                     </Accordion>
@@ -342,63 +342,63 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <SelectInput
-                                source="evaluacion_inicial.nivelConsciencia"
+                                source="evaluacionInicial.nivelConsciencia"
                                 label="Nivel de Consciencia"
                                 choices={NIVEL_CONSCIENCIA_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.deglucion"
+                                source="evaluacionInicial.deglucion"
                                 label="Deglución"
                                 choices={DEGLUCION_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.viaAerea"
+                                source="evaluacionInicial.viaAerea"
                                 label="Vía Aérea"
                                 choices={VIA_AEREA_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.ventilacion"
+                                source="evaluacionInicial.ventilacion"
                                 label="Ventilación"
                                 choices={VENTILACION_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.auscultacion"
+                                source="evaluacionInicial.auscultacion"
                                 label="Auscultación"
                                 choices={AUSCULTACION_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.hemitorax"
+                                source="evaluacionInicial.hemitorax"
                                 label="Hemitórax"
                                 choices={HEMITORAX_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.sitio"
+                                source="evaluacionInicial.sitio"
                                 label="Sitio"
                                 choices={SITIO_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.presencia_pulsos"
+                                source="evaluacionInicial.presenciaPulsos"
                                 label="Presencia de Pulsos"
                                 choices={PRESENCIA_PULSOS_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.calidad"
+                                source="evaluacionInicial.calidad"
                                 label="Calidad"
                                 choices={CALIDAD_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.piel"
+                                source="evaluacionInicial.piel"
                                 label="Piel"
                                 choices={PIEL_CHOICES}
                             />
                             <SelectInput
-                                source="evaluacion_inicial.caracteristicas"
+                                source="evaluacionInicial.caracteristicas"
                                 label="Características"
                                 choices={CARACTERISTICAS_CHOICES}
                             />
                             <ColumnSection title="Observaciones Adicionales">
                                 <TextInputWithCounter
-                                    source="evaluacion_inicial.observaciones"
+                                    source="evaluacionInicial.observaciones"
                                     label="Observaciones adicionales"
                                     maxLength={500}
                                     multiline
@@ -546,11 +546,11 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <TextInput
-                                source="ministerio_publico.sello"
+                                source="ministerioPublico.sello"
                                 label="Sello Ministerio Público Notificado"
                             />
                             <TextInput
-                                source="ministerio_publico.funcionario"
+                                source="ministerioPublico.funcionario"
                                 label="Nombre y firma quien recibe"
                             />
                         </AccordionDetails>
@@ -563,11 +563,11 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="Autoridades que tomaron conocimiento">
-                                <TextInput source="datos_legales.autoridad_dependencia" label="Dependencia" />
-                                <TextInput source="datos_legales.numero_unidad" label="Número de Unidad" />
-                                <TextInput source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
+                                <TextInput source="datosLegales.autoridadDependencia" label="Dependencia" />
+                                <TextInput source="datosLegales.numeroUnidad" label="Número de Unidad" />
+                                <TextInput source="datosLegales.numeroOficiales" label="Número de los Oficiales" />
                             </ColumnSection>
-                            <ArrayInput source="datos_legales.vehiculos_involucrados" label="Vehículos involucrados">
+                            <ArrayInput source="datosLegales.vehiculosInvolucrados" label="Vehículos involucrados">
                                 <SimpleFormIterator inline>
                                     <TextInput source="tipo" label="Tipo y marca" />
                                     <TextInput source="placas" label="Placas" />
@@ -604,8 +604,18 @@ export const RMShow = () => (
                 <TextField source="horaLlegada" label="Hora Llegada" />
                 <TextField source="horaTras" label="Hora Traslado" />
                 <TextField source="horaHos" label="Hora Hospital" />
-                <TextField source="salodaHos" label="Salida Hospital" />
+                <TextField source="horaSalidaHos" label="Salida Hospital" />
                 <TextField source="horaBase" label="Hora Base" />
+                <TextField source="nombrePaciente" label="Nombre paciente" />
+                <TextField source="nombreTestigo" label="Nombre testigo" />
+                <TextField source="nombreParamedico" label="Nombre paramédico" />
+                <TextField source="nombreMedico" label="Nombre médico" />
+                <TextField source="motivo" label="Motivo" />
+                <TextField source="ubicacion.calle" label="Calle" />
+                <TextField source="ubicacion.numExt" label="Entre" />
+                <TextField source="ubicacion.numInt" label="Y" />
+                <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
+                <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </TabbedShowLayout.Tab>
 
             <TabbedShowLayout.Tab label="Control">
@@ -628,14 +638,18 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="paciente.sexo" label="Sexo" />
-                            <TextField source="paciente.edad" label="Edad" />
-                            <TextField source="paciente.domicilio" label="Domicilio" />
-                            <TextField source="paciente.colonia" label="Colonia o Comunidad" />
-                            <TextField source="paciente.municipio" label="Alcaldía o Municipio" />
-                            <TextField source="paciente.derechohabiente" label="Derechohabiente a" />
-                            <TextField source="paciente.telefono" label="Teléfono" />
-                            <TextField source="paciente.ocupacion" label="Ocupación" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                {/* Se agrega SimpleShowLayout para que se muestren correctamente
+                                las labels, de otra forma aparece todo sin formato */}
+                                <TextField source="paciente.sexo" label="Sexo" />
+                                <TextField source="paciente.edad" label="Edad" />
+                                <TextField source="paciente.domicilio" label="Domicilio" />
+                                <TextField source="paciente.colonia" label="Colonia o Comunidad" />
+                                <TextField source="paciente.alcaldia" label="Alcaldía o Municipio" />
+                                <TextField source="paciente.derechohabiente" label="Derechohabiente a" />
+                                <TextField source="paciente.telefono" label="Teléfono" />
+                                <TextField source="paciente.ubicacion" label="Ocupación" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -645,20 +659,22 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="parto.semanas" label="Semanas de gesta" />
-                            <TextField source="parto.hora_contracciones" label="Hora de inicio de contracciones" />
-                            <TextField source="parto.frecuencia" label="Frecuencia" />
-                            <TextField source="parto.duracion" label="Duración" />
-                            <TextField source="parto.hora_nacimiento" label="Hora de nacimiento" />
-                            <TextField source="parto.placenta" label="Placenta expulsada" />
-                            <TextField source="parto.producto" label="Producto" />
-                            <TextField source="parto.sexo" label="Sexo" />
-                            <TextField source="parto.edad_gestacional" label="Edad gestacional" />
-                            <TextField source="parto.apgar_1min" label="1 minuto" />
-                            <TextField source="parto.apgar_5min" label="5 minutos" />
-                            <TextField source="parto.apgar_10min" label="10 minutos" />
-                            <TextField source="parto.apgar_15min" label="15 minutos" />
-                            <TextField source="parto.apgar_20min" label="20 minutos" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="parto.semanas" label="Semanas de gesta" />
+                                <TextField source="parto.horaContracciones" label="Hora de inicio de contracciones" />
+                                <TextField source="parto.frecuencia" label="Frecuencia" />
+                                <TextField source="parto.duracion" label="Duración" />
+                                <TextField source="parto.horaNacimiento" label="Hora de nacimiento" />
+                                <TextField source="parto.placenta" label="Placenta expulsada" />
+                                <TextField source="parto.producto" label="Producto" />
+                                <TextField source="parto.sexo" label="Sexo" />
+                                <TextField source="parto.edadGestacional" label="Edad gestacional" />
+                                <TextField source="parto.apgar1min" label="1 minuto" />
+                                <TextField source="parto.apgar5min" label="5 minutos" />
+                                <TextField source="parto.apgar10min" label="10 minutos" />
+                                <TextField source="parto.apgar15min" label="15 minutos" />
+                                <TextField source="parto.apgar20min" label="20 minutos" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -668,17 +684,19 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="Agente.causal" label="Agente Causal" />
-                            <TextField source="Agente.especificar" label="Otro (Especifique)" />
-                            <TextField source="accidente.tipo" label="Tipo de accidente" />
-                            <TextField source="accidente.impacto" label="Impacto" />
-                            <TextField source="accidente.cms" label="CMS" />
-                            <TextField source="accidente.parabrisas" label="Parabrisas" />
-                            <TextField source="accidente.volante" label="Volante" />
-                            <TextField source="accidente.bolsa" label="Bolsa de aire" />
-                            <TextField source="accidente.cinturon" label="Cinturón de seguridad" />
-                            <TextField source="accidente.dentroVehiculo" label="Dentro del vehículo" />
-                            <TextField source="atropellado.vehiculo" label="Tipo de vehículo" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="agente.causal" label="Agente Causal" />
+                                <TextField source="agente.especificar" label="Otro (Especifique)" />
+                                <TextField source="accidente.tipo" label="Tipo de accidente" />
+                                <TextField source="accidente.impacto" label="Impacto" />
+                                <TextField source="accidente.cms" label="CMS" />
+                                <TextField source="accidente.parabrisas" label="Parabrisas" />
+                                <TextField source="accidente.volante" label="Volante" />
+                                <TextField source="accidente.bolsa" label="Bolsa de aire" />
+                                <TextField source="accidente.cinturon" label="Cinturón de seguridad" />
+                                <TextField source="accidente.dentroVehiculo" label="Dentro del vehículo" />
+                                <TextField source="atropellado.vehiculo" label="Tipo de vehículo" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -688,10 +706,12 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="causa_clinica.origen_probable" label="Origen Probable" />
-                            <TextField source="causa_clinica.especifique" label="Otro (Especifique)" />
-                            <TextField source="causa_clinica.primeraVez" label="1.ª vez" />
-                            <TextField source="causa_clinica.subsecuente" label="Subsecuente" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="causaClinica.origenProbable" label="Origen Probable" />
+                                <TextField source="causaClinica.especifique" label="Otro (Especifique)" />
+                                <TextField source="causaClinica.primeraVez" label="1.ª vez" />
+                                <TextField source="causaClinica.subsecuente" label="Subsecuente" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -701,18 +721,20 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="evaluacion_inicial.nivelConsciencia" label="Nivel de Consciencia" />
-                            <TextField source="evaluacion_inicial.deglucion" label="Deglución" />
-                            <TextField source="evaluacion_inicial.viaAerea" label="Vía Aérea" />
-                            <TextField source="evaluacion_inicial.ventilacion" label="Ventilación" />
-                            <TextField source="evaluacion_inicial.auscultacion" label="Auscultación" />
-                            <TextField source="evaluacion_inicial.hemitorax" label="Hemitórax" />
-                            <TextField source="evaluacion_inicial.sitio" label="Sitio" />
-                            <TextField source="evaluacion_inicial.presencia_pulsos" label="Presencia de Pulsos" />
-                            <TextField source="evaluacion_inicial.calidad" label="Calidad" />
-                            <TextField source="evaluacion_inicial.piel" label="Piel" />
-                            <TextField source="evaluacion_inicial.caracteristicas" label="Características" />
-                            <TextField source="evaluacion_inicial.observaciones" label="Observaciones adicionales" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="evaluacionInicial.nivelConsciencia" label="Nivel de Consciencia" />
+                                <TextField source="evaluacionInicial.deglucion" label="Deglución" />
+                                <TextField source="evaluacionInicial.viaAerea" label="Vía Aérea" />
+                                <TextField source="evaluacionInicial.ventilacion" label="Ventilación" />
+                                <TextField source="evaluacionInicial.auscultacion" label="Auscultación" />
+                                <TextField source="evaluacionInicial.hemitorax" label="Hemitórax" />
+                                <TextField source="evaluacionInicial.sitio" label="Sitio" />
+                                <TextField source="evaluacionInicial.presenciaPulsos" label="Presencia de Pulsos" />
+                                <TextField source="evaluacionInicial.calidad" label="Calidad" />
+                                <TextField source="evaluacionInicial.piel" label="Piel" />
+                                <TextField source="evaluacionInicial.caracteristicas" label="Características" />
+                                <TextField source="evaluacionInicial.observaciones" label="Observaciones adicionales" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -722,12 +744,15 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="evalSec.alergias" label="Alergias" />
-                            <TextField source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
-                            <TextField source="evalSec.padecimientos" label="Padecimientos cirugías" />
-                            <TextField source="evalSec.ultimaComida" label="La última comida" />
-                            <TextField source="evalSec.condicion" label="Condición del paciente" />
-                            <TextField source="evalSec.prioridad" label="Prioridad" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <ImageField source="evidencia.src" title="Exploración física" />
+                                <TextField source="evalSec.alergias" label="Alergias" />
+                                <TextField source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
+                                <TextField source="evalSec.padecimientos" label="Padecimientos cirugías" />
+                                <TextField source="evalSec.ultimaComida" label="La última comida" />
+                                <TextField source="evalSec.condicion" label="Condición del paciente" />
+                                <TextField source="evalSec.prioridad" label="Prioridad" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -737,11 +762,13 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="traslado.hospital" label="Hospital" />
-                            <TextField source="traslado.doctor" label="Doctor" />
-                            <TextField source="traslado.cru" label="Folio CRU" />
-                            <TextField source="traslado.nombre" label="Nombre" />
-                            <TextField source="traslado.firma" label="Firma" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="traslado.hospital" label="Hospital" />
+                                <TextField source="traslado.doctor" label="Doctor" />
+                                <TextField source="traslado.cru" label="Folio CRU" />
+                                <TextField source="traslado.nombre" label="Nombre" />
+                                <TextField source="traslado.firma" label="Firma" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -751,16 +778,18 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="tratamiento.viaAerea" label="Vía aérea" />
-                            <TextField source="tratamiento.controlCervical" label="Control cervical" />
-                            <TextField source="tratamiento.asistenciaVentilatoria" label="Asistencia ventilatoria" />
-                            <TextField source="tratamiento.doctorTratante" label="Doctor Tratante" />
-                            <TextField source="tratamiento.controlHemorragias" label="Control de hemorragias" />
-                            <TextField source="tratamiento.viasVenosas.soluciones" label="Vías venosas y Tipo de solución" />
-                            <TextField source="tratamiento.viasVenosas.linea" label="Línea IV #" />
-                            <TextField source="tratamiento.viasVenosas.cateter" label="Catéter #" />
-                            <TextField source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
-                            <TextField source="tratamiento.atencionBasica" label="Atención básica" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="tratamiento.viaAerea" label="Vía aérea" />
+                                <TextField source="tratamiento.controlCervical" label="Control cervical" />
+                                <TextField source="tratamiento.asistenciaVentilatoria" label="Asistencia ventilatoria" />
+                                <TextField source="tratamiento.doctorTratante" label="Doctor Tratante" />
+                                <TextField source="tratamiento.controlHemorragias" label="Control de hemorragias" />
+                                <TextField source="tratamiento.viasVenosas.soluciones" label="Vías venosas y Tipo de solución" />
+                                <TextField source="tratamiento.viasVenosas.linea" label="Línea IV #" />
+                                <TextField source="tratamiento.viasVenosas.cateter" label="Catéter #" />
+                                <TextField source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
+                                <TextField source="tratamiento.atencionBasica" label="Atención básica" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -770,7 +799,9 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="observaciones" label="Observaciones" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="observaciones" label="Observaciones" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -780,8 +811,10 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="ministerio_publico.sello" label="Sello Ministerio Público Notificado" />
-                            <TextField source="ministerio_publico.funcionario" label="Nombre y firma quien recibe" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="ministerioPublico.sello" label="Sello Ministerio Público Notificado" />
+                                <TextField source="ministerioPublico.funcionario" label="Nombre y firma quien recibe" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -791,12 +824,14 @@ export const RMShow = () => (
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextField source="datos_legales.autoridad_dependencia" label="Dependencia" />
-                            <TextField source="datos_legales.numero_unidad" label="Número de Unidad" />
-                            <TextField source="datos_legales.numero_oficiales" label="Número de los Oficiales" />
+                            <SimpleShowLayout sx={{ padding: 0 }}>
+                                <TextField source="datosLegales.autoridadDependencia" label="Dependencia" />
+                                <TextField source="datosLegales.numeroUnidad" label="Número de Unidad" />
+                                <TextField source="datosLegales.numeroOficiales" label="Número de los Oficiales" />
+                            </SimpleShowLayout>
                         </AccordionDetails>
                     </Accordion>
-                    <TextField source="evidencia" label="Evidencias" />
+                    <ImageField source="evidencia" title="Evidencias Adicionales" />
                 </Box>
             </TabbedShowLayout.Tab>
         </TabbedShowLayout>

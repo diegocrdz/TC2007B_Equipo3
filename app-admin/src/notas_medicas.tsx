@@ -46,10 +46,10 @@ export const NMList = () => {
             <DataTable>
                 <DataTable.Col source="fecha" label="Fecha" />
                 <DataTable.Col source="hora" label="Hora" />
-                <DataTable.Col source="nombre_paciente" label="Nombre paciente" />
-                <DataTable.Col source="nombre_testigo" label="Nombre testigo" />
-                <DataTable.Col source="nombre_paramedico" label="Nombre paramédico" />
-                <DataTable.Col source="nombre_medico" label="Nombre médico" />
+                <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                <DataTable.Col source="nombreMedico" label="Nombre médico" />
                 <DataTable.Col source="asunto" label="Asunto" />
                 <DataTable.Col>
                     <EditButton />
@@ -74,13 +74,12 @@ export const NMEdit = () => {
     return (
         <Edit mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges>
-                <TextInput disabled source="id" />
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
-                <TextInput disabled source="nombre_paciente" label="Nombre paciente" />
-                <TextInput disabled source="nombre_testigo" label="Nombre testigo" />
-                <TextInput disabled source="nombre_paramedico" label="Nombre paramédico" />
-                <TextInput disabled source="nombre_medico" label="Nombre médico" />
+                <TextInput disabled source="nombrePaciente" label="Nombre paciente" />
+                <TextInput disabled source="nombreTestigo" label="Nombre testigo" />
+                <TextInput disabled source="nombreParamedico" label="Nombre paramédico" />
+                <TextInput disabled source="nombreMedico" label="Nombre médico" />
                 <TextInput disabled source="asunto" label="Asunto" />
                 <TextInput disabled source="observaciones" label="Observaciones" />
             </SimpleForm>
@@ -105,10 +104,10 @@ export const NMCreate = () => (
                 />
             </RowSection>
             <ColumnSection title="Involucrados">
-                <TextInput required source="nombre_paciente" label="Nombre paciente" />
-                <TextInput required source="nombre_testigo" label="Nombre testigo" />
-                <TextInput required source="nombre_paramedico" label="Nombre paramédico" />
-                <TextInput required source="nombre_medico" label="Nombre médico" />
+                <TextInput required source="nombrePaciente" label="Nombre paciente" />
+                <TextInput required source="nombreTestigo" label="Nombre testigo" />
+                <TextInput required source="nombreParamedico" label="Nombre paramédico" />
+                <TextInput required source="nombreMedico" label="Nombre médico" />
             </ColumnSection>
             <ColumnSection title="Ubicación">
                 <TextInput required source="ubicacion.calle" label="Calle" />
@@ -128,7 +127,7 @@ export const NMCreate = () => (
                     optionText="name"
                     optionValue="id"
                 />
-                <TextInput required source="ocurrencia_otro" label="Otro (especificar)" />
+                <TextInput required source="ocurrenciaOtro" label="Otro (especificar)" />
             </ColumnSection>
             <ColumnSection title="Detalles">
                 <TextInput required source="asunto" label="Asunto" />
@@ -147,15 +146,21 @@ export const NMCreate = () => (
 export const NMShow = () => (
     <Show>
         <SimpleShowLayout>
-            <TextField source="id" />
             <TextField source="fecha" label="Fecha" />
-            <TextField source="horaLlam" label="Hora Llamada" />
-            <TextField source="horaSal" label="Hora Salida" />
-            <TextField source="horaLlegada" label="Hora Llegada" />
-            <TextField source="horaTras" label="Hora Traslado" />
-            <TextField source="horaHos" label="Hora Hospital" />
-            <TextField source="salodaHos" label="Salida Hospital" />
-            <TextField source="horaBase" label="Hora Base" />
+            <TextField source="hora" label="Hora" />
+            <TextField source="nombrePaciente" label="Nombre paciente" />
+            <TextField source="nombreTestigo" label="Nombre testigo" />
+            <TextField source="nombreParamedico" label="Nombre paramédico" />
+            <TextField source="nombreMedico" label="Nombre médico" />
+            <TextField source="ubicacion.calle" label="Calle" />
+            <TextField source="ubicacion.numExt" label="Entre" />
+            <TextField source="ubicacion.numInt" label="Y" />
+            <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
+            <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
+            <TextField source="ocurrencia" label="Lugar de Ocurrencia" />
+            <TextField source="ocurrenciaOtro" label="Otro (especificar)" />
+            <TextField source="asunto" label="Asunto" />
+            <TextField source="observaciones" label="Observaciones" />
         </SimpleShowLayout>
     </Show>
 );
