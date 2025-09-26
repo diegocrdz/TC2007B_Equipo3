@@ -5,26 +5,39 @@
 import * as React from "react";
 import { useWatch } from "react-hook-form";
 import { TextInput } from "react-admin";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
 // Toolbar
 import { Toolbar, SaveButton } from 'react-admin';
+import { useInput } from "ra-core";
 
 // Estilos para diferentes layouts en las secciones del formulario
 // Estilo para filas
-const rowLayoutStyle: React.CSSProperties = {
+const rowLayoutStyle = {
     display: 'flex',
+    flexDirection: {
+        xs: 'column',
+        sm: 'column',
+        md: 'row',
+    },
     gap: '1em',
     width: '100%',
 };
 // Estilo para columnas
-const columnLayoutStyle: React.CSSProperties = {
+const columnLayoutStyle = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.5em',
+    gap: '1em',
     width: '100%',
+    border: '2px solid',
+    borderColor: '#485b6fff',
+    borderRadius: '8px',
+    background: '#ffffff10',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: '1em',
+    marginBottom: '4em',
 };
 // Estilo para grid (2 columnas)
-const gridLayoutStyle: React.CSSProperties = {
+const gridLayoutStyle = {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gap: '1em',
@@ -49,35 +62,35 @@ export const checkboxGrid3Style = {
 
 // Componentes para secciones con diferentes layouts
 // Componente para sección en fila
-export const RowSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
+export const RowSection = ({ title, children, border }: { title: string, children: React.ReactNode, border: boolean }) => (
+    <Box sx={border ? columnLayoutStyle : undefined}>
+        <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
-        </h3>
-        <div style={rowLayoutStyle}>
+        </Typography>
+        <Box sx={rowLayoutStyle}>
             {children}
-        </div>
-    </div>
+        </Box>
+    </Box>
 );
 // Componente para sección en columna
 export const ColumnSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
+    <Box sx={columnLayoutStyle}>
+        <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
-        </h3>
+        </Typography>
         {children}
-    </div>
+    </Box>
 );
 // Componente para sección en grid
 export const GridSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div style={columnLayoutStyle}>
-        <h3 style={{ margin: 0, padding: 0, fontSize: '1em' }}>
+    <Box sx={columnLayoutStyle}>
+        <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
-        </h3>
-        <div style={gridLayoutStyle}>
+        </Typography>
+        <Box sx={gridLayoutStyle}>
             {children}
-        </div>
-    </div>
+        </Box>
+    </Box>
 );
 
 // Componente de entrada de texto con límite de caracteres
@@ -109,6 +122,51 @@ export const TextInputWithCounter = ({source, label, maxLength=0, multiline = tr
             >
                 {value.length}/{maxLength}
             </Typography>
+        </Box>
+    );
+};
+
+// Componente de botones para múltiples opciones (toggle buttons)
+export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
+    source: string;
+    label: string;
+    choices: { id: string; name: string }[];
+    exclusive?: boolean;
+}) => {
+    const { field } = useInput({ source });
+    
+    return (
+        <Box>
+            <Typography variant="subtitle2" color="textSecondary">{label}</Typography>
+            <ToggleButtonGroup
+                value={field.value}
+                exclusive={exclusive}
+                onChange={(event, newValue) => field.onChange(newValue)}
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        xs: '1fr',
+                        sm: '1fr',
+                        md: 'repeat(auto-fit, minmax(120px, 1fr))',
+                    },
+                    width: {
+                        xs: '100%',
+                        sm: '100%',
+                        md: '60%',
+                    },
+                    marginBottom: '1em',
+                }}
+            >
+                {choices.map((choice) => (
+                    <ToggleButton
+                        key={choice.id}
+                        value={choice.id}
+                        aria-label={choice.name}
+                    >
+                        {choice.name}
+                    </ToggleButton>
+                ))}
+            </ToggleButtonGroup>
         </Box>
     );
 };
@@ -146,4 +204,40 @@ export const listBoxSx = {
         : 'linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)',
     minHeight: '100vh',
     padding: '2em',
+};
+
+// Estilos sx para la sección de evidencias (imágenes)
+export const evidenceBoxSx = {
+    padding: '1em',
+    border: '1px dashed',
+    borderColor: 'primary.main',
+    borderRadius: '4px',
+    backgroundColor: 'background.paper',
+    marginBottom: '2em',
+};
+
+// Estilos sx para acordeones
+export const accordionSx = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    gap: '1em',
+
+    '& .MuiAccordion-root': {
+        background: '#ffffff10',
+        border: '2px solid',
+        borderColor: 'divider',
+        borderRadius: '8px',
+        boxShadow: 'none',
+        '& .MuiAccordionSummary-root': {
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            '&.Mui-expanded': {
+                minHeight: '48px',
+            },
+        },
+        '& .MuiAccordionDetails-root': {
+            padding: '16px',
+        },
+    },
 };

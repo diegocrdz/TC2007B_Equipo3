@@ -25,7 +25,7 @@ import {
     SelectInput,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../componentes";
 import { Typography, Box } from "@mui/material";
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 
@@ -106,7 +106,7 @@ export const NUCreate = () => (
         }}
     >
         <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
-            <RowSection title="Fecha y hora">
+            <RowSection title="Fecha y hora" border={true}>
                 <DateInput required source="fecha" label="Fecha"
                     defaultValue={new Date()} // Fecha actual por defecto
                 />

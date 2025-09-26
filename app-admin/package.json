@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
-    "@mui/x-charts": "^8.11.3",
+    "@mui/x-charts": "^8.12.0",
     "echarts": "^6.0.0",
     "ra-data-json-server": "^5.10.0",
     "ra-language-spanish": "^1.0.0",

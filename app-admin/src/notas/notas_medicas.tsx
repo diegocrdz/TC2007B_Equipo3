@@ -24,11 +24,11 @@ import {
     SimpleShowLayout,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../componentes";
 import { Typography, Box } from "@mui/material";
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 // Opciones para SelectInput
-import { OCURRENCIA_CHOICES } from "./opciones";
+import { OCURRENCIA_CHOICES } from "../opciones";
 
 // Filtros para la lista
 export const NMFilters = [
@@ -115,7 +115,7 @@ export const NMCreate = () => (
     >
         <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
             { /*------------------------------------------------------*/}
-            <RowSection title="Fecha y Hora">
+            <RowSection title="Fecha y Hora" border={true}>
                 <DateInput required source="fecha" label="Fecha"
                     defaultValue={new Date()} // Fecha actual por defecto
                 />
@@ -139,15 +139,12 @@ export const NMCreate = () => (
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
             <ColumnSection title="Ocurrencia">
-                <SelectInput
-                    required
+                <MotivoToggleInput
                     source="ocurrencia"
                     label="Lugar de Ocurrencia"
                     choices={OCURRENCIA_CHOICES}
-                    optionText="name"
-                    optionValue="id"
                 />
-                <TextInput required source="ocurrenciaOtro" label="Otro (especificar)" />
+                <TextInput source="ocurrenciaOtro" label="Otro (especificar)" />
             </ColumnSection>
             <ColumnSection title="Detalles">
                 <TextInput required source="asunto" label="Asunto" />

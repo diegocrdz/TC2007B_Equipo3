@@ -16,6 +16,7 @@ export const Dashboard = () => {
                 sx={{
                     minHeight: '100vh',
                     padding: '1vw',
+                    paddingBottom: '5vh',
                 }}
             >
                 <Box sx={{

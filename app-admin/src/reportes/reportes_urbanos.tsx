@@ -29,11 +29,11 @@ import {
     DateField,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx, evidenceBoxSx } from "../componentes";
 import { Typography, Box } from "@mui/material";
 import EmergencyIcon from '@mui/icons-material/Emergency';
 // Opciones para SelectInput
-import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "./opciones";
+import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "../opciones";
 
 // Filtros para la lista
 export const RUFilters = [
@@ -135,11 +135,11 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
         }}
     >
         <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
-            <RowSection title="Folio y Fecha">
+            <RowSection title="Folio y Fecha" border={true}>
                 <TextInput required source="folio" label="Folio" />
                 <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
             </RowSection>
-            <RowSection title="Turno y Personal">
+            <RowSection title="Turno y Personal" border={true}>
                 <TextInput required source="turno" label="Turno" />
                 <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
             </RowSection>
@@ -152,8 +152,8 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                     optionText="name"
                     optionValue="id"
                 />
+                <TextInput required source="tipoServicio" label="Tipo de Servicio" />
             </ColumnSection>
-            <TextInput required source="tipoServicio" label="Tipo de Servicio" />
             <GridSection title="Horarios de Atención">
                 <DateTimeInput required source="fechaHoraAtencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
                 <NumberInput required source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
@@ -167,7 +167,7 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
-            <RowSection title="Gravedad">
+            <RowSection title="Gravedad" border={true}>
                 <SelectInput
                     required
                     source="gravedad"
@@ -177,7 +177,7 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                     optionValue="id"
                 />
             </RowSection>
-            <RowSection title="Recorrido">
+            <RowSection title="Recorrido" border={true}>
                 <NumberInput required source="kmRecorridos" label="Kilómetros Recorridos" />
             </RowSection>
             <ColumnSection title="Observaciones">
@@ -186,6 +186,7 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                     Evidencias Adicionales
                 </Typography>
                 <ImageInput
+                    sx={evidenceBoxSx}
                     source="evidencia"
                     accept={{ 'image/*': ['.png', '.jpg'] }}
                     maxSize={50000000} // 50 MB
@@ -195,16 +196,20 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                     <ImageField source="src" title="title" />
                 </ImageInput>
             </ColumnSection>
-            <TextInput required source="dictamen" label="Dictamen" />
+            <ColumnSection title="Dictamen">
+                <TextInput required source="dictamen" label="Dictamen" />
+            </ColumnSection>
             <ColumnSection title="Responsables de la Emergencia">
                 <TextInput required source="responsableInmueble" label="Responsable del Inmueble" />
                 <TextInput required source="responsableZona" label="Responsable de la Zona" />
             </ColumnSection>
-            <CheckboxGroupInput sx={checkboxGrid3Style}
-                source="autoridadesParticipantes"
-                label="Autoridades y Dependencias Participantes"
-                choices={AUTORIDADES_CHOICES}
-            />
+            <ColumnSection title="Autoridades y Dependencias Participantes">
+                <CheckboxGroupInput sx={checkboxGrid3Style}
+                    source="autoridadesParticipantes"
+                    label="Autoridades y Dependencias Participantes"
+                    choices={AUTORIDADES_CHOICES}
+                />
+            </ColumnSection>
         </SimpleForm>
     </Create>
 );

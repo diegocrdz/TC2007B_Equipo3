@@ -50,9 +50,12 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     CONDICION_PACIENTE_CHOICES, PRIORIDAD_CHOICES, CONTROL_CERVICAL_CHOICES,
     ASISTENCIA_VENTILATORIA_CHOICES, VIA_VENOSAS_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
-} from "./opciones";
+} from "../opciones";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style,
+    TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput,
+    evidenceBoxSx, accordionSx
+} from "../componentes";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 // Filtros para la lista
@@ -137,7 +140,7 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
         <TabbedForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Datos Servicio">
-                <RowSection title="Folio y Fecha">
+                <RowSection title="Folio y Fecha" border={true}>
                     <TextInput required source="folio" label="Folio" />
                     <DateInput required source="fecha" label="Fecha"
                         defaultValue={new Date()} // Fecha actual por defecto
@@ -159,13 +162,10 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TextInput required source="nombreMedico" label="Nombre médico" />
                 </ColumnSection>
                 <ColumnSection title="Motivo de ocurrencia">
-                    <SelectInput
-                        required
+                    <MotivoToggleInput
                         source="motivo"
-                        label="Motivo de ocurrencia"
+                        label="Motivo"
                         choices={MOTIVO_CHOICES}
-                        optionText="name"
-                        optionValue="id"
                     />
                 </ColumnSection>
                 <ColumnSection title="Ubicación">
@@ -178,30 +178,28 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
                 </ColumnSection>
                 <ColumnSection title="Lugar de Ocurrencia">
-                    <SelectInput
-                        required
+                    <MotivoToggleInput
                         source="lugarOcurrencia"
-                        label="Lugar de ocurrencia"
+                        label="Lugar de Ocurrencia"
                         choices={OCURRENCIA_CHOICES}
-                        optionText="name"
-                        optionValue="id"
                     />
                     <TextInput source="lugarOcurrenciaOtro" label="Otro (especificar)" />
                 </ColumnSection>
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Control">
-                <TextInput source="control.numAmbulancia" label="Número de ambulancia" />
-                <TextInput source="control.operador" label="Operador" />
-                <TextInput source="control.tum" label="T.U.M." />
-                <TextInput source="control.socorrista" label="Socorrista" />
-                <TextInput source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
+                <ColumnSection title="">
+                    <TextInput source="control.numAmbulancia" label="Número de ambulancia" />
+                    <TextInput source="control.operador" label="Operador" />
+                    <TextInput source="control.tum" label="T.U.M." />
+                    <TextInput source="control.socorrista" label="Socorrista" />
+                    <TextInput source="control.helicopteroMatricula" label="Helicóptero (matrícula)" />
+                </ColumnSection>
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/}
             <TabbedForm.Tab label="Avanzado">
                 <Box sx={{
-                    marginBottom: '1em',
-                    width: '100%',
+                    ...accordionSx,
                 }}>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -210,14 +208,16 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <SelectInput
-                                source="paciente.sexo"
-                                label="Sexo"
-                                choices={SEXO_CHOICES}
-                                optionText="name"
-                                optionValue="id"
-                            />
-                            <NumberInput source="paciente.edad" label="Edad" />
+                            <ColumnSection title="Datos Principales">
+                                <SelectInput
+                                    source="paciente.sexo"
+                                    label="Sexo"
+                                    choices={SEXO_CHOICES}
+                                    optionText="name"
+                                    optionValue="id"
+                                />
+                                <NumberInput source="paciente.edad" label="Edad" />
+                            </ColumnSection>
                             <ColumnSection title="Ubicación">
                                 <TextInput source="paciente.domicilio" label="Domicilio" />
                                 <TextInput source="paciente.colonia" label="Colonia o Comunidad" />
@@ -240,15 +240,15 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             <ColumnSection title="Datos de la madre">
                                 <TextInput source="parto.semanas" label="Semanas de gesta" />
                                 <TimeInput source="parto.horaContracciones" label="Hora de inicio de contracciones" />
+                                <RowSection title="" border={false}>
+                                    <TextInput source="parto.frecuencia" label="Frecuencia" />
+                                    <TextInput source="parto.duracion" label="Duración" />
+                                </RowSection>
                             </ColumnSection>
-                            <RowSection title="">
-                                <TextInput source="parto.frecuencia" label="Frecuencia" />
-                                <TextInput source="parto.duracion" label="Duración" />
-                            </RowSection>
                             <ColumnSection title="Datos post-parto y del recién nacido">
                                 <TimeInput source="parto.horaNacimiento" label="Hora de nacimiento" />
                                 <TextInput source="parto.placenta" label="Placenta expulsada" />
-                                <RowSection title="">
+                                <RowSection title="" border={false}>
                                     <SelectInput
                                         source="parto.producto"
                                         label="Producto"
@@ -264,14 +264,16 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                         optionValue="id"
                                     />
                                 </RowSection>
-                                <ColumnSection title="Puntaje de APGAR">
-                                    <NumberInput source="parto.edadGestacional" label="Edad gestacional" />
+                            </ColumnSection>
+                            <ColumnSection title="Puntaje de APGAR">
+                                <NumberInput source="parto.edadGestacional" label="Edad gestacional" />
+                                <RowSection title="" border={false}>
                                     <NumberInput source="parto.apgar1min" label="1 minuto" />
                                     <NumberInput source="parto.apgar5min" label="5 minutos" />
                                     <NumberInput source="parto.apgar10min" label="10 minutos" />
                                     <NumberInput source="parto.apgar15min" label="15 minutos" />
                                     <NumberInput source="parto.apgar20min" label="20 minutos" />
-                                </ColumnSection>
+                                </RowSection>
                             </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
@@ -282,55 +284,65 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="agente.causal"
-                                label="Agente Causal"
-                                choices={AGENTE_CHOICES}
-                            />
-                            <TextInput source="agente.especificar" label="Otro (Especifique)" />
-                            <ColumnSection title="Accidente Automovilístico">
+                            <ColumnSection title="Datos del accidente">
                                 <CheckboxGroupInput sx={checkboxGrid3Style}
+                                    source="agente.causal"
+                                    label="Agente Causal"
+                                    choices={AGENTE_CHOICES}
+                                />
+                                <TextInput source="agente.especificar" label="Otro (Especifique)" />
+                            </ColumnSection>
+                            <ColumnSection title="Accidente Automovilístico">
+                                <MotivoToggleInput
                                     source="accidente.tipo"
                                     label="Tipo de accidente"
                                     choices={TIPO_ACCIDENTE_CHOICES}
+                                    exclusive={false}
                                 />
-                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                <MotivoToggleInput
                                     source="accidente.impacto"
                                     label="Impacto"
                                     choices={IMPACTO_CHOICES}
+                                    exclusive={false}
                                 />
                                 <TextInput source="accidente.cms" label="CMS" />
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="accidente.parabrisas"
                                     label="Parabrisas"
                                     choices={PARABRISAS_CHOICES}
+                                    exclusive={false}
                                 />
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="accidente.volante"
                                     label="Volante"
                                     choices={VOLANTE_CHOICES}
+                                    exclusive={false}
                                 />
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="accidente.bolsa"
                                     label="Bolsa de aire"
                                     choices={SI_NO_CHOICES}
+                                    exclusive={true}
                                 />
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="accidente.cinturon"
                                     label="Cinturón de seguridad"
                                     choices={CINTURON_CHOICES}
+                                    exclusive={true}
                                 />
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="accidente.dentroVehiculo"
                                     label="Dentro del vehículo"
                                     choices={DENTRO_VEHICULO_CHOICES}
+                                    exclusive={true}
                                 />
                             </ColumnSection>
                             <ColumnSection title="Atropellado">
-                                <SelectInput
+                                <MotivoToggleInput
                                     source="atropellado.vehiculo"
                                     label="Tipo de vehículo"
                                     choices={ATROPELLADO_CHOICES}
+                                    exclusive={false}
                                 />
                             </ColumnSection>
                         </AccordionDetails>
@@ -342,16 +354,18 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="causaClinica.origenProbable"
-                                label="Origen Probable"
-                                choices={ORIGEN_PROBABLE_CHOICES}
-                            />
-                            <TextInput source="causaClinica.especifique" label="Otro (Especifique)" />
-                            <RowSection title="Frecuencia">
-                                <TextInput source="causaClinica.primeraVez" label="1.ª vez" />
-                                <TextInput source="causaClinica.subsecuente" label="Subsecuente" />
-                            </RowSection>
+                            <ColumnSection title="">
+                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                    source="causaClinica.origenProbable"
+                                    label="Origen Probable"
+                                    choices={ORIGEN_PROBABLE_CHOICES}
+                                />
+                                <TextInput source="causaClinica.especifique" label="Otro (Especifique)" />
+                                <RowSection title="Frecuencia" border={false}>
+                                    <TextInput source="causaClinica.primeraVez" label="1.ª vez" />
+                                    <TextInput source="causaClinica.subsecuente" label="Subsecuente" />
+                                </RowSection>
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -361,61 +375,63 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <SelectInput
-                                source="evaluacionInicial.nivelConsciencia"
-                                label="Nivel de Consciencia"
-                                choices={NIVEL_CONSCIENCIA_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.deglucion"
-                                label="Deglución"
-                                choices={DEGLUCION_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.viaAerea"
-                                label="Vía Aérea"
-                                choices={VIA_AEREA_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.ventilacion"
-                                label="Ventilación"
-                                choices={VENTILACION_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.auscultacion"
-                                label="Auscultación"
-                                choices={AUSCULTACION_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.hemitorax"
-                                label="Hemitórax"
-                                choices={HEMITORAX_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.sitio"
-                                label="Sitio"
-                                choices={SITIO_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.presenciaPulsos"
-                                label="Presencia de Pulsos"
-                                choices={PRESENCIA_PULSOS_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.calidad"
-                                label="Calidad"
-                                choices={CALIDAD_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.piel"
-                                label="Piel"
-                                choices={PIEL_CHOICES}
-                            />
-                            <SelectInput
-                                source="evaluacionInicial.caracteristicas"
-                                label="Características"
-                                choices={CARACTERISTICAS_CHOICES}
-                            />
+                            <ColumnSection title="Control Cervical">
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.nivelConsciencia"
+                                    label="Nivel de Consciencia"
+                                    choices={NIVEL_CONSCIENCIA_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.deglucion"
+                                    label="Deglución"
+                                    choices={DEGLUCION_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.viaAerea"
+                                    label="Vía Aérea"
+                                    choices={VIA_AEREA_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.ventilacion"
+                                    label="Ventilación"
+                                    choices={VENTILACION_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.auscultacion"
+                                    label="Auscultación"
+                                    choices={AUSCULTACION_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.hemitorax"
+                                    label="Hemitórax"
+                                    choices={HEMITORAX_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.sitio"
+                                    label="Sitio"
+                                    choices={SITIO_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.presenciaPulsos"
+                                    label="Presencia de Pulsos"
+                                    choices={PRESENCIA_PULSOS_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.calidad"
+                                    label="Calidad"
+                                    choices={CALIDAD_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.piel"
+                                    label="Piel"
+                                    choices={PIEL_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evaluacionInicial.caracteristicas"
+                                    label="Características"
+                                    choices={CARACTERISTICAS_CHOICES}
+                                />
+                            </ColumnSection>
                             <ColumnSection title="Observaciones Adicionales">
                                 <TextInputWithCounter
                                     source="evaluacionInicial.observaciones"
@@ -434,45 +450,48 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <ImageInput
-                                source="evidencia"
-                                accept={{ 'image/*': ['.png', '.jpg'] }}
-                                maxSize={50000000} // 50 MB
-                                label="Exploración física"
-                            >
-                                <ImageField source="src" title="title" />
-                            </ImageInput>
-                            <ArrayInput source="evalSec.signosVitales" label="Signos Vitales y monitoreo">
-                                <SimpleFormIterator inline>
-                                    <TimeInput source="hora" label="Hora" />
-                                    <TextInput source="fr" label="FR" />
-                                    <TextInput source="fc" label="FC" />
-                                    <TextInput source="tas" label="TAS" />
-                                    <TextInput source="tad" label="TAD" />
-                                    <TextInput source="sao2" label="SaO2" />
-                                    <TextInput source="temp" label="Temp" />
-                                    <TextInput source="glucosa" label="Glucosa" />
-                                    <Typography variant="body1">NEURO TEST</Typography>
-                                    <TextInput source="a" label="A" />
-                                    <TextInput source="v" label="V" />
-                                    <TextInput source="d" label="D" />
-                                    <TextInput source="i" label="I" />
-                                </SimpleFormIterator>
-                            </ArrayInput>
-                            <TextInput source="evalSec.alergias" label="Alergias" />
-                            <TextInput source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
-                            <TextInput source="evalSec.padecimientos" label="Padecimientos cirugías" />
-                            <TextInput source="evalSec.ultimaComida" label="La última comida" />
-                            <SelectInput
-                                source="evalSec.condicion"
-                                label="Condición del paciente"
-                                choices={CONDICION_PACIENTE_CHOICES}
-                            />
-                            <SelectInput
-                                source="evalSec.prioridad"
-                                label="Prioridad"
-                                choices={PRIORIDAD_CHOICES}
-                            />
+                            <ColumnSection title="">
+                                <ImageInput
+                                    sx={evidenceBoxSx}
+                                    source="evidencia"
+                                    accept={{ 'image/*': ['.png', '.jpg'] }}
+                                    maxSize={50000000} // 50 MB
+                                    label="Exploración física"
+                                >
+                                    <ImageField source="src" title="title" />
+                                </ImageInput>
+                                <ArrayInput source="evalSec.signosVitales" label="Signos Vitales y monitoreo">
+                                    <SimpleFormIterator inline>
+                                        <TimeInput source="hora" label="Hora" />
+                                        <TextInput source="fr" label="FR" />
+                                        <TextInput source="fc" label="FC" />
+                                        <TextInput source="tas" label="TAS" />
+                                        <TextInput source="tad" label="TAD" />
+                                        <TextInput source="sao2" label="SaO2" />
+                                        <TextInput source="temp" label="Temp" />
+                                        <TextInput source="glucosa" label="Glucosa" />
+                                        <Typography variant="body1">NEURO TEST</Typography>
+                                        <TextInput source="a" label="A" />
+                                        <TextInput source="v" label="V" />
+                                        <TextInput source="d" label="D" />
+                                        <TextInput source="i" label="I" />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
+                                <TextInput source="evalSec.alergias" label="Alergias" />
+                                <TextInput source="evalSec.medicamentos" label="Medicamentos que está ingiriendo" />
+                                <TextInput source="evalSec.padecimientos" label="Padecimientos cirugías" />
+                                <TextInput source="evalSec.ultimaComida" label="La última comida" />
+                                <MotivoToggleInput
+                                    source="evalSec.condicion"
+                                    label="Condición del paciente"
+                                    choices={CONDICION_PACIENTE_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="evalSec.prioridad"
+                                    label="Prioridad"
+                                    choices={PRIORIDAD_CHOICES}
+                                />
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -482,11 +501,13 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextInput source="traslado.hospital" label="Hospital" />
-                            <TextInput source="traslado.doctor" label="Doctor" />
-                            <TextInput source="traslado.cru" label="Folio CRU" />
-                            <TextInput source="traslado.nombre" label="Nombre" />
-                            <TextInput source="traslado.firma" label="Firma" />
+                            <ColumnSection title="">
+                                <TextInput source="traslado.hospital" label="Hospital" />
+                                <TextInput source="traslado.doctor" label="Doctor" />
+                                <TextInput source="traslado.cru" label="Folio CRU" />
+                                <TextInput source="traslado.nombre" label="Nombre" />
+                                <TextInput source="traslado.firma" label="Firma" />
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -496,50 +517,52 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <SelectInput
-                                source="tratamiento.viaAerea"
-                                label="Vía aérea"
-                                choices={VIA_AEREA_CHOICES}
-                            />
-                            <SelectInput
-                                source="tratamiento.controlCervical"
-                                label="Control cervical"
-                                choices={CONTROL_CERVICAL_CHOICES}
-                            />
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="tratamiento.asistenciaVentilatoria"
-                                label="Asistencia ventilatoria"
-                                choices={ASISTENCIA_VENTILATORIA_CHOICES}
-                            />
-                            <ArrayInput source="tratamiento.medicacion" label="Medicación administrada">
-                                <SimpleFormIterator inline>
-                                    <TimeInput source="hora" label="Hora" />
-                                    <TextInput source="medicamento" label="Medicamento" />
-                                    <TextInput source="dosis" label="Dosis" />
-                                    <TextInput source="via" label="Vía administración" />
-                                </SimpleFormIterator>
-                            </ArrayInput>
-                            <TextInput source="tratamiento.doctorTratante" label="Doctor Tratante" />
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="tratamiento.controlHemorragias"
-                                label="Control de hemorragias"
-                                choices={CONTROL_HEMORRAGIAS_CHOICES}
-                            />
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="tratamiento.viasVenosas.soluciones"
-                                label="Vías venosas y Tipo de solución"
-                                choices={VIA_VENOSAS_CHOICES}
-                            />
-                            <RowSection title="Detalles Vía Venosa">
-                                <NumberInput source="tratamiento.viasVenosas.linea" label="Línea IV #" />
-                                <NumberInput source="tratamiento.viasVenosas.cateter" label="Catéter #" />
-                                <NumberInput source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
-                            </RowSection>
-                            <CheckboxGroupInput sx={checkboxGrid3Style}
-                                source="tratamiento.atencionBasica"
-                                label="Atención básica"
-                                choices={ATENCION_BASICA_CHOICES}
-                            />
+                            <ColumnSection title="">
+                                <MotivoToggleInput
+                                    source="tratamiento.viaAerea"
+                                    label="Vía aérea"
+                                    choices={VIA_AEREA_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="tratamiento.controlCervical"
+                                    label="Control cervical"
+                                    choices={CONTROL_CERVICAL_CHOICES}
+                                />
+                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                    source="tratamiento.asistenciaVentilatoria"
+                                    label="Asistencia ventilatoria"
+                                    choices={ASISTENCIA_VENTILATORIA_CHOICES}
+                                />
+                                <ArrayInput source="tratamiento.medicacion" label="Medicación administrada">
+                                    <SimpleFormIterator inline>
+                                        <TimeInput source="hora" label="Hora" />
+                                        <TextInput source="medicamento" label="Medicamento" />
+                                        <TextInput source="dosis" label="Dosis" />
+                                        <TextInput source="via" label="Vía administración" />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
+                                <TextInput source="tratamiento.doctorTratante" label="Doctor Tratante" />
+                                <MotivoToggleInput
+                                    source="tratamiento.controlHemorragias"
+                                    label="Control de hemorragias"
+                                    choices={CONTROL_HEMORRAGIAS_CHOICES}
+                                />
+                                <MotivoToggleInput
+                                    source="tratamiento.viasVenosas.soluciones"
+                                    label="Vías venosas y Tipo de solución"
+                                    choices={VIA_VENOSAS_CHOICES}
+                                />
+                                <RowSection title="Detalles Vía Venosa" border={false}>
+                                    <NumberInput source="tratamiento.viasVenosas.linea" label="Línea IV #" />
+                                    <NumberInput source="tratamiento.viasVenosas.cateter" label="Catéter #" />
+                                    <NumberInput source="tratamiento.viasVenosas.cantidad" label="Cantidad" />
+                                </RowSection>
+                                <MotivoToggleInput
+                                    source="tratamiento.atencionBasica"
+                                    label="Atención básica"
+                                    choices={ATENCION_BASICA_CHOICES}
+                                />
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -549,13 +572,15 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextInputWithCounter
-                                source="observaciones"
-                                label="Observaciones"
-                                maxLength={1000}
-                                multiline
-                                rows={3}
-                            />
+                            <ColumnSection title="">
+                                <TextInputWithCounter
+                                    source="observaciones"
+                                    label="Observaciones"
+                                    maxLength={1000}
+                                    multiline
+                                    rows={3}
+                                />
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -565,14 +590,16 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TextInput
-                                source="ministerioPublico.sello"
-                                label="Sello Ministerio Público Notificado"
-                            />
-                            <TextInput
-                                source="ministerioPublico.funcionario"
-                                label="Nombre y firma quien recibe"
-                            />
+                            <ColumnSection title="">
+                                <TextInput
+                                    source="ministerioPublico.sello"
+                                    label="Sello Ministerio Público Notificado"
+                                />
+                                <TextInput
+                                    source="ministerioPublico.funcionario"
+                                    label="Nombre y firma quien recibe"
+                                />
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -587,18 +614,21 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                 <TextInput source="datosLegales.numeroUnidad" label="Número de Unidad" />
                                 <TextInput source="datosLegales.numeroOficiales" label="Número de los Oficiales" />
                             </ColumnSection>
-                            <ArrayInput source="datosLegales.vehiculosInvolucrados" label="Vehículos involucrados">
-                                <SimpleFormIterator inline>
-                                    <TextInput source="tipo" label="Tipo y marca" />
-                                    <TextInput source="placas" label="Placas" />
-                                </SimpleFormIterator>
-                            </ArrayInput>
+                            <ColumnSection title="Vehículos Involucrados">
+                                <ArrayInput source="datosLegales.vehiculosInvolucrados" label="Vehículos involucrados">
+                                    <SimpleFormIterator inline>
+                                        <TextInput source="tipo" label="Tipo y marca" />
+                                        <TextInput source="placas" label="Placas" />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
+                            </ColumnSection>
                         </AccordionDetails>
                     </Accordion>
                     <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                         Evidencias Adicionales
                     </Typography>
                     <ImageInput
+                        sx={evidenceBoxSx}
                         label="Cargar imágenes"
                         source="evidencia"
                         accept={{ 'image/*': ['.png', '.jpg'] }}

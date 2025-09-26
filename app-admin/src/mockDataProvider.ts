@@ -8,7 +8,7 @@ const data: DataStore = {
     reportes_medicos: [
         {
             id: 1,
-            usuarioId: 1,
+            usuarioId: 3,
             // Datos del Servicio
             folio: "RM-2024-001",
             fecha: "2024-03-15",
@@ -25,7 +25,7 @@ const data: DataStore = {
             nombreMedico: "Dra. Ana Patricia Hernández",
             motivo: "accidente_trafico",
             motivoOtro: "",
-            lugarOcurrencia: "domicilio_particular",
+            lugarOcurrencia: "trabajo",
             ubicacion: {
                 calle: "Av. Insurgentes Sur",
                 numExt: "1234",
@@ -227,6 +227,29 @@ const data: DataStore = {
                 title: "Evidencia fotográfica del incidente"
             }
         },
+        {
+            id: 2,
+            usuarioId: 4,
+            lugarOcurrencia: "transporte_publico",
+            paciente: {
+                edad: 15,
+            },
+            evalSec: {
+                prioridad: "Media"
+            },
+        },
+        {
+            id: 3,
+            usuarioId: 5,
+            lugarOcurrencia: "escuela",
+            paciente: {
+                edad: 40,
+                sexo: "femenino"
+            },
+            evalSec: {
+                prioridad: "Media"
+            },
+        },
     ],
     notas_medicas: [
         {
@@ -336,9 +359,10 @@ const data: DataStore = {
     ],
     usuarios: [
         { id: 1, usuario: "admin", contrasena: "123", rol: "admin" },
-        { id: 2, usuario: "jefe_turno", contrasena: "123", rol: "jefe" },
-        { id: 3, usuario: "paramedico", contrasena: "123", rol: "paramedico" },
-        { id: 4, usuario: "urbano", contrasena: "123", rol: "urbano" },
+        { id: 2, usuario: "jefe_turno", contrasena: "123", rol: "jefe", turno: 1 },
+        { id: 3, usuario: "paramedico", contrasena: "123", rol: "paramedico", turno: 1 },
+        { id: 4, usuario: "urbano", contrasena: "123", rol: "urbano", turno: 2 },
+        { id: 5, usuario: "urbano2", contrasena: "123", rol: "urbano", turno: 3 },
     ],
 };
 

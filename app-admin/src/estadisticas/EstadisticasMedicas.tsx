@@ -2,12 +2,12 @@
     Página de Estadísticas Médicas
 */
 
-import { Box, Typography, Card, CardContent } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
 import { listBoxSx } from "../componentes";
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 // Gráficas
-import { DatosIniciales } from "./GraficasMedicas";
+import { GraficasMedicas } from "./GraficasMedicas";
 
 export const EstadisticasMedicas = () => {
     const { isPending, permissions } = usePermissions();
@@ -43,20 +43,9 @@ export const EstadisticasMedicas = () => {
                 </Typography>
             </Box>
             
-            <Card
-                sx={{
-                    margin: '20px 0',
-                    padding: '1em',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    border: '2px solid',
-                    borderColor: '#ab8dd0ff',
-                }}
-            >
-                <CardContent>
-                    <DatosIniciales />
-                </CardContent>
-            </Card>
+            <Box sx={{ marginTop: '2em'}}>
+                <GraficasMedicas />
+            </Box>
         </Box>
     );
 };

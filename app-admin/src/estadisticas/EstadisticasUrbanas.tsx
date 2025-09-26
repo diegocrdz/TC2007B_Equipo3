@@ -38,23 +38,12 @@ export const EstadisticasUrbanas = () => {
             >
                 <ShowChartIcon />
                 <Typography variant="h4">
-                    Estadísticas Médicas
+                    Estadísticas Urbanas
                 </Typography>
             </Box>
             
-            <Card
-                sx={{
-                    margin: '20px 0',
-                    padding: '1em',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    border: '2px solid',
-                    borderColor: '#5e9bc6ff',
-                }}
-            >
-                <CardContent>
-                </CardContent>
-            </Card>
+            <Box sx={{ marginTop: '2em'}}>
+            </Box>
         </Box>
     );
 };

@@ -7,32 +7,34 @@ import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 // Funciones rápidas para cada rol
 const functionData = {
     admin: [
         { title: 'Ver reportes médicos', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
         { title: 'Ver reportes urbanos', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
-        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
-        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <StickyNote2Icon fontSize="large" /> },
     ],
     jefe: [
         { title: 'Ver reportes médicos', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
         { title: 'Ver reportes urbanos', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
-        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
-        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver notas médicas', to: '/notas_medicas', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver notas urbanas', to: '/notas_urbanas', icon: <StickyNote2Icon fontSize="large" /> },
     ],
     paramedico: [
-        { title: 'Crear reporte', to: '/reportes_medicos/create', icon: <LocalHospitalIcon fontSize="large" /> },
-        { title: 'Crear nota', to: '/notas_medicas/create', icon: <StickyNote2Icon fontSize="large" /> },
+        { title: 'Crear reporte', to: '/reportes_medicos/create', icon: <AddCircleIcon fontSize="large" /> },
+        { title: 'Crear nota', to: '/notas_medicas/create', icon: <NoteAddIcon fontSize="large" /> },
         { title: 'Ver mis reportes', to: '/reportes_medicos', icon: <LocalHospitalIcon fontSize="large" /> },
         { title: 'Ver mis notas', to: '/notas_medicas', icon: <StickyNote2Icon fontSize="large" /> },
     ],
     urbano: [
-        { title: 'Crear reporte', to: '/reportes_urbanos/create', icon: <EmergencyIcon fontSize="large" /> },
-        { title: 'Crear nota', to: '/notas_urbanas/create', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Crear reporte', to: '/reportes_urbanos/create', icon: <AddCircleIcon fontSize="large" /> },
+        { title: 'Crear nota', to: '/notas_urbanas/create', icon: <NoteAddIcon fontSize="large" /> },
         { title: 'Ver mis reportes', to: '/reportes_urbanos', icon: <EmergencyIcon fontSize="large" /> },
-        { title: 'Ver mis notas', to: '/notas_urbanas', icon: <ContentPasteIcon fontSize="large" /> },
+        { title: 'Ver mis notas', to: '/notas_urbanas', icon: <StickyNote2Icon fontSize="large" /> },
     ],
 };
 
@@ -103,8 +105,8 @@ const AdminFunctionBox = ({ title, to, idx, icon }: { title: string, to: string,
     
     // Colores específicos para funciones administrativas
     const adminColors = {
-        dark: ['#ab8dd0ff', '#5e9bc6ff'],
-        light: ['#9a52a7ff', '#3f6c8fff'] 
+        dark: ['#7cd393ff', '#5e9bc6ff'],
+        light: ['#4ba061ff', '#3f6c8fff'] 
     };
     
     const mode = theme.palette.mode;

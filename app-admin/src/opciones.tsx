@@ -108,8 +108,8 @@ export const ORIGEN_PROBABLE_CHOICES = [
     { id: 'causa_clinica.metabolico', name: 'Metabólico' },
     { id: 'causa_clinica.ginecoobstetrica', name: 'Ginecoobstétrica' },
     { id: 'causa_clinica.respiratorio', name: 'Respiratorio' },
-    { id: 'causa_clinica.otro', name: 'Otro' },
     { id: 'causa_clinica.cognitivoEmocional', name: 'Cognitivo emocional' },
+    { id: 'causa_clinica.otro', name: 'Otro' },
 ];
 
 export const NIVEL_CONSCIENCIA_CHOICES = [

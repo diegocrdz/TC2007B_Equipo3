@@ -3,10 +3,10 @@ import { Route } from "react-router-dom";
 // import {dataProvider} from "./dataProvider";
 import { mockDataProvider } from "./mockDataProvider";
 // Recursos
-import { RMList, RMEdit, RMCreate, RMShow } from "./reportes_medicos";
-import { NMList, NMEdit, NMCreate, NMShow } from "./notas_medicas";
-import { RUList, RUEdit, RUCreate, RUShow } from "./reportes_urbanos";
-import { NUList, NUEdit, NUCreate, NUShow } from "./notas_urbanas";
+import { RMList, RMEdit, RMCreate, RMShow } from "./reportes/reportes_medicos";
+import { NMList, NMEdit, NMCreate, NMShow } from "./notas/notas_medicas";
+import { RUList, RUEdit, RUCreate, RUShow } from "./reportes/reportes_urbanos";
+import { NUList, NUEdit, NUCreate, NUShow } from "./notas/notas_urbanas";
 // Iconos
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
