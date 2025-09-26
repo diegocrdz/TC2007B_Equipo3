@@ -8,6 +8,7 @@ const data: DataStore = {
     reportes_medicos: [
         {
             id: 1,
+            usuarioId: 1,
             // Datos del Servicio
             folio: "RM-2024-001",
             fecha: "2024-03-15",
@@ -23,6 +24,8 @@ const data: DataStore = {
             nombreParamedico: "Dr. Luis Fernando Castro",
             nombreMedico: "Dra. Ana Patricia Hernández",
             motivo: "accidente_trafico",
+            motivoOtro: "",
+            lugarOcurrencia: "domicilio_particular",
             ubicacion: {
                 calle: "Av. Insurgentes Sur",
                 numExt: "1234",
@@ -150,7 +153,7 @@ const data: DataStore = {
                 padecimientos: "Hipertensión arterial sistémica, diagnosticada hace 5 años",
                 ultimaComida: "Desayuno a las 08:00 hrs",
                 condicion: "estable",
-                prioridad: "urgente"
+                prioridad: "Alta"
             },
             
             // Traslado
@@ -330,6 +333,12 @@ const data: DataStore = {
             asunto: "Supervisión de obras públicas",
             observaciones: "Se realizó inspección rutinaria de las obras de pavimentación en Av. Insurgentes entre calles Morelos y Hidalgo. Las obras avanzan según cronograma establecido. Se observó cumplimiento de medidas de seguridad y señalización adecuada. Contratista presenta avance del 65% conforme a lo programado. Se recomienda reforzar la limpieza de escombros al finalizar cada jornada laboral para evitar acumulación de residuos en la vía pública."
         }
+    ],
+    usuarios: [
+        { id: 1, usuario: "admin", contrasena: "123", rol: "admin" },
+        { id: 2, usuario: "jefe_turno", contrasena: "123", rol: "jefe" },
+        { id: 3, usuario: "paramedico", contrasena: "123", rol: "paramedico" },
+        { id: 4, usuario: "urbano", contrasena: "123", rol: "urbano" },
     ],
 };
 

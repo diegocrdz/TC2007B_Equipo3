@@ -1,4 +1,5 @@
-import { Admin, Resource } from "react-admin";
+import { Admin, Resource, CustomRoutes, Authenticated } from "react-admin";
+import { Route } from "react-router-dom";
 // import {dataProvider} from "./dataProvider";
 import { mockDataProvider } from "./mockDataProvider";
 // Recursos
@@ -11,8 +12,13 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 // Dashboard
 import { Dashboard } from "./dashboard/Dashboard";
+// Estadísticas
+import { EstadisticasMedicas } from "./estadisticas/EstadisticasMedicas";
+import { EstadisticasUrbanas } from "./estadisticas/EstadisticasUrbanas";
 // Inicio de sesión
 import { authProvider } from "./authProvider";
 // Idioma
@@ -44,6 +50,15 @@ const AppWrapper = () => {
             <Resource name='notas_medicas' list={NMList} edit={NMEdit} create={NMCreate} show={NMShow} icon={ContentPasteIcon} options={{ label: 'Notas Médicas'}} />
             <Resource name='reportes_urbanos' list={RUList} edit={RUEdit} create={RUCreate} show={RUShow} icon={EmergencyIcon} options={{ label: 'Reportes Urbanos'}} />
             <Resource name='notas_urbanas' list={NUList} edit={NUEdit} create={NUCreate} show={NUShow} icon={StickyNote2Icon} options={{ label: 'Notas Urbanas'}} />
+            
+            {/* Recursos de estadísticas. No cuentan con CRUD ya que solo sirve para mostrarlas en el menú */}
+            <Resource name='estadisticas_medicas' icon={ShowChartIcon} options={{ label: 'Estadísticas Médicas'}} />
+            <Resource name='estadisticas_urbanas' icon={AutoGraphIcon} options={{ label: 'Estadísticas Urbanas'}} />
+            
+            <CustomRoutes>
+                <Route path="/estadisticas_medicas" element={<Authenticated><EstadisticasMedicas /></Authenticated>} />
+                <Route path="/estadisticas_urbanas" element={<Authenticated><EstadisticasUrbanas /></Authenticated>} />
+            </CustomRoutes>
         </Admin>
     );
 };

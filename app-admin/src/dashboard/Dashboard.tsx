@@ -1,16 +1,11 @@
 import { useGetIdentity, usePermissions } from "react-admin";
-import { Box, Card, CardContent, CardHeader } from "@mui/material";
-import { Functions } from "./Functions";
-// Librerías para menús desplegables
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Card, CardHeader } from "@mui/material";
+import { Functions, AdminFunctions } from "./Functions";
 import { Typography } from "@mui/material";
 
 export const Dashboard = () => {
     // Obtener permisos e identidad de usuario
-    const { isPending: isPermPending, permissions } = usePermissions();
+    const { isPending: isPermPending } = usePermissions();
     const { data: identityData, isPending: isIdentityPending } = useGetIdentity();
 
     if (isPermPending || isIdentityPending) { // Ver si los datos están cargando
@@ -50,31 +45,7 @@ export const Dashboard = () => {
                     </Typography>
                 </Box>
                 <Functions />
-                {permissions === 'admin' && // Solo mostrar para admin
-                    <CardContent>
-                        {/* Sección de estadísticas médicas */}
-                        <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography variant="h5">
-                                    Estadísticas Médicas
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            </AccordionDetails>
-                        </Accordion>
-
-                        {/* Sección de estadísticas urbanas */}
-                        <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography variant="h5">
-                                    Estadísticas Urbanas
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            </AccordionDetails>
-                        </Accordion>
-                    </CardContent>
-                } 
+                <AdminFunctions /> 
             </Card>
         )
     }

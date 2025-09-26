@@ -39,6 +39,7 @@ const Logo = () => {
 // Menú personalizado basado en permisos
 export const MyMenu = () => {
 	// Verifica los permisos del usuario para mostrar secciones correspondientes
+	const canAccessAdm = useCanAccess({ resource: 'estadisticas_medicas', action: 'list' }).data;
 	const canAccessMed = useCanAccess({ resource: 'reportes_medicos', action: 'list' }).data;
 	const canAccessUrb = useCanAccess({ resource: 'reportes_urbanos', action: 'list' }).data;
 
@@ -54,6 +55,21 @@ export const MyMenu = () => {
 			<Logo />
 			<SectionTitle>Inicio</SectionTitle>
 			<Menu.DashboardItem />
+			{canAccessAdm && [
+				// Mostrar si el usuario tiene acceso a estadísticas
+				<Menu.ResourceItem
+					key="estadisticas_medicas"
+					name="estadisticas_medicas"
+					title="Estadísticas Médicas"
+					aria-label='Estadísticas Médicas'
+				/>,
+				<Menu.ResourceItem
+					key="estadisticas_urbanas"
+					name="estadisticas_urbanas"
+					title="Estadísticas Urbanas"
+					aria-label='Estadísticas Urbanas'
+				/>
+			]}
 			<Divider />
 
 			{canAccessMed && [

@@ -5,6 +5,8 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 
 // Funciones rápidas para cada rol
 const functionData = {
@@ -34,8 +36,16 @@ const functionData = {
     ],
 };
 
+// Funciones administrativas (solo para administrador)
+const adminFunctionData = {
+    admin: [
+        { title: 'Ver estadísticas médicas', to: '/estadisticas_medicas', icon: <ShowChartIcon fontSize="large" /> },
+        { title: 'Ver estadísticas urbanas', to: '/estadisticas_urbanas', icon: <AutoGraphIcon fontSize="large" /> },
+    ],
+};
+
 // Componente para cada función rápida
-const Function_Box = ({ title, to, idx, icon }: { title: string, to: string, idx: number, icon: any }) => {
+const FunctionBox = ({ title, to, idx, icon }: { title: string, to: string, idx: number, icon: any }) => {
     const redirect = useRedirect();
     const theme = useTheme();
     // Colores para los cuadros
@@ -86,12 +96,66 @@ const Function_Box = ({ title, to, idx, icon }: { title: string, to: string, idx
     );
 };
 
+// Componente para funciones administrativas con colores específicos
+const AdminFunctionBox = ({ title, to, idx, icon }: { title: string, to: string, idx: number, icon: any }) => {
+    const redirect = useRedirect();
+    const theme = useTheme();
+    
+    // Colores específicos para funciones administrativas
+    const adminColors = {
+        dark: ['#ab8dd0ff', '#5e9bc6ff'],
+        light: ['#9a52a7ff', '#3f6c8fff'] 
+    };
+    
+    const mode = theme.palette.mode;
+    const colorArray = mode === 'dark' ? adminColors.dark : adminColors.light;
+    const bgColor = colorArray[idx]; // Obtener el color basado en el índice
+
+    return (
+        <Box
+            onClick={() => redirect(to)}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                border: '2px solid',
+                borderColor: bgColor,
+                borderRadius: 2,
+                padding: 2,
+                minHeight: 120,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                position: 'relative',
+                '&:hover': {
+                    transform: 'translateY(-2px)', // Efecto de elevación
+                    boxShadow: `0 8px 16px ${bgColor}`,
+                },
+            }}
+        >
+            <h3 style={{ color: bgColor, fontWeight: 'bold' }}>{title}</h3>
+            <Box
+                sx={{
+                    color: bgColor,
+                    opacity: 0.7,
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    width: '100%',
+                }}
+            >
+                {icon}
+            </Box>
+        </Box>
+    );
+};
+
 // Contenedor de funciones rápidas
 export const Functions = () => {
     // Obtener los permisos del usuario
     const { isPending, permissions } = usePermissions();
 
-    if (isPending) { // Check if permissions are still loading
+    if (isPending) { // Revisar si los permisos aún se están cargando
         return <div>Esperando permisos...</div>;
     } else {
         // Obtener rol y permisos de usuario
@@ -121,10 +185,51 @@ export const Functions = () => {
                     }}
                 >
                     {functions.map((fn: { title: string; to: string; icon: any }, idx: number) => (
-                        <Function_Box key={idx} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
+                        <FunctionBox key={idx} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
                     ))}
                 </Box>
             </Box>
         );
     }
 }
+
+// Contenedor de funciones administrativas
+export const AdminFunctions = () => {
+    // Obtener los permisos del usuario
+    const { isPending, permissions } = usePermissions();
+
+    if (isPending) { // Revisar si los permisos aún se están cargando
+        return <div>Esperando permisos...</div>;
+    }
+
+    // Solo mostrar para admin
+    if (permissions !== 'admin') {
+        return null;
+    }
+
+    const role = permissions as keyof typeof adminFunctionData;
+    const adminFunctions = adminFunctionData[role];
+
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '0 18px',
+            }}
+        >
+            <h2>Opciones de administración</h2>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '20px',
+                }}
+            >
+                {adminFunctions.map((fn: { title: string; to: string; icon: any }, idx: number) => (
+                    <AdminFunctionBox key={`admin-${idx}`} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
+                ))}
+            </Box>
+        </Box>
+    );
+};

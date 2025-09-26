@@ -52,12 +52,17 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
 } from "./opciones";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar } from "./componentes";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 // Filtros para la lista
 export const RMFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="userId" label="User" reference="users" />,
+    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
+        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
+    </ReferenceInput>,
+    <DateInput source="fecha" label="Fecha" />,
+    <TextInput source="nombrePaciente" label="Nombre paciente" />,
 ]
 
 export const RMList = () => {
@@ -65,8 +70,22 @@ export const RMList = () => {
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
-        // Si el usuario tiene permiso, mostrar filtros
-        <List filters={canAccess ? RMFilters : undefined}>
+        <Box sx={listBoxSx} >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '1em',
+                }}
+            >
+                <LocalHospitalIcon />
+                <Typography variant="h4">
+                    Reportes Médicos
+                </Typography>
+            </Box>
+            
+            <List filters={canAccess ? RMFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />
@@ -75,10 +94,11 @@ export const RMList = () => {
                 <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
                 <DataTable.Col source="nombreMedico" label="Nombre médico" />
                 <DataTable.Col>
-                    <EditButton />
+                <EditButton />
                 </DataTable.Col>
             </DataTable>
-        </List>
+            </List>
+        </Box>
     );
 };
 
@@ -138,11 +158,11 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TextInput required source="nombreParamedico" label="Nombre paramédico" />
                     <TextInput required source="nombreMedico" label="Nombre médico" />
                 </ColumnSection>
-                <ColumnSection title="Motivo del Servicio">
+                <ColumnSection title="Motivo de ocurrencia">
                     <SelectInput
                         required
                         source="motivo"
-                        label="Motivo"
+                        label="Motivo de ocurrencia"
                         choices={MOTIVO_CHOICES}
                         optionText="name"
                         optionValue="id"
@@ -157,16 +177,16 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                     <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
                 </ColumnSection>
-                <ColumnSection title="Motivo del Servicio">
+                <ColumnSection title="Lugar de Ocurrencia">
                     <SelectInput
                         required
-                        source="motivo"
-                        label="Motivo"
+                        source="lugarOcurrencia"
+                        label="Lugar de ocurrencia"
                         choices={OCURRENCIA_CHOICES}
                         optionText="name"
                         optionValue="id"
                     />
-                    <TextInput required source="motivo" label="Otro (especificar)" />
+                    <TextInput source="lugarOcurrenciaOtro" label="Otro (especificar)" />
                 </ColumnSection>
             </TabbedForm.Tab>
             { /*------------------------------------------------------*/}
@@ -611,6 +631,8 @@ export const RMShow = () => (
                 <TextField source="nombreParamedico" label="Nombre paramédico" />
                 <TextField source="nombreMedico" label="Nombre médico" />
                 <TextField source="motivo" label="Motivo" />
+                <TextField source="motivoOtro" label="Otro motivo (especificar)" />
+                <TextField source="lugarOcurrencia" label="Lugar de ocurrencia" />
                 <TextField source="ubicacion.calle" label="Calle" />
                 <TextField source="ubicacion.numExt" label="Entre" />
                 <TextField source="ubicacion.numInt" label="Y" />

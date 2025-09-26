@@ -29,15 +29,27 @@ import {
     DateField,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar } from "./componentes";
-import { Typography } from "@mui/material";
+import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { Typography, Box } from "@mui/material";
+import EmergencyIcon from '@mui/icons-material/Emergency';
 // Opciones para SelectInput
 import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "./opciones";
 
 // Filtros para la lista
 export const RUFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="userId" label="User" reference="users" />,
+    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
+        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
+    </ReferenceInput>,
+    <DateInput source="fecha" label="Fecha" />,
+    <TextInput source="tipoServicio" label="Tipo de Servicio" />,
+    <SelectInput 
+        source="gravedad" 
+        label="Gravedad"
+        choices={GRAVEDAD_CHOICES}
+        optionText="name"
+        optionValue="id"
+    />,
 ]
 
 export const RUList = () => {
@@ -45,8 +57,22 @@ export const RUList = () => {
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
-        // Si el usuario tiene permiso, mostrar filtros
-        <List filters={canAccess ? RUFilters : undefined}>
+        <Box sx={listBoxSx} >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '1em',
+                }}
+            >
+                <EmergencyIcon />
+                <Typography variant="h4">
+                    Reportes Urbanos
+                </Typography>
+            </Box>
+            
+            <List filters={canAccess ? RUFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />
@@ -55,10 +81,11 @@ export const RUList = () => {
                 <DataTable.Col source="personalACargo" label="Personal a Cargo" />
                 <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
                 <DataTable.Col>
-                    <EditButton />
+                <EditButton />
                 </DataTable.Col>
             </DataTable>
-        </List>
+            </List>
+        </Box>
     );
 };
 

@@ -136,3 +136,14 @@ export const MyToolbar = () => (
         <SaveButton label="Guardar" aria-label="Guardar" />
     </Toolbar>
 );
+
+// Estilos sx para la sección de lista de formularios
+export const listBoxSx = {
+    // Diferente fondo según el tema
+    background: (theme) =>
+    theme.palette.mode === 'light'
+        ? 'linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)'
+        : 'linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)',
+    minHeight: '100vh',
+    padding: '2em',
+};

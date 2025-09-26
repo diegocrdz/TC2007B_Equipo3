@@ -22,14 +22,21 @@ import {
     TimeInput,
     SimpleShowLayout,
     DateField,
+    SelectInput,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar } from "./componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { Typography, Box } from "@mui/material";
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 
 // Filtros para la lista
 export const NUFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="userId" label="User" reference="users" />,
+    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
+        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
+    </ReferenceInput>,
+    <DateInput source="fecha" label="Fecha" />,
+    <TextInput source="nombreOperador" label="Nombre Operador" />,
 ]
 
 export const NUList = () => {
@@ -37,18 +44,33 @@ export const NUList = () => {
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
-        // Si el usuario tiene permiso, mostrar filtros
-        <List filters={canAccess ? NUFilters : undefined}>
+        <Box sx={listBoxSx} >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '1em',
+                }}
+            >
+                <StickyNote2Icon />
+                <Typography variant="h4">
+                    Notas Urbanas
+                </Typography>
+            </Box>
+            
+            <List filters={canAccess ? NUFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="fecha" label="Fecha" />
                 <DataTable.Col source="hora" label="Hora" />
                 <DataTable.Col source="nombreOperador" label="Nombre operador" />
                 <DataTable.Col source="asunto" label="Asunto" />
                 <DataTable.Col>
-                    <EditButton />
+                <EditButton />
                 </DataTable.Col>
             </DataTable>
-        </List>
+            </List>
+        </Box>
     );
 };
 

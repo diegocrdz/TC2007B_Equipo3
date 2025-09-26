@@ -24,16 +24,21 @@ import {
     SimpleShowLayout,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter } from "./componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "./componentes";
+import { Typography, Box } from "@mui/material";
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 // Opciones para SelectInput
 import { OCURRENCIA_CHOICES } from "./opciones";
-// Componentes
-import { MyToolbar } from "./componentes";
 
 // Filtros para la lista
 export const NMFilters = [
     <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="userId" label="User" reference="users" />,
+    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
+        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
+    </ReferenceInput>,
+    <DateInput source="fecha" label="Fecha" />,
+    <TextInput source="nombrePaciente" label="Nombre Paciente" />,
+    <TextInput source="nombreMedico" label="Nombre Médico" />,
 ]
 
 export const NMList = () => {
@@ -41,8 +46,22 @@ export const NMList = () => {
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
-        // Si el usuario tiene permiso, mostrar filtros
-        <List filters={canAccess ? NMFilters : undefined}>
+        <Box sx={listBoxSx} >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '1em',
+                }}
+            >
+                <ContentPasteIcon />
+                <Typography variant="h4">
+                    Notas Médicas
+                </Typography>
+            </Box>
+            
+            <List filters={canAccess ? NMFilters : undefined}>
             <DataTable>
                 <DataTable.Col source="fecha" label="Fecha" />
                 <DataTable.Col source="hora" label="Hora" />
@@ -52,10 +71,11 @@ export const NMList = () => {
                 <DataTable.Col source="nombreMedico" label="Nombre médico" />
                 <DataTable.Col source="asunto" label="Asunto" />
                 <DataTable.Col>
-                    <EditButton />
+                <EditButton />
                 </DataTable.Col>
             </DataTable>
-        </List>
+            </List>
+        </Box>
     );
 };
 
