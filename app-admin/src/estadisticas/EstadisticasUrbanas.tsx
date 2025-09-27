@@ -2,7 +2,7 @@
     Página de Estadísticas Urbanas
 */
 
-import { Box, Typography, Card, CardContent } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
 import { listBoxSx } from "../componentes";
 import ShowChartIcon from '@mui/icons-material/ShowChart';

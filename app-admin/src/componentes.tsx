@@ -5,7 +5,7 @@
 import * as React from "react";
 import { useWatch } from "react-hook-form";
 import { TextInput } from "react-admin";
-import { Box, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Typography, ToggleButton, ToggleButtonGroup, Theme } from "@mui/material";
 // Toolbar
 import { Toolbar, SaveButton } from 'react-admin';
 import { useInput } from "ra-core";
@@ -56,7 +56,19 @@ export const checkboxGrid3Style = {
             md: 'repeat(3, 1fr)',
         },
         gap: '0.5em',
-        width: '80%'
+        width: {
+            xs: '100%',
+            sm: '100%',
+            md: '60%',
+        },
+        // Estilo para cada opción
+        '& .MuiFormControlLabel-root': {
+            margin: 0,
+            padding: '0.5em',
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: '4px',
+        },
     }
 };
 
@@ -138,10 +150,14 @@ export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
     return (
         <Box>
             <Typography variant="subtitle2" color="textSecondary">{label}</Typography>
+            {exclusive
+                ? <Typography variant="caption" color="textSecondary">Selecciona una opción</Typography>
+                : <Typography variant="caption" color="textSecondary">Selecciona una o más opciones</Typography>
+            }
             <ToggleButtonGroup
                 value={field.value}
                 exclusive={exclusive}
-                onChange={(event, newValue) => field.onChange(newValue)}
+                onChange={(newValue) => field.onChange(newValue)}
                 sx={{
                     display: 'grid',
                     gridTemplateColumns: {
@@ -155,6 +171,21 @@ export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
                         md: '60%',
                     },
                     marginBottom: '1em',
+                    // Borde para botones
+                    '& .MuiToggleButton-root': {
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        borderRadius: '4px',
+                        padding: '1em',
+                    },
+                    // Fondo para botones seleccionados
+                    '& .MuiToggleButton-root.Mui-selected': {
+                        backgroundColor: 'success.light',
+                        color: 'primary.contrastText',
+                        '&:hover': {
+                            backgroundColor: 'success.main',
+                        },
+                    },
                 }}
             >
                 {choices.map((choice) => (
@@ -198,10 +229,10 @@ export const MyToolbar = () => (
 // Estilos sx para la sección de lista de formularios
 export const listBoxSx = {
     // Diferente fondo según el tema
-    background: (theme) =>
-    theme.palette.mode === 'light'
-        ? 'linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)'
-        : 'linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)',
+    background: (theme: Theme) =>
+        theme.palette.mode === 'light'
+            ? 'linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)'
+            : 'linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)',
     minHeight: '100vh',
     padding: '2em',
 };

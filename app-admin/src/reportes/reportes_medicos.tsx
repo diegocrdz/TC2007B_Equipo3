@@ -24,7 +24,6 @@ import {
     DateInput,
     TimeInput,
     NumberInput,
-    CheckboxGroupInput,
     ArrayInput,
     SimpleFormIterator,
     ImageInput,
@@ -52,7 +51,7 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
 } from "../opciones";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style,
+import { RowSection, ColumnSection, GridSection,
     TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput,
     evidenceBoxSx, accordionSx
 } from "../componentes";
@@ -285,7 +284,7 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="Datos del accidente">
-                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                <MotivoToggleInput
                                     source="agente.causal"
                                     label="Agente Causal"
                                     choices={AGENTE_CHOICES}
@@ -297,7 +296,6 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                     source="accidente.tipo"
                                     label="Tipo de accidente"
                                     choices={TIPO_ACCIDENTE_CHOICES}
-                                    exclusive={false}
                                 />
                                 <MotivoToggleInput
                                     source="accidente.impacto"
@@ -310,31 +308,26 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                     source="accidente.parabrisas"
                                     label="Parabrisas"
                                     choices={PARABRISAS_CHOICES}
-                                    exclusive={false}
                                 />
                                 <MotivoToggleInput
                                     source="accidente.volante"
                                     label="Volante"
                                     choices={VOLANTE_CHOICES}
-                                    exclusive={false}
                                 />
                                 <MotivoToggleInput
                                     source="accidente.bolsa"
                                     label="Bolsa de aire"
                                     choices={SI_NO_CHOICES}
-                                    exclusive={true}
                                 />
                                 <MotivoToggleInput
                                     source="accidente.cinturon"
                                     label="Cinturón de seguridad"
                                     choices={CINTURON_CHOICES}
-                                    exclusive={true}
                                 />
                                 <MotivoToggleInput
                                     source="accidente.dentroVehiculo"
                                     label="Dentro del vehículo"
                                     choices={DENTRO_VEHICULO_CHOICES}
-                                    exclusive={true}
                                 />
                             </ColumnSection>
                             <ColumnSection title="Atropellado">
@@ -342,7 +335,6 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                     source="atropellado.vehiculo"
                                     label="Tipo de vehículo"
                                     choices={ATROPELLADO_CHOICES}
-                                    exclusive={false}
                                 />
                             </ColumnSection>
                         </AccordionDetails>
@@ -355,7 +347,7 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                         </AccordionSummary>
                         <AccordionDetails>
                             <ColumnSection title="">
-                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                <MotivoToggleInput
                                     source="causaClinica.origenProbable"
                                     label="Origen Probable"
                                     choices={ORIGEN_PROBABLE_CHOICES}
@@ -528,10 +520,11 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                                     label="Control cervical"
                                     choices={CONTROL_CERVICAL_CHOICES}
                                 />
-                                <CheckboxGroupInput sx={checkboxGrid3Style}
+                                <MotivoToggleInput
                                     source="tratamiento.asistenciaVentilatoria"
                                     label="Asistencia ventilatoria"
                                     choices={ASISTENCIA_VENTILATORIA_CHOICES}
+                                    exclusive={false}
                                 />
                                 <ArrayInput source="tratamiento.medicacion" label="Medicación administrada">
                                     <SimpleFormIterator inline>

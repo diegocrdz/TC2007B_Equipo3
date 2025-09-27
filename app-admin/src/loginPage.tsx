@@ -1,6 +1,6 @@
 // src/LoginPage.tsx
 import { useState } from "react";
-import { useLogin, useNotify, useStore } from "react-admin";
+import { useLogin, useNotify, useTheme } from "react-admin";
 import {
     Box,
     Paper,
@@ -24,8 +24,8 @@ export const LoginPage = () => {
     const [password, setPassword] = useState("");
 
     // Estado global de tema para la aplicación
-    const [theme, setTheme] = useStore<string>("theme", "dark");
-    const toggleTheme = () => setTheme(theme == "light" ? "dark" : "light");
+    const [theme, setTheme] = useTheme();
+    const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
     // Submit del inicio de sesión
     const handleSubmit = async (e: React.FormEvent) => {
