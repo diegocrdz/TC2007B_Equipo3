@@ -19,8 +19,8 @@ export const OCURRENCIA_CHOICES = [
 ];
 
 export const SEXO_CHOICES = [
-    { id: 'masculino', name: 'MASC' },
-    { id: 'femenino', name: 'FEM' },
+    { id: 'masculino', name: 'Masculino' },
+    { id: 'femenino', name: 'Femenino' },
 ];
 
 export const PRODUCTO_CHOICES = [

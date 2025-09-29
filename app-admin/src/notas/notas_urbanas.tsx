@@ -23,6 +23,7 @@ import {
     SimpleShowLayout,
     DateField,
     SelectInput,
+    NumberInput,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../componentes";
@@ -36,7 +37,8 @@ export const NUFilters = [
         <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
     </ReferenceInput>,
     <DateInput source="fecha" label="Fecha" />,
-    <TextInput source="nombreOperador" label="Nombre Operador" />,
+    <NumberInput source="turno" label="Turno" />,
+    <TextInput source="personalACargo" label="Personal a Cargo" />,
 ]
 
 export const NUList = () => {
@@ -63,7 +65,8 @@ export const NUList = () => {
             <DataTable>
                 <DataTable.Col source="fecha" label="Fecha" />
                 <DataTable.Col source="hora" label="Hora" />
-                <DataTable.Col source="nombreOperador" label="Nombre operador" />
+                <DataTable.Col source="turno" label="Turno" />
+                <DataTable.Col source="personalACargo" label="Personal a Cargo" />
                 <DataTable.Col source="asunto" label="Asunto" />
                 <DataTable.Col>
                 <EditButton />
@@ -91,9 +94,17 @@ export const NUEdit = () => {
             <SimpleForm warnWhenUnsavedChanges>
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
-                <TextInput disabled source="nombreOperador" label="Nombre operador" />
+                <NumberInput disabled source="turno" label="Turno" />
+                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
                 <TextInput disabled source="asunto" label="Asunto" />
-                <TextInput disabled source="observaciones" label="Observaciones" multiline fullWidth rows={3} />
+                <TextInputWithCounter
+                    disabled
+                    source="observaciones"
+                    label="Observaciones"
+                    maxLength={500}
+                    multiline
+                    rows={3}
+                />
             </SimpleForm>
         </Edit>
     );
@@ -114,8 +125,11 @@ export const NUCreate = () => (
                     defaultValue={new Date()} // Hora actual por defecto
                 />
             </RowSection>
+            <RowSection title="Turno y Personal" border={true}>
+                <NumberInput required source="turno" label="Turno" />
+                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+            </RowSection>
             <ColumnSection title="Detalles">
-                <TextInput required source="nombreOperador" label="Nombre operador" />
                 <TextInput required source="asunto" label="Asunto" />
                 <TextInputWithCounter
                     required
@@ -131,13 +145,20 @@ export const NUCreate = () => (
 );
 
 export const NUShow = () => (
-    <Show>
+    <Show sx={{ marginBottom: '5em', }} >
         <SimpleShowLayout>
-            <DateField source="fecha" label="Fecha" />
-            <TextField source="hora" label="Hora" />
-            <TextField source="nombreOperador" label="Nombre operador" />
-            <TextField source="asunto" label="Asunto" />
-            <TextField source="observaciones" label="Observaciones" />
+            <RowSection title="Fecha y hora" border={true} labeled={true}>
+                <DateField source="fecha" label="Fecha" />
+                <TextField source="hora" label="Hora" />
+            </RowSection>
+            <RowSection title="Turno y Personal" border={true} labeled={true}>
+                <TextField source="turno" label="Turno" />
+                <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+            </RowSection>
+            <ColumnSection title="Detalles" labeled={true}>
+                <TextField source="asunto" label="Asunto" />
+                <TextField source="observaciones" label="Observaciones" />
+            </ColumnSection>
         </SimpleShowLayout>
     </Show>
 );

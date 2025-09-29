@@ -86,6 +86,7 @@ function buildThemes(settings: AccSettings) {
             MuiCard: { styleOverrides: { root: { background: "linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)" } } },
             MuiFormControl: { styleOverrides: { root: { backgroundColor: "none" } } },
             MuiAccordion: { styleOverrides: { root: { backgroundColor: "#1b1b1bff" } } },
+            RaToolbar: { styleOverrides: { root: { backgroundColor: "#333f56ff" } } },
         },
     });
 
@@ -102,6 +103,7 @@ function buildThemes(settings: AccSettings) {
             MuiCard: { styleOverrides: { root: { background: "linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)" } } },
             MuiFormControl: { styleOverrides: { root: { backgroundColor: "none" } } },
             MuiAccordion: { styleOverrides: { root: { backgroundColor: "#ffffffcc" } } },
+            RaToolbar: { styleOverrides: { root: { backgroundColor: "#8d9ab4ff" } } },
         },
     });
     

@@ -4,11 +4,20 @@
 
 import * as React from "react";
 import { useWatch } from "react-hook-form";
-import { TextInput } from "react-admin";
-import { Box, Typography, ToggleButton, ToggleButtonGroup, Theme } from "@mui/material";
+import { TextInput, TimeInput, Labeled } from "react-admin";
+import { Box, Typography, ToggleButton, ToggleButtonGroup, Theme, useMediaQuery, TableHead, Button } from "@mui/material";
 // Toolbar
 import { Toolbar, SaveButton } from 'react-admin';
 import { useInput } from "ra-core";
+// Historial de cambios
+import ShortTextIcon from '@mui/icons-material/ShortText';
+import HistoryIcon from '@mui/icons-material/History';
+import { useRecordContext } from "react-admin";
+import { Stack, Divider } from "@mui/material";
+// Tablas
+import { Table, TableContainer, TableRow, TableBody, TableCell } from "@mui/material";
+// Íconos
+import PersonIcon from '@mui/icons-material/Person';
 
 // Estilos para diferentes layouts en las secciones del formulario
 // Estilo para filas
@@ -34,7 +43,7 @@ const columnLayoutStyle = {
     background: '#ffffff10',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     padding: '1em',
-    marginBottom: '4em',
+    marginBottom: '3em',
 };
 // Estilo para grid (2 columnas)
 const gridLayoutStyle = {
@@ -74,45 +83,143 @@ export const checkboxGrid3Style = {
 
 // Componentes para secciones con diferentes layouts
 // Componente para sección en fila
-export const RowSection = ({ title, children, border }: { title: string, children: React.ReactNode, border: boolean }) => (
+export const RowSection = ({ title, children, border, labeled=false }:
+    { title: string; children: React.ReactNode; border: boolean; labeled?: boolean }) => (
     <Box sx={border ? columnLayoutStyle : undefined}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
         </Typography>
         <Box sx={rowLayoutStyle}>
-            {children}
+            {labeled
+                // Si labeled es true, envuelve cada hijo Labeled
+                // Es usado para show, donde los campos no tienen label por defecto
+                ? React.Children.map(children, (child, idx) =>
+                    React.isValidElement(child)
+                        ? <Labeled key={idx}>{child}</Labeled>
+                        : child
+                    )
+                : children
+            }
         </Box>
     </Box>
 );
 // Componente para sección en columna
-export const ColumnSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
+export const ColumnSection = ({ title, children, labeled=false }:
+    { title: string, children: React.ReactNode, labeled?: boolean }) => (
     <Box sx={columnLayoutStyle}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
         </Typography>
-        {children}
+        {labeled
+            // Si labeled es true, envuelve cada hijo Labeled
+            // Es usado para show, donde los campos no tienen label por defecto
+            ? React.Children.map(children, (child, idx) =>
+                React.isValidElement(child)
+                    ? <Labeled key={idx}>{child}</Labeled>
+                    : child
+                )
+            : children
+        }
     </Box>
 );
 // Componente para sección en grid
-export const GridSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
+export const GridSection = ({ title, children, labeled=false }:
+    { title: string, children: React.ReactNode, labeled?: boolean }) => (
     <Box sx={columnLayoutStyle}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
             {title}
         </Typography>
         <Box sx={gridLayoutStyle}>
-            {children}
+            {labeled
+                // Si labeled es true, envuelve cada hijo Labeled
+                // Es usado para show, donde los campos no tienen label por defecto
+                ? React.Children.map(children, (child, idx) =>
+                    React.isValidElement(child)
+                        ? <Labeled key={idx}>{child}</Labeled>
+                        : child
+                    )
+                : children
+            }
         </Box>
     </Box>
 );
 
+// Componente especializado para horarios
+export const TimeGridSection = ({ title, children, icon = "🕐", labeled=false }: { 
+    title: string, 
+    children: React.ReactNode,
+    icon?: string,
+    labeled?: boolean
+}) => (
+    <Box sx={{
+        background: '#ffffff10',
+        border: '2px solid',
+        borderColor: '#485b6fff',
+        borderRadius: '8px',
+        padding: 3,
+        marginBottom: '4em',
+        width: '100%',
+    }}>
+        <Typography variant="h6" sx={{ 
+            color: 'primary.main',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            mb: 3
+        }}>
+            {icon} {title}
+        </Typography>
+        <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+            xs: '1fr',
+            md: '1fr 1fr 1fr'
+            },
+            gap: 2,
+        }}>
+            {React.Children.map(children, (child, index) => (
+                <ColumnSection title="" key={index} labeled={labeled}>
+                    {React.isValidElement(child) ? child : null}
+                </ColumnSection>
+            ))}
+        </Box>
+    </Box>
+);
+
+// Componente TimeInput con icono personalizado
+export const TimeInputWithIcon = ({ 
+    source, 
+    label, 
+    icon, 
+    required = false,
+    ...props 
+}: { 
+    source: string, 
+    label: string, 
+    icon: string,
+    required?: boolean,
+    [key: string]: any
+}) => (
+    <TimeInput 
+        required={required}
+        source={source} 
+        label={`${icon} ${label}`}
+        sx={{ width: '100%' }}
+        {...props}
+    />
+);
+
 // Componente de entrada de texto con límite de caracteres
-export const TextInputWithCounter = ({source, label, maxLength=0, multiline = true, rows, required = false}: {
+export const TextInputWithCounter = (
+    {source, label, maxLength=0, multiline=true, rows, required=false, disabled=false}: {
     source: string;
     label: string;
     maxLength?: number;
     multiline?: boolean;
     rows?: number;
     required?: boolean;
+    disabled?: boolean;
 }) => {
     // Observa el valor del campo para contar caracteres
     const value = useWatch({ name: source }) || "";
@@ -125,6 +232,7 @@ export const TextInputWithCounter = ({source, label, maxLength=0, multiline = tr
                 fullWidth
                 rows={rows}
                 required={required}
+                disabled={disabled}
                 slotProps={{ input: { inputProps: { maxLength } } }}
             />
             <Typography
@@ -157,7 +265,7 @@ export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
             <ToggleButtonGroup
                 value={field.value}
                 exclusive={exclusive}
-                onChange={(newValue) => field.onChange(newValue)}
+                onChange={(event, newValue) => field.onChange(newValue)}
                 sx={{
                     display: 'grid',
                     gridTemplateColumns: {
@@ -202,11 +310,13 @@ export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
     );
 };
 
-// Componente de Toolbar personalizado para formularios
+// Componente de Toolbar personalizado para formularios (Create)
 export const MyToolbar = () => (
     <Toolbar
         sx={{
-            backgroundColor: 'toolbar',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
 
             // Estilos para el botón de guardar
             '& .MuiButton-contained': {
@@ -222,7 +332,20 @@ export const MyToolbar = () => (
             },
         }}
     >
-        <SaveButton label="Guardar" aria-label="Guardar" />
+        <SaveButton label="Guardar" aria-label="Guardar" />  
+        <Button
+            aria-label="Volver arriba"
+            sx={{
+                color: 'info.main',
+                borderColor: 'info.main',
+                '&:hover': {
+                    color: 'info.light',
+                    borderColor: 'info.light',
+                },
+            }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Volver arriba
+        </Button>
     </Toolbar>
 );
 
@@ -272,3 +395,263 @@ export const accordionSx = {
         },
     },
 };
+
+// Componente para mostrar historial de cambios en reportes
+export const PanelHistorialCambios = () => {
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
+    // Obtener el registro actual
+    const registro: any = useRecordContext();
+    if (!registro) {
+        return (
+            <Box sx={{ width: '30%', margin: 0, padding: 0 }}>
+                <Typography variant="subtitle2">
+                    No hay datos disponibles.
+                </Typography>
+            </Box>
+        );
+    }
+
+    // Obtener el historial de cambios del registro
+    const historial = (registro.historialCambios || [])
+        // Crear una copia para no modificar el original
+        .slice()
+        // Ordenar por fecha de cambio ascendente
+        .sort((a: any, b: any) => new Date(a.fechaCambio).getTime() - new Date(b.fechaCambio).getTime());
+
+    return (
+        <Box
+            sx={{
+                width: isSmall ? '100%' : '30%',
+                margin: 0,
+                padding: 0,
+                position: 'sticky',
+                top: 10,
+                alignSelf: 'flex-start',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                marginBottom: isSmall ? 6 : 0,
+                marginLeft: isSmall ? 0 : 2,
+            }}
+        >
+            {/* Resumen del reporte */}
+            <Box 
+                sx={{
+                    background: '#ffffff10',
+                    border: '2px solid',
+                    borderColor: '#485b6fff',
+                    borderRadius: 2,
+                    padding: 2,
+                }}>
+                {/* Título */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <ShortTextIcon fontSize="small" />
+                    <Typography variant="subtitle2" gutterBottom>Resumen</Typography>
+                </Box>
+                {/* Detalles del reporte */}
+                <Typography variant="body2">Folio: {registro.folio}</Typography>
+                <Typography variant="body2">Fecha: {registro.fecha ? new Date(registro.fecha).toLocaleString() : '—'}</Typography>
+            </Box>
+
+            {/* Historial de cambios */}
+            <Box
+                sx={{
+                    background: '#ffffff10',
+                    border: '2px solid',
+                    borderColor: '#485b6fff',
+                    borderRadius: 2,
+                    margin: 0,
+                    padding: 2,
+                }}
+            >
+                {/* Título */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <HistoryIcon fontSize="small" />
+                    <Typography variant="subtitle2">Historial de Cambios</Typography>
+                </Box>
+                {/* Mensaje si no hay cambios */}
+                {historial.length === 0 && (
+                    <Typography variant="caption" color="text.secondary">Sin cambios registrados.</Typography>
+                )}
+                {/* Lista de cambios */}
+                <Stack divider={<Divider />} spacing={1}>
+                    {/* Crea un mapa con cada cambio */}
+                    {historial.map((cambio: any, idx: number) => (
+                        <Box key={idx}>
+                            <Typography variant="caption" sx={{ display: 'block' }}>
+                                {new Date(cambio.fechaCambio).toLocaleString()}
+                            </Typography>
+                            <Typography variant="body2" sx={{ lineHeight: 1.2 }}>
+                                Folio: {cambio.folioAnterior} → {cambio.folioNuevo}
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <PersonIcon fontSize="small" />
+                                <Typography variant="caption" color="text.secondary">
+                                    Usuario ID: {cambio.usuarioId}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    ))}
+                </Stack>
+            </Box>
+        </Box>
+    );
+};
+
+// Versión compacta del panel de historial de cambios
+// Para usar en pantallas pequeñas
+export const CompactoHistorialCambios = () => (
+    <Box sx={{ width: '100%' }}>
+        <Divider
+            sx={{ marginY: 2 }}
+            textAlign="center"
+            children="Historial de Cambios"
+        />
+        <PanelHistorialCambios />
+        <Divider
+            sx={{ marginY: 2 }}
+            textAlign="center"
+            children="Información del Reporte"
+        />
+    </Box>
+);
+
+// Estilos para encabezados y celdas de tablas
+export const tableHeaderSx = { borderColor: 'divider', borderBottom: '2px solid', fontWeight: 'bold' };
+export const tableCellSx = { borderColor: 'divider', borderBottom: '1px solid' };
+
+// Sección de zonas de lesión
+export const ZonasLesion = () => (
+    <Box
+        sx={{
+            width: '100%',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: {
+                xs: 'column',
+                md: 'row',
+            },
+            gap: '1em',
+        }}
+    >
+        <TableContainer
+            component={Box}
+            sx={{
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: '8px',
+                overflow: 'hidden',
+            }}
+        >
+            <Table
+                size="small"
+                aria-label="Tabla de zonas de lesión"
+            >
+                <TableBody>
+                    {[
+                        { numero: 1, nombre: 'Deformidades', codigo: 'D' },
+                        { numero: 2, nombre: 'Contusiones', codigo: 'CCO' },
+                        { numero: 3, nombre: 'Abrasiones', codigo: 'A' },
+                        { numero: 4, nombre: 'Penetraciones', codigo: 'P' },
+                        { numero: 5, nombre: 'Movimiento paradójico', codigo: 'MP' },
+                        { numero: 6, nombre: 'Crepitación', codigo: 'C' },
+                        { numero: 7, nombre: 'Heridas', codigo: 'H' },
+                        { numero: 8, nombre: 'Fracturas', codigo: 'F' },
+                        { numero: 9, nombre: 'Enfisema subcutáneo', codigo: 'ES' },
+                        { numero: 10, nombre: 'Quemaduras', codigo: 'Q' },
+                        { numero: 11, nombre: 'Laceraciones', codigo: 'L' },
+                        { numero: 12, nombre: 'Edema', codigo: 'E' },
+                        { numero: 13, nombre: 'Alteración de sensibilidad', codigo: 'AS' },
+                        { numero: 14, nombre: 'Alteración de movilidad', codigo: 'AM' },
+                        { numero: 15, nombre: 'Dolor', codigo: 'DD' },
+                    ].map((row) => (
+                        <TableRow key={row.codigo} hover>
+                            <TableCell align="center" sx={ tableCellSx }>{row.numero}</TableCell>
+                            <TableCell align="center" sx={ tableCellSx }>{row.nombre}</TableCell>
+                            <TableCell align="center" sx={ tableCellSx }>{row.codigo}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+        <Box
+            sx={{
+                border: '2px solid',
+                borderColor: 'divider',
+                borderRadius: '8px',
+                padding: '1em',
+                backgroundColor: 'background.paper',
+            }}
+        >
+            <Typography variant="caption" color="textSecondary">
+                Cuerpo completo masculino - Vista anterior y posterior
+            </Typography>
+            <Box
+                sx={{ width: '100%' }}
+                component="img"
+                src="/mapa_cuerpo.png"
+                alt="Mapa corporal para seleccionar zonas de lesión"
+                aria-label="Mapa corporal para seleccionar zonas de lesión"
+            />
+            <Typography variant="caption" color="textSecondary" display="block">
+                Diagrama de cuerpo para selección de zonas de lesión (Frontiers, s.f.)
+            </Typography>
+        </Box>
+    </Box>
+);
+
+// Tablas de Glasgow
+export const Glasgow = () => (
+    <TableContainer
+        component={Box}
+        sx={{
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: '8px',
+            overflow: 'hidden',
+        }}
+    >
+        <Table
+            size="small"
+            aria-label="Tabla de zonas de lesión"
+        >
+            <TableHead>
+                <TableRow>
+                    <TableCell align="center" sx={ tableHeaderSx }>Parámetro</TableCell>
+                    <TableCell align="center" sx={ tableHeaderSx }>Descripción</TableCell>
+                    <TableCell align="center" sx={ tableHeaderSx }>Valor</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {[
+                    // Apertura ocular
+                    { param: 'Apertura ocular', desc: 'Espontánea', valor: 4 },
+                    { param: 'Apertura ocular', desc: 'A la voz', valor: 3 },
+                    { param: 'Apertura ocular', desc: 'Al dolor', valor: 2 },
+                    { param: 'Apertura ocular', desc: 'Ninguna', valor: 1 },
+                    // Respuesta verbal
+                    { param: 'Respuesta verbal', desc: 'Orientada', valor: 5 },
+                    { param: 'Respuesta verbal', desc: 'Confusa', valor: 4 },
+                    { param: 'Respuesta verbal', desc: 'Palabras inapropiadas', valor: 3 },
+                    { param: 'Respuesta verbal', desc: 'Sonidos incomprensibles', valor: 2 },
+                    { param: 'Respuesta verbal', desc: 'Ninguna', valor: 1 },
+                    // Respuesta motora
+                    { param: 'Respuesta motora', desc: 'Espontánea, normal', valor: 6 },
+                    { param: 'Respuesta motora', desc: 'Localiza al lacto', valor: 5 },
+                    { param: 'Respuesta motora', desc: 'Localiza al dolor', valor: 4 },
+                    { param: 'Respuesta motora', desc: 'Decorticación', valor: 3 },
+                    { param: 'Respuesta motora', desc: 'Descerebración', valor: 2 },
+                    { param: 'Respuesta motora', desc: 'Ninguna', valor: 1 },
+                ].map((row, idx) => (
+                    <TableRow key={idx} hover>
+                        <TableCell align="center" sx={ tableCellSx }>{row.param}</TableCell>
+                        <TableCell align="center" sx={ tableCellSx }>{row.desc}</TableCell>
+                        <TableCell align="center" sx={ tableCellSx }>{row.valor}</TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
+    </TableContainer>
+);

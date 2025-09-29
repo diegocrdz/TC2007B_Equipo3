@@ -23,7 +23,7 @@ export const Dashboard = () => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        backgroundColor: 'background.paper',
+                        background: '#ffffff10',
                         border: '1px solid',
                         borderColor: 'divider',
                         borderRadius: '8px',

@@ -22,6 +22,7 @@ import {
     DateInput,
     TimeInput,
     SimpleShowLayout,
+    NumberInput,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../componentes";
@@ -37,8 +38,10 @@ export const NMFilters = [
         <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
     </ReferenceInput>,
     <DateInput source="fecha" label="Fecha" />,
-    <TextInput source="nombrePaciente" label="Nombre Paciente" />,
-    <TextInput source="nombreMedico" label="Nombre Médico" />,
+    <NumberInput source="turno" label="Turno" />,
+    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput source="nombrePaciente" label="Nombre paciente" />,
+    <TextInput source="nombreMedico" label="Nombre médico" />,
 ]
 
 export const NMList = () => {
@@ -62,18 +65,20 @@ export const NMList = () => {
             </Box>
             
             <List filters={canAccess ? NMFilters : undefined}>
-            <DataTable>
-                <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="hora" label="Hora" />
-                <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                <DataTable.Col source="asunto" label="Asunto" />
-                <DataTable.Col>
-                <EditButton />
-                </DataTable.Col>
-            </DataTable>
+                <DataTable>
+                    <DataTable.Col source="fecha" label="Fecha" />
+                    <DataTable.Col source="hora" label="Hora" />
+                    <DataTable.Col source="turno" label="Turno" />
+                    <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                    <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                    <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                    <DataTable.Col source="nombreMedico" label="Nombre médico" />
+                    <DataTable.Col source="asunto" label="Asunto" />
+                    <DataTable.Col>
+                    <EditButton />
+                    </DataTable.Col>
+                </DataTable>
             </List>
         </Box>
     );
@@ -96,12 +101,21 @@ export const NMEdit = () => {
             <SimpleForm warnWhenUnsavedChanges>
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
+                <NumberInput disabled source="turno" label="Turno" />
+                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
                 <TextInput disabled source="nombrePaciente" label="Nombre paciente" />
                 <TextInput disabled source="nombreTestigo" label="Nombre testigo" />
                 <TextInput disabled source="nombreParamedico" label="Nombre paramédico" />
                 <TextInput disabled source="nombreMedico" label="Nombre médico" />
                 <TextInput disabled source="asunto" label="Asunto" />
-                <TextInput disabled source="observaciones" label="Observaciones" />
+                <TextInputWithCounter
+                    disabled
+                    source="observaciones"
+                    label="Observaciones"
+                    maxLength={1000}
+                    multiline
+                    rows={3}
+                />
             </SimpleForm>
         </Edit>
     );
@@ -122,6 +136,10 @@ export const NMCreate = () => (
                 <TimeInput required source="hora" label="Hora"
                     defaultValue={new Date()} // Hora actual por defecto
                 />
+            </RowSection>
+            <RowSection title="Turno y Personal" border={true}>
+                <NumberInput required source="turno" label="Turno" />
+                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
             </RowSection>
             <ColumnSection title="Involucrados">
                 <TextInput required source="nombrePaciente" label="Nombre paciente" />
@@ -161,23 +179,40 @@ export const NMCreate = () => (
 );
 
 export const NMShow = () => (
-    <Show>
+    <Show sx={{ marginBottom: '5em' }} >
         <SimpleShowLayout>
-            <TextField source="fecha" label="Fecha" />
-            <TextField source="hora" label="Hora" />
-            <TextField source="nombrePaciente" label="Nombre paciente" />
-            <TextField source="nombreTestigo" label="Nombre testigo" />
-            <TextField source="nombreParamedico" label="Nombre paramédico" />
-            <TextField source="nombreMedico" label="Nombre médico" />
-            <TextField source="ubicacion.calle" label="Calle" />
-            <TextField source="ubicacion.numExt" label="Entre" />
-            <TextField source="ubicacion.numInt" label="Y" />
-            <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
-            <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
-            <TextField source="ocurrencia" label="Lugar de Ocurrencia" />
-            <TextField source="ocurrenciaOtro" label="Otro (especificar)" />
-            <TextField source="asunto" label="Asunto" />
-            <TextField source="observaciones" label="Observaciones" />
+            { /*------------------------------------------------------*/}
+            <RowSection title="Fecha y Hora" border={true} labeled={true}>
+                <TextField source="fecha" label="Fecha" />
+                <TextField source="hora" label="Hora" />
+            </RowSection>
+            <RowSection title="Turno y Personal" border={true} labeled={true}>
+                <TextField source="turno" label="Turno" />
+                <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+            </RowSection>
+            <ColumnSection title="Involucrados" labeled={true}>
+                <TextField source="nombrePaciente" label="Nombre paciente" />
+                <TextField source="nombreTestigo" label="Nombre testigo" />
+                <TextField source="nombreParamedico" label="Nombre paramédico" />
+                <TextField source="nombreMedico" label="Nombre médico" />
+            </ColumnSection>
+            <ColumnSection title="Ubicación" labeled={true}>
+                <TextField source="ubicacion.calle" label="Calle" />
+                <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                    <TextField source="ubicacion.numExt" label="Entre" />
+                    <TextField source="ubicacion.numInt" label="Y" />
+                </div>
+                <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
+                <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
+            </ColumnSection>
+            <ColumnSection title="Ocurrencia" labeled={true}>
+                <TextField source="ocurrencia" label="Lugar de Ocurrencia" />
+                <TextField source="ocurrenciaOtro" label="Otro (especificar)" />
+            </ColumnSection>
+            <ColumnSection title="Detalles" labeled={true}>
+                <TextField source="asunto" label="Asunto" />
+                <TextField source="observaciones" label="Observaciones" />
+            </ColumnSection>
         </SimpleShowLayout>
     </Show>
 );

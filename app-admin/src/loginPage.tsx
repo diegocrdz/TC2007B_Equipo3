@@ -1,17 +1,14 @@
 // src/LoginPage.tsx
-import { useState } from "react";
-import { useLogin, useNotify, useTheme } from "react-admin";
+import { useLogin, useNotify, useTheme, PasswordInput, SimpleForm, TextInput } from "react-admin";
 import {
     Box,
     Paper,
-    TextField,
     Button,
     Typography,
     IconButton,
 } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-
 // Botón de accesibilidad
 import { SwipeableTemporaryDrawer } from "./accMenu";
 
@@ -19,19 +16,14 @@ export const LoginPage = () => {
     const login = useLogin(); // Función para iniciar sesión del authProvider
     const notify = useNotify(); // Notificaciones de por parte del authprovider
 
-    // Estado local de inputs (Usuario y contraseña)
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
     // Estado global de tema para la aplicación
     const [theme, setTheme] = useTheme();
     const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
-    // Submit del inicio de sesión
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // Submit del inicio de sesión para SimpleForm
+    const handleSubmit = async (formData: any) => {
         try {
-            await login({ username, password });
+            await login({ username: formData.username, password: formData.password });
         } catch {
             notify("Credenciales inválidas", { type: "error" });
         }
@@ -54,7 +46,6 @@ export const LoginPage = () => {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundColor: (theme) =>
-                    // Mejora el contraste en modo claro con un color más suave
                     theme.palette.mode === "light"
                         ? "rgba(175, 212, 241, 0.8)"
                         : "rgba(0,0,0,0.8)",
@@ -121,45 +112,46 @@ export const LoginPage = () => {
                     Sistema de Registro de Emergencias
                 </Typography>
 
-                {/* Formulario de inicio de se sesión */}
-                <Box
-                    component="form"
+                {/* Formulario de inicio de sesión */}
+                <SimpleForm
                     onSubmit={handleSubmit}
-                    noValidate
-                    sx={{ display: "grid", gap: 2 }}
+                    toolbar={false}
+                    sx={{ 
+                        padding: 0,
+                        margin: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                    }}
                 >
-                    <TextField
+                    <TextInput
                         label="Usuario"
-                        name="username"
+                        source="username"
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        sx={{ "& .MuiInputBase-root": { bgcolor: "background.default" } }}
                     />
 
-                    <TextField
+                    <PasswordInput
                         label="Contraseña"
-                        name="password"
-                        type="password"
+                        source="password"
                         required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        sx={{ "& .MuiInputBase-root": { bgcolor: "background.default" } }}
                     />
 
-                    <Button // Botón de enviar el formulario
+                    <Button // Botón para enviar formulario
                         type="submit"
                         variant="contained"
-                        sx={{ mt: 1, py: 1.2, borderRadius: 2, fontWeight: 600 }}
+                        sx={{
+                            padding: 1.5,
+                            width: '100%',
+                        }}
                     >
                         <Typography
                             component="h6"
-                            sx={{ textAlign: "center", fontWeight: 600, fontSize: 16 }}
+                            sx={{ textAlign: "center", fontWeight: 'bold' }}
                         >
                             Iniciar Sesión
                         </Typography>
                     </Button>
-                </Box>
+                </SimpleForm>
             </Paper>
         </Box>
     );

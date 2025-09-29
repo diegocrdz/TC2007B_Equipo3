@@ -22,18 +22,24 @@ import {
     DateInput,
     NumberInput,
     DateTimeInput,
-    CheckboxGroupInput,
     ImageInput,
     ImageField,
     SimpleShowLayout,
     DateField,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, GridSection, checkboxGrid3Style, TextInputWithCounter, MyToolbar, listBoxSx, evidenceBoxSx } from "../componentes";
+import {
+    RowSection, ColumnSection, GridSection, TextInputWithCounter, MyToolbar,
+    listBoxSx, evidenceBoxSx, MotivoToggleInput,
+    PanelHistorialCambios, CompactoHistorialCambios
+} from "../componentes";
 import { Typography, Box } from "@mui/material";
 import EmergencyIcon from '@mui/icons-material/Emergency';
 // Opciones para SelectInput
 import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "../opciones";
+// Panel de historial de cambios
+import { useMediaQuery } from '@mui/material';
+
 
 // Filtros para la lista
 export const RUFilters = [
@@ -42,6 +48,8 @@ export const RUFilters = [
         <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
     </ReferenceInput>,
     <DateInput source="fecha" label="Fecha" />,
+    <NumberInput source="turno" label="Turno" />,
+    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
     <TextInput source="tipoServicio" label="Tipo de Servicio" />,
     <SelectInput 
         source="gravedad" 
@@ -76,9 +84,10 @@ export const RUList = () => {
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />
+                <DataTable.Col source="turno" label="Turno" />
+                <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
                 <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
                 <DataTable.Col source="gravedad" label="Gravedad" />
-                <DataTable.Col source="personalACargo" label="Personal a Cargo" />
                 <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
                 <DataTable.Col>
                 <EditButton />
@@ -90,6 +99,8 @@ export const RUList = () => {
 };
 
 export const RUEdit = () => {
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
     const notify = useNotify();
     const refresh = useRefresh();
@@ -102,17 +113,15 @@ export const RUEdit = () => {
     };
 
     return (
-        <Edit mutationOptions={{ onSuccess }} >
+        <Edit mutationOptions={{ onSuccess }} aside={isSmall ? undefined : <PanelHistorialCambios />} >
             <SimpleForm warnWhenUnsavedChanges>
+                {/* Mostrar historial de cambios arriba de reporte en pantallas pequeñas */}
+                {isSmall ? <CompactoHistorialCambios /> : null}
                 <TextInput source="folio" label="Folio" />
                 <DateInput disabled source="fecha" label="Fecha" />
-                <SelectInput
-                    disabled
-                    source="tipoServicio"
-                    label="Tipo de Servicio"
-                    optionText="name"
-                    optionValue="id"
-                />
+                <NumberInput disabled source="turno" label="Turno" />
+                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextInput disabled source="tipoServicio" label="Tipo de Servicio" />
                 <SelectInput
                     disabled
                     source="gravedad"
@@ -121,36 +130,36 @@ export const RUEdit = () => {
                     optionText="name"
                     optionValue="id"
                 />
-                <TextInput disabled source="personalACargo" label="Personal a Cargo" />
                 <TextInput disabled source="ubicacion.direccion" label="Dirección" />
+                <TextInputWithCounter
+                    disabled
+                    source="observacionesGenerales"
+                    label="Observaciones Generales"
+                    maxLength={500}
+                    multiline
+                    rows={3}
+                />
             </SimpleForm>
         </Edit>
     );
 };
 
 export const RUCreate = () => ( // Formulario completo para reporte de emergencias urbanas
-    <Create
-        sx={{
-            marginBottom: '5em',
-        }}
-    >
+    <Create sx={{ marginBottom: '5em' }} >
         <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
             <RowSection title="Folio y Fecha" border={true}>
                 <TextInput required source="folio" label="Folio" />
                 <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
             </RowSection>
             <RowSection title="Turno y Personal" border={true}>
-                <TextInput required source="turno" label="Turno" />
+                <NumberInput required source="turno" label="Turno" />
                 <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
             </RowSection>
             <ColumnSection title="Activación del Servicio">
-                <SelectInput
-                    required
+                <MotivoToggleInput
                     source="modoActivacion"
                     label="Modo de Activación"
                     choices={MODO_ACTIVACION_CHOICES}
-                    optionText="name"
-                    optionValue="id"
                 />
                 <TextInput required source="tipoServicio" label="Tipo de Servicio" />
             </ColumnSection>
@@ -167,16 +176,13 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
-            <RowSection title="Gravedad" border={true}>
-                <SelectInput
-                    required
+            <ColumnSection title="Gravedad">
+                <MotivoToggleInput
                     source="gravedad"
                     label="Gravedad de la Emergencia"
                     choices={GRAVEDAD_CHOICES}
-                    optionText="name"
-                    optionValue="id"
                 />
-            </RowSection>
+            </ColumnSection>
             <RowSection title="Recorrido" border={true}>
                 <NumberInput required source="kmRecorridos" label="Kilómetros Recorridos" />
             </RowSection>
@@ -204,40 +210,86 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 <TextInput required source="responsableZona" label="Responsable de la Zona" />
             </ColumnSection>
             <ColumnSection title="Autoridades y Dependencias Participantes">
-                <CheckboxGroupInput sx={checkboxGrid3Style}
+                <MotivoToggleInput
                     source="autoridadesParticipantes"
                     label="Autoridades y Dependencias Participantes"
                     choices={AUTORIDADES_CHOICES}
                 />
+                <TextInput source="autoridadesParticipantesOtros" label="Otros (especificar)" fullWidth />
             </ColumnSection>
         </SimpleForm>
     </Create>
 );
 
-export const RUShow = () => (
-    <Show>
-        <SimpleShowLayout>
-            <TextField source="folio" label="Folio" />
-            <DateField source="fecha" label="Fecha" showTime />
-            <TextField source="turno" label="Turno" />
-            <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
-            <TextField source="modoActivacion" label="Modo de Activación" />
-            <TextField source="tipoServicio" label="Tipo de Servicio" />
-            <DateField source="fechaHoraAtencion" label="Fecha y Hora de Atención" showTime />
-            <TextField source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
-            <TextField source="ubicacion.direccion" label="Dirección" />
-            <TextField source="ubicacion.entreCalles1" label="Entre" />
-            <TextField source="ubicacion.entreCalles2" label="Y" />
-            <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
-            <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
-            <TextField source="gravedad" label="Gravedad de la Emergencia" />
-            <TextField source="kmRecorridos" label="Kilómetros Recorridos" />
-            <TextField source="observacionesGenerales" label="Observaciones Generales" />
-            <ImageField source="evidencia" label="Evidencias" />
-            <TextField source="dictamen" label="Dictamen" />
-            <TextField source="responsableInmueble" label="Responsable del Inmueble" />
-            <TextField source="responsableZona" label="Responsable de la Zona" />
-            <TextField source="autoridadesParticipantes" label="Autoridades y Dependencias Participantes" />
-        </SimpleShowLayout>
-    </Show>
-);
+export const RUShow = () => {
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
+    return (
+        <Show aside={isSmall ? undefined : <PanelHistorialCambios />} >
+            <SimpleShowLayout>
+                {/* Mostrar historial de cambios arriba de reporte en pantallas pequeñas */}
+                {isSmall ? <CompactoHistorialCambios /> : null}
+                <RowSection title="Folio y Fecha" border={true} labeled>
+                    <TextField source="folio" label="Folio" />
+                    <DateField source="fecha" label="Fecha" showTime />
+                </RowSection>
+
+                <RowSection title="Turno y Personal" border={true} labeled>
+                    <TextField source="turno" label="Turno" />
+                    <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+                </RowSection>
+
+                <ColumnSection title="Activación del Servicio" labeled>
+                    <TextField source="modoActivacion" label="Modo de Activación" />
+                    <TextField source="tipoServicio" label="Tipo de Servicio" />
+                </ColumnSection>
+
+                <GridSection title="Horarios de Atención" labeled>
+                    <DateField source="fechaHoraAtencion" label="Fecha y Hora de Atención" showTime />
+                    <TextField source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
+                </GridSection>
+
+                <ColumnSection title="Ubicación" labeled>
+                    <TextField source="ubicacion.direccion" label="Dirección" />
+                    <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                        <TextField source="ubicacion.entreCalles1" label="Entre" />
+                        <TextField source="ubicacion.entreCalles2" label="Y" />
+                    </div>
+                    <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
+                    <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
+                </ColumnSection>
+
+                <ColumnSection title="Gravedad" labeled>
+                    <TextField source="gravedad" label="Gravedad de la Emergencia" />
+                </ColumnSection>
+
+                <RowSection title="Recorrido" border={true} labeled>
+                    <TextField source="kmRecorridos" label="Kilómetros Recorridos" />
+                </RowSection>
+
+                <ColumnSection title="Observaciones" labeled>
+                    <TextField source="observacionesGenerales" label="Observaciones Generales" />
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '1em' }}>
+                        Evidencias Adicionales
+                    </Typography>
+                    <ImageField source="evidencia" label="Evidencias" />
+                </ColumnSection>
+
+                <ColumnSection title="Dictamen" labeled>
+                    <TextField source="dictamen" label="Dictamen" />
+                </ColumnSection>
+
+                <ColumnSection title="Responsables de la Emergencia" labeled>
+                    <TextField source="responsableInmueble" label="Responsable del Inmueble" />
+                    <TextField source="responsableZona" label="Responsable de la Zona" />
+                </ColumnSection>
+
+                <ColumnSection title="Autoridades y Dependencias Participantes" labeled>
+                    <TextField source="autoridadesParticipantes" label="Autoridades y Dependencias Participantes" />
+                    <TextField source="autoridadesParticipantesOtros" label="Otros (especificar)" />
+                </ColumnSection>
+            </SimpleShowLayout>
+        </Show>
+    );
+};

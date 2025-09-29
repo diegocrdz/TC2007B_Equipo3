@@ -9,9 +9,34 @@ const data: DataStore = {
         {
             id: 1,
             usuarioId: 3,
+
+            // Historial de cambios
+            historialCambios: [
+                {
+                    usuarioId: 2,
+                    folioAnterior: "RU-2024-000",
+                    folioNuevo: "RU-2024-001",
+                    fechaCambio: "2024-03-15T14:00:00.000Z",
+                },
+                {
+                    usuarioId: 3,
+                    folioAnterior: "RU-2024-001",
+                    folioNuevo: "RU-2024-002",
+                    fechaCambio: "2024-03-15T15:00:00.000Z",
+                },
+                {
+                    usuarioId: 3,
+                    folioAnterior: "RM-2024-000",
+                    folioNuevo: "RM-2024-001",
+                    fechaCambio: "2024-03-15T15:30:00.000Z",
+                }
+            ],
+
             // Datos del Servicio
             folio: "RM-2024-001",
             fecha: "2024-03-15",
+            turno: 1,
+            personalACargo: "Jefe de Turno Carlos Mendoza",
             horaLlam: "14:30",
             horaSal: "14:35",
             horaLlegada: "14:52",
@@ -26,6 +51,7 @@ const data: DataStore = {
             motivo: "accidente_trafico",
             motivoOtro: "",
             lugarOcurrencia: "trabajo",
+            lugarOcurrenciaOtro: "",
             ubicacion: {
                 calle: "Av. Insurgentes Sur",
                 numExt: "1234",
@@ -118,6 +144,19 @@ const data: DataStore = {
             
             // Evaluación Secundaria
             evalSec: {
+                nombre: "Juan Carlos Pérez González",
+                asuntoNo: 12345,
+                fecha: "2024-03-15",
+                zonasLesion: [
+                    {
+                        zona: 1,
+                        lesion: "C"
+                    },
+                    {
+                        zona: 15,
+                        lesion: "L"
+                    }
+                ],
                 signosVitales: [
                     {
                         hora: "15:00",
@@ -153,7 +192,7 @@ const data: DataStore = {
                 padecimientos: "Hipertensión arterial sistémica, diagnosticada hace 5 años",
                 ultimaComida: "Desayuno a las 08:00 hrs",
                 condicion: "estable",
-                prioridad: "Alta"
+                prioridad: "alta"
             },
             
             // Traslado
@@ -288,7 +327,23 @@ const data: DataStore = {
             // Folio y Fecha
             folio: "RU-2024-001",
             fecha: "2024-03-15T14:30:00.000Z",
-            
+
+            // Historial de cambios
+            historialCambios: [
+                {
+                    usuarioId: 2,
+                    folioAnterior: "RU-2024-000",
+                    folioNuevo: "RU-2024-001",
+                    fechaCambio: "2024-03-15T14:00:00.000Z",
+                },
+                {
+                    usuarioId: 3,
+                    folioAnterior: "RU-2024-001",
+                    folioNuevo: "RU-2024-002",
+                    fechaCambio: "2024-03-15T15:00:00.000Z",
+                }
+            ],
+
             // Turno y Personal
             turno: "Matutino",
             personalACargo: "Ing. Roberto Martínez Sánchez",
@@ -327,10 +382,6 @@ const data: DataStore = {
                     src: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...",
                     title: "Fachada del edificio afectado"
                 },
-                {
-                    src: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...",
-                    title: "Área del incendio interior"
-                }
             ],
             
             // Dictamen
