@@ -5,8 +5,9 @@
 import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
 import { listBoxSx } from "../componentes";
-import ShowChartIcon from '@mui/icons-material/ShowChart';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 // Gráficas
+import { GraficasUrbanas } from "./GraficasUrbanas";
 
 export const EstadisticasUrbanas = () => {
     const { isPending, permissions } = usePermissions();
@@ -16,7 +17,7 @@ export const EstadisticasUrbanas = () => {
     }
 
     // Solo administradores pueden ver estadísticas
-    if (permissions !== 'admin') {
+    if (permissions !== 'admin' ) {
         return (
             <Box sx={listBoxSx}>
                 <Typography variant="h4" color="error">
@@ -36,13 +37,14 @@ export const EstadisticasUrbanas = () => {
                     gap: '1em',
                 }}
             >
-                <ShowChartIcon />
+                <AutoGraphIcon />
                 <Typography variant="h4">
                     Estadísticas Urbanas
                 </Typography>
             </Box>
             
             <Box sx={{ marginTop: '2em'}}>
+                <GraficasUrbanas />
             </Box>
         </Box>
     );

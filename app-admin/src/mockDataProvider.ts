@@ -357,7 +357,7 @@ const data: DataStore = {
             // Horarios de Atención
             fechaHoraAtencion: "2024-03-15T14:45:00.000Z",
             tiempoTrasladoMinutos: 15,
-            
+        
             // Ubicación
             ubicacion: {
                 direccion: "Av. Reforma 1234",
@@ -394,6 +394,10 @@ const data: DataStore = {
             // Autoridades Participantes
             autoridadesParticipantes: ["bomberos", "policia", "seguridad_publica"]
         },
+        {
+            id: 2,  modoActivacion: 'escuela',              prioridad: 'MEDIA', alcaldia: 'Benito Juárez',  colonia: 'Del Valle',     tipoIncidente: 'Accidente vial',        tiempoRespuesta: 12 },
+  { id: 3,  modoActivacion: 'transporte_publico',   prioridad: 'BAJA',  alcaldia: 'Miguel Hidalgo', colonia: 'Polanco',       tipoIncidente: 'Robo a transeúnte',    tiempoRespuesta: 22 },
+  { id: 4,  modoActivacion: 'trabajo',              prioridad: 'ALTA',  alcaldia: 'Cuauhtémoc',     colonia: 'Roma Norte',    tipoIncidente: 'Fuga de gas',          tiempoRespuesta: 16 }
     ],
     notas_urbanas: [
         {
