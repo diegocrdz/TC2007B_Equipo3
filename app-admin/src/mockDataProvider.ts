@@ -395,9 +395,32 @@ const data: DataStore = {
             autoridadesParticipantes: ["bomberos", "policia", "seguridad_publica"]
         },
         {
-            id: 2,  modoActivacion: 'escuela',              prioridad: 'MEDIA', alcaldia: 'Benito Juárez',  colonia: 'Del Valle',     tipoIncidente: 'Accidente vial',        tiempoRespuesta: 12 },
-  { id: 3,  modoActivacion: 'transporte_publico',   prioridad: 'BAJA',  alcaldia: 'Miguel Hidalgo', colonia: 'Polanco',       tipoIncidente: 'Robo a transeúnte',    tiempoRespuesta: 22 },
-  { id: 4,  modoActivacion: 'trabajo',              prioridad: 'ALTA',  alcaldia: 'Cuauhtémoc',     colonia: 'Roma Norte',    tipoIncidente: 'Fuga de gas',          tiempoRespuesta: 16 }
+            id: 2,
+            modoActivacion: 'escuela',
+            prioridad: 'MEDIA',
+            alcaldia: 'Benito Juárez',
+            colonia: 'Del Valle',
+            tipoIncidente: 'Accidente vial',
+            tiempoRespuesta: 12
+        },
+        { 
+            id: 3,
+            modoActivacion: 'transporte_publico',
+            prioridad: 'BAJA',
+            alcaldia: 'Miguel Hidalgo',
+            colonia: 'Polanco',
+            tipoIncidente: 'Robo a transeúnte',
+            tiempoRespuesta: 22
+        },
+        { 
+            id: 4,
+            modoActivacion: 'trabajo',
+            prioridad: 'ALTA',
+            alcaldia: 'Cuauhtémoc',
+            colonia: 'Roma Norte',
+            tipoIncidente: 'Fuga de gas',
+            tiempoRespuesta: 16
+        }
     ],
     notas_urbanas: [
         {
