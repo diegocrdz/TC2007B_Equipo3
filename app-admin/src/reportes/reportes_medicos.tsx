@@ -9,6 +9,8 @@ import {
     EditButton,
     Edit,
     SimpleForm,
+    Datagrid,
+    FunctionField,
     TextInput,
     ReferenceInput,
     Create,
@@ -76,6 +78,7 @@ export const RMFilters = [
 
 export const RMList = () => {
     // Verificar acceso del usuario
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
     return (
@@ -94,20 +97,63 @@ export const RMList = () => {
                 </Typography>
             </Box>
             
-            <List filters={canAccess ? RMFilters : undefined}>
-            <DataTable>
-                <DataTable.Col source="folio" label="Folio" />
-                <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="turno" label="Turno" />
-                <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                <DataTable.Col>
-                <EditButton />
-                </DataTable.Col>
-            </DataTable>
+            <List 
+                filters={canAccess ? RMFilters : undefined}
+                sx={{
+                    '& .RaList-content': { p: isSmall ? 0 : undefined }
+                }}
+            >
+                {isSmall ? (
+                    <Datagrid
+                        sx={{
+                            '& .RaDatagrid-headerCell, & .RaDatagrid-cell': { py: 1, px: 1 },
+                            '& td:last-of-type, & th:last-of-type': { textAlign: 'right', whiteSpace: 'nowrap' },
+                        }}
+                    >
+                        <FunctionField
+                            label="Folio / Paciente"
+                            render={(record: any) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                    <Typography variant="body1" fontWeight={400} noWrap>
+                                        {record.folio}<br />
+                                        {record.nombrePaciente ?? '—'}
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                    >
+                                        {record.nombreMedico ? `Dr/a: ${record.nombreMedico}` : ''}
+                                    </Typography>
+                                    <Typography variant="caption" color="text.secondary">
+                                        {record.fecha ?? '—'} · Turno: {record.turno ?? '—'}
+                                    </Typography>
+                                </Box>
+                            )}
+                        />
+                        <FunctionField
+                            label=""
+                            sx={{ width: 72, textAlign: 'right' }}
+                            render={(record: any) => <EditButton record={record} />}
+                        />
+                    </Datagrid>
+                ) : (
+                    <Box sx={{ overflowX: 'auto' }}>
+                        <DataTable>
+                            <DataTable.Col source="folio" label="Folio" />
+                            <DataTable.Col source="fecha" label="Fecha" />
+                            <DataTable.Col source="turno" label="Turno" />
+                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                            <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                            <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                            <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                            <DataTable.Col source="nombreMedico" label="Nombre médico" />
+                            <DataTable.Col>
+                                <EditButton />
+                            </DataTable.Col>
+                        </DataTable>
+                    </Box>
+                )}
             </List>
         </Box>
     );
