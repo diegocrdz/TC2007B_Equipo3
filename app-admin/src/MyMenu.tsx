@@ -25,12 +25,12 @@ const Logo = () => {
 	const [open] = useSidebarState(); // Verdadero si la barra lateral está abierta
 	if (!open) return null;
 	return (
-		<div style={{ textAlign: 'center', padding: '1em 0' }}>
+		<div style={{ textAlign: 'center', padding: '1em 0 0 0' }}>
 			<img
-				src="/logo_ac.png"
+				src="/logo_ac_pc.png"
 				alt="Logo-Alcaldía-Cuajimalpa"
 				aria-label='Logo Alcaldía Cuajimalpa'
-				style={{ maxWidth: '50%', height: 'auto' }}
+				style={{ maxWidth: '80%', height: 'auto' }}
 			/>
 		</div>
 	);
@@ -46,9 +46,38 @@ export const MyMenu = () => {
 	return (
 		<Menu
 			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				backgroundColor: 'background.paper',
+				borderColor: 'divider',
+				height: '100%',
+				marginBottom: {
+					xs: '5em',
+					sm: 0,
+				},
+
+				// Elementos del menú
+				'& .RaMenuItemLink-root': {
+					padding: '0.4em',
+					border: '1px solid transparent',
+					color: 'text.primary',
+					backgroundColor: 'contrast.paper',
+				},
+				'& .RaMenuItemLink-icon': {
+					color: 'info.main',
+				},
+
+				// Hover
+				'& .RaMenuItemLink-root:hover': {
+					borderColor: 'info.main',
+				},
+
+				// Selección
 				'& .RaMenuItemLink-active': {
-					borderRight: '4px solid',
-					borderRightColor: 'rgba(73, 111, 189, 1)',
+					borderColor: 'info.main',
+					color: 'info.main',
+					fontWeight: 'bold',
+					background: 'rgba(25, 118, 210, 0.12)',
 				},
 			}}
 		>

@@ -57,7 +57,7 @@ import { RowSection, ColumnSection,
     TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput,
     evidenceBoxSx, accordionSx, TimeGridSection, TimeInputWithIcon,
     PanelHistorialCambios, CompactoHistorialCambios, ZonasLesion,
-    Glasgow
+    Glasgow, tableListSx
 } from "../componentes";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { useMediaQuery } from '@mui/material';
@@ -80,21 +80,16 @@ export const RMList = () => {
 
     return (
         <Box sx={listBoxSx} >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    gap: '1em',
-                }}
-            >
+            <Box>
                 <LocalHospitalIcon />
                 <Typography variant="h4">
                     Reportes Médicos
                 </Typography>
             </Box>
             
-            <List filters={canAccess ? RMFilters : undefined}>
+            <List filters={canAccess ? RMFilters : undefined}
+                sx={tableListSx}
+            >
             <DataTable>
                 <DataTable.Col source="folio" label="Folio" />
                 <DataTable.Col source="fecha" label="Fecha" />

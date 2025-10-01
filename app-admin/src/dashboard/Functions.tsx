@@ -161,7 +161,7 @@ export const Functions = () => {
         return <div>Esperando permisos...</div>;
     } else {
         // Obtener rol y permisos de usuario
-        const role = permissions as keyof typeof functionData;
+        const role = permissions?.role as keyof typeof functionData;
         const functions = functionData[role];
 
         return (
@@ -186,7 +186,7 @@ export const Functions = () => {
                         gap: '20px',
                     }}
                 >
-                    {functions.map((fn: { title: string; to: string; icon: any }, idx: number) => (
+                    {functions?.map((fn: { title: string; to: string; icon: any }, idx: number) => (
                         <FunctionBox key={idx} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
                     ))}
                 </Box>
@@ -205,11 +205,11 @@ export const AdminFunctions = () => {
     }
 
     // Solo mostrar para admin
-    if (permissions !== 'admin') {
+    if (permissions?.role !== 'admin') {
         return null;
     }
 
-    const role = permissions as keyof typeof adminFunctionData;
+    const role = permissions.role as keyof typeof adminFunctionData;
     const adminFunctions = adminFunctionData[role];
 
     return (
@@ -228,7 +228,7 @@ export const AdminFunctions = () => {
                     gap: '20px',
                 }}
             >
-                {adminFunctions.map((fn: { title: string; to: string; icon: any }, idx: number) => (
+                {adminFunctions?.map((fn: { title: string; to: string; icon: any }, idx: number) => (
                     <AdminFunctionBox key={`admin-${idx}`} title={fn.title} to={fn.to} idx={idx} icon={fn.icon} />
                 ))}
             </Box>

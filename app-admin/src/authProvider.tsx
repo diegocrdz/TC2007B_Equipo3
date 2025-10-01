@@ -47,23 +47,29 @@ export const authProvider: AuthProvider = {
         localStorage.setItem("username", username);
         // assign role based on username
         let role = "";
+        let turno = "";
         switch (username) {
             case 'admin':
                 role = 'admin';
+                turno = 'N/A';
                 break;
             case 'jefe':
                 role = 'jefe';
+                turno = '1';
                 break;
             case 'paramedico':
                 role = 'paramedico';
+                turno = '2';
                 break;
             case 'urbano':
                 role = 'urbano';
+                turno = '3';
                 break;
             default:
                 break;
         }
         localStorage.setItem("permissions", role);
+        localStorage.setItem("turno", turno);
     },
     // Cuando el usuario cierra sesión
     async logout() {
@@ -84,7 +90,9 @@ export const authProvider: AuthProvider = {
     },
     // Obtener los permisos del usuario
     async getPermissions() {
-        return localStorage.getItem("permissions") || "user";
+        const turno = localStorage.getItem("turno");
+        const role = localStorage.getItem("permissions");
+        return { role, turno };
     },
     // Verificar si el usuario tiene acceso a un recurso y acción específicos
     async canAccess({ resource, action }: { resource: string; action: string }) {

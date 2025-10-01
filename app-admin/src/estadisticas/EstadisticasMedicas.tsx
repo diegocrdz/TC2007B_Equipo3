@@ -17,7 +17,7 @@ export const EstadisticasMedicas = () => {
     }
 
     // Solo administradores pueden ver estadísticas
-    if (permissions !== 'admin' ) {
+    if (permissions.role !== 'admin' ) {
         return (
             <Box sx={listBoxSx}>
                 <Typography variant="h4" color="error">

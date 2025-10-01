@@ -357,7 +357,30 @@ export const listBoxSx = {
             ? 'linear-gradient(180deg, #c1cbddff 0%, #ffffffcc 50%)'
             : 'linear-gradient(180deg, #333f56ff 0%, #1b1b1bff 50%)',
     minHeight: '100vh',
-    padding: '2em',
+    padding: {
+        xs: '1em',
+        sm: '1em',
+        md: '2em',
+    },
+    width: '100%',
+};
+
+// Componente para estilos de tabla list
+export const tableListSx = {
+    marginTop: '2em',
+    width: '100%',
+    maxWidth: '100%',
+    overflowX: 'auto',
+
+    // Estilos para la tabla
+    '& .RaList-actions': {
+        backgroundColor: 'transparent',
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '0.5em',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
 };
 
 // Estilos sx para la sección de evidencias (imágenes)
