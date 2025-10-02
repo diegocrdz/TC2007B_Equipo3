@@ -363,24 +363,21 @@ export const listBoxSx = {
         md: '2em',
     },
     width: '100%',
-};
 
-// Componente para estilos de tabla list
-export const tableListSx = {
-    marginTop: '2em',
-    width: '100%',
-    maxWidth: '100%',
-    overflowX: 'auto',
-
-    // Estilos para la tabla
+    // Tabla
     '& .RaList-actions': {
         backgroundColor: 'transparent',
         display: 'flex',
         flexDirection: 'row',
-        gap: '0.5em',
         justifyContent: 'space-between',
-        alignItems: 'center',
     },
+
+    // Barra de herramientas
+    '& .MuiToolbar-root': {
+        display: 'flex',
+        backgroundColor: 'transparent',
+    },
+
 };
 
 // Estilos sx para la sección de evidencias (imágenes)
@@ -678,3 +675,4 @@ export const Glasgow = () => (
         </Table>
     </TableContainer>
 );
+

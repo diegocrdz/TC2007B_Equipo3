@@ -48,17 +48,13 @@ const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor: numbe
 );
 
 export const DatosIniciales = () => {
-    // Obtener el número de reportes médicos
+    // Obtener el número de reportes médicos registrados
     const { data: reportesMedicos, isLoading } = useGetList('reportes_medicos');
     const numeroTraslados = reportesMedicos?.length || 0;
 
-    // Obtener edad promedio de pacientes atendidos
-    const edades = reportesMedicos?.map((reporte: any) => reporte.paciente.edad) || [];
-    let edadPromedio;
-    if (edades.length !== 0) {
-        // .reduce suma todos los elementos de edades
-        edadPromedio = Math.round(edades.reduce((a: number, b: number) => a + b, 0) / edades.length)
-    } else edadPromedio = 0;
+    // Obtener el número de notas médicas registradas
+    const { data: notasMedicas } = useGetList('notas_medicas');
+    const numeroNotas = notasMedicas?.length || 0;
 
     // Calcular casos de emergencia (prioridad "Alta")
     const casosEmergencia = reportesMedicos?.filter((reporte: any) => 
@@ -85,13 +81,13 @@ export const DatosIniciales = () => {
                 }}
             >
                 <RecuadroDatos
-                    titulo="Traslados Realizados"
+                    titulo="Reportes registrados"
                     valor={numeroTraslados}
                     icono={<LocalHospitalIcon />}
                 />
                 <RecuadroDatos
-                    titulo="Edad Promedio Pacientes"
-                    valor={edadPromedio}
+                    titulo="Notas registradas"
+                    valor={numeroNotas}
                     icono={<PermContactCalendarIcon />}
                 />
                 <RecuadroDatos
@@ -198,8 +194,8 @@ const TrasladosPorTurno = () => {
     );
 }
 
-// Gráfica de pie: Incidentes por sexo
-const IncidentesPorSexo = () => {
+// Gráfica de pie: Incidentes por género
+const IncidentesPorGenero = () => {
     // Obtener reportes médicos
     const { data: reportesMedicos, isLoading } = useGetList('reportes_medicos');
 
@@ -230,7 +226,7 @@ const IncidentesPorSexo = () => {
     return (
         <Box sx={estilosContenedorGrafica()}>
             <Typography variant="h6">
-                Incidentes por sexo
+                Incidentes por género
             </Typography>
             <PieChart
                 sx={estilosGrafica()}
@@ -361,7 +357,7 @@ export const GraficasMedicas = () => (
             }}
         >
             <TrasladosPorTurno />
-            <IncidentesPorSexo />
+            <IncidentesPorGenero />
             <ReportesPorOperador />
             <LugarOcurrencia />
         </Box>

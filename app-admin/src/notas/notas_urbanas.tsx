@@ -24,11 +24,14 @@ import {
     DateField,
     SelectInput,
     NumberInput,
+    FunctionField,
+    Datagrid,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../componentes";
 import { Typography, Box } from "@mui/material";
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import { useMediaQuery } from '@mui/material';
 
 // Filtros para la lista
 export const NUFilters = [
@@ -44,6 +47,9 @@ export const NUFilters = [
 export const NUList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
     return (
         <Box sx={listBoxSx} >
@@ -62,16 +68,51 @@ export const NUList = () => {
             </Box>
             
             <List filters={canAccess ? NUFilters : undefined}>
-            <DataTable>
-                <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="hora" label="Hora" />
-                <DataTable.Col source="turno" label="Turno" />
-                <DataTable.Col source="personalACargo" label="Personal a Cargo" />
-                <DataTable.Col source="asunto" label="Asunto" />
-                <DataTable.Col>
-                <EditButton />
-                </DataTable.Col>
-            </DataTable>
+                {isSmall ? (
+                    <Datagrid
+                        rowClick="show"
+                    >
+                        <FunctionField
+                            label="Notas"
+                            render={(record: any) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                    <Typography variant="body1" fontWeight='bold'>
+                                        {record.asunto ?? 'Sin asunto'}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Personal: ${record.personalACargo ?? '-'}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Fecha: ${record.fecha} - ${record.hora}`}
+                                    </Typography>
+                                </Box>
+                            )}
+                        />
+                        <FunctionField
+                            render={(record: any) => (
+                                <EditButton
+                                    record={record}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'text.disabled',
+                                        backgroundColor: '#0000001b',
+                                    }}
+                                />
+                            )}
+                        />
+                    </Datagrid>
+                ) : (
+                    <DataTable>
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="hora" label="Hora" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Personal a Cargo" />
+                        <DataTable.Col source="asunto" label="Asunto" />
+                        <DataTable.Col>
+                            <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
+                )}
             </List>
         </Box>
     );

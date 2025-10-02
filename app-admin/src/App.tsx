@@ -29,6 +29,7 @@ import { MyLayout } from './MyLayout';
 import { AccThemeProvider, useAccSettings } from './MyTheme';
 // Página de inicio de sesión
 import { LoginPage } from './loginPage';
+import 'leaflet/dist/leaflet.css';
 
 // Componente que envuelve Admin para aplicar el tema con ajustes de accesibilidad
 const AppWrapper = () => {

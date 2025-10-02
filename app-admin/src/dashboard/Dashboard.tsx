@@ -34,11 +34,6 @@ const UsuarioBox = () => {
                 <Typography variant="subtitle1" sx={{ color: 'text.disabled' }} >
                     {permissionsData?.turno ? `Turno: ${permissionsData.turno}` : 'Turno: N/A'}
                 </Typography>
-                {permissionsData?.turno && permissionsData.turno !== 'N/A' && (
-                    <Typography variant="subtitle2" sx={{ color: 'text.disabled' }} >
-                        Turno: {permissionsData.turno}
-                    </Typography>
-                )}
             </Box>
         </Box>
     );
@@ -56,22 +51,23 @@ export const Dashboard = () => {
             <Box sx={{
                     display: 'flex',
                     flexDirection: { xs: 'column', md: 'row' },
-                    justifyContent: {
-                        xs: 'center', md: 'space-between',
+                    justifyContent: 'space-between',
+                    alignItems: {
+                        xs: 'flex-start',
+                        md: 'center'
                     },
-                    alignItems: 'center',
                     background: '#ffffff10',
                     border: '1px solid',
                     borderColor: 'divider',
                     borderRadius: '8px',
                     margin: '18px 18px 0 18px',
-                    gap: 2,
+                    gap: 1,
                     padding: 2,
                     minHeight: '80px',
                 }}
             >
                 <UsuarioBox />
-                <Typography variant="h6" sx={{ color: 'text.primary', textAlign: { xs: 'center', md: 'right' }, width: { xs: '100%', md: 'auto' } }} >
+                <Typography variant="h6" sx={{ color: 'text.primary', ml: 1.5, textAlign: { xs: 'left', md: 'right' }, width: { xs: '100%', md: 'auto' } }} >
                     {new Date().toLocaleDateString(
                         'es-ES', 
                         { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' }

@@ -27,10 +27,10 @@ const Logo = () => {
 	return (
 		<div style={{ textAlign: 'center', padding: '1em 0 0 0' }}>
 			<img
-				src="/logo_ac_pc.png"
+				src="/logo_ac_pc_1.png"
 				alt="Logo-Alcaldía-Cuajimalpa"
 				aria-label='Logo Alcaldía Cuajimalpa'
-				style={{ maxWidth: '80%', height: 'auto' }}
+				style={{ maxWidth: '70%', height: 'auto' }}
 			/>
 		</div>
 	);
@@ -69,7 +69,7 @@ export const MyMenu = () => {
 
 				// Hover
 				'& .RaMenuItemLink-root:hover': {
-					borderColor: 'info.main',
+					borderColor: 'info.dark',
 				},
 
 				// Selección

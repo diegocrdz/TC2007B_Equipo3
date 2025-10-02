@@ -23,13 +23,18 @@ import {
     TimeInput,
     SimpleShowLayout,
     NumberInput,
+    FunctionField,
+    Datagrid,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../componentes";
 import { Typography, Box } from "@mui/material";
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import { useMediaQuery } from '@mui/material';
 // Opciones para SelectInput
 import { OCURRENCIA_CHOICES } from "../opciones";
+// Mapa
+import { MapInput } from "../MapInput";
 
 // Filtros para la lista
 export const NMFilters = [
@@ -47,6 +52,9 @@ export const NMFilters = [
 export const NMList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
     return (
         <Box sx={listBoxSx} >
@@ -65,20 +73,55 @@ export const NMList = () => {
             </Box>
             
             <List filters={canAccess ? NMFilters : undefined}>
-                <DataTable>
-                    <DataTable.Col source="fecha" label="Fecha" />
-                    <DataTable.Col source="hora" label="Hora" />
-                    <DataTable.Col source="turno" label="Turno" />
-                    <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                    <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                    <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                    <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                    <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                    <DataTable.Col source="asunto" label="Asunto" />
-                    <DataTable.Col>
-                    <EditButton />
-                    </DataTable.Col>
-                </DataTable>
+                {isSmall ? (
+                    <Datagrid
+                        rowClick="show"
+                    >
+                        <FunctionField
+                            label="Notas"
+                            render={(record: any) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                    <Typography variant="body1" fontWeight='bold'>
+                                        {record.asunto ?? 'Sin asunto'}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Paciente: ${record.nombrePaciente ?? '-'}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Fecha: ${record.fecha} - ${record.hora}`}
+                                    </Typography>
+                                </Box>
+                            )}
+                        />
+                        <FunctionField
+                            render={(record: any) => (
+                                <EditButton
+                                    record={record}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'text.disabled',
+                                        backgroundColor: '#0000001b',
+                                    }}
+                                />
+                            )}
+                        />
+                    </Datagrid>
+                ) : (
+                    <DataTable>
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="hora" label="Hora" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Personal a Cargo" />
+                        <DataTable.Col source="nombrePaciente" label="Paciente" />
+                        <DataTable.Col source="nombreTestigo" label="Testigo" />
+                        <DataTable.Col source="nombreParamedico" label="Paramédico" />
+                        <DataTable.Col source="nombreMedico" label="Médico" />
+                        <DataTable.Col source="asunto" label="Asunto" />
+                        <DataTable.Col>
+                            <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
+                )}
             </List>
         </Box>
     );
@@ -148,11 +191,12 @@ export const NMCreate = () => (
                 <TextInput required source="nombreMedico" label="Nombre médico" />
             </ColumnSection>
             <ColumnSection title="Ubicación">
+                <MapInput name="location" />
                 <TextInput required source="ubicacion.calle" label="Calle" />
-                <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
                     <TextInput required source="ubicacion.numExt" label="Entre" />
                     <TextInput required source="ubicacion.numInt" label="Y" />
-                </div>
+                </Box>
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
@@ -198,10 +242,10 @@ export const NMShow = () => (
             </ColumnSection>
             <ColumnSection title="Ubicación" labeled={true}>
                 <TextField source="ubicacion.calle" label="Calle" />
-                <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
                     <TextField source="ubicacion.numExt" label="Entre" />
                     <TextField source="ubicacion.numInt" label="Y" />
-                </div>
+                </Box>
                 <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>

@@ -26,6 +26,8 @@ import {
     ImageField,
     SimpleShowLayout,
     DateField,
+    FunctionField,
+    Datagrid,
 } from "react-admin";
 // Componentes personalizados
 import {
@@ -39,7 +41,8 @@ import EmergencyIcon from '@mui/icons-material/Emergency';
 import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "../opciones";
 // Panel de historial de cambios
 import { useMediaQuery } from '@mui/material';
-
+// Mapa
+import { MapInput } from "../MapInput";
 
 // Filtros para la lista
 export const RUFilters = [
@@ -64,6 +67,9 @@ export const RUList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+
     return (
         <Box sx={listBoxSx} >
             <Box
@@ -79,20 +85,58 @@ export const RUList = () => {
                     Reportes Urbanos
                 </Typography>
             </Box>
-            
-            <List filters={canAccess ? RUFilters : undefined}>
-            <DataTable>
-                <DataTable.Col source="folio" label="Folio" />
-                <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="turno" label="Turno" />
-                <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
-                <DataTable.Col source="gravedad" label="Gravedad" />
-                <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
-                <DataTable.Col>
-                <EditButton />
-                </DataTable.Col>
-            </DataTable>
+
+            <List
+                filters={canAccess ? RUFilters : undefined}>
+                {isSmall ? (
+                    <Datagrid
+                        rowClick="show"
+                    >
+                        <FunctionField
+                            label="Reportes"
+                            render={(record: any) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                    <Typography variant="body1" fontWeight='bold'>
+                                        {`Folio: ${record.folio}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Personal: ${record.personalACargo ?? '-'}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Fecha: ${new Date(record.fecha).toLocaleDateString()}`}
+                                    </Typography>
+                                </Box>
+                            )}
+                        />
+                        <FunctionField
+                            render={(record: any) => (
+                                <EditButton
+                                    record={record}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'text.disabled',
+                                        backgroundColor: '#0000001b',
+                                    }}
+                                />
+                            )}
+                        />
+                    </Datagrid>
+                ) : (
+                    <Box sx={{ overflowX: 'auto' }}>
+                        <DataTable>
+                            <DataTable.Col source="folio" label="Folio" />
+                            <DataTable.Col source="fecha" label="Fecha" />
+                            <DataTable.Col source="turno" label="Turno" />
+                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                            <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
+                            <DataTable.Col source="gravedad" label="Gravedad" />
+                            <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
+                            <DataTable.Col>
+                            <EditButton />
+                            </DataTable.Col>
+                        </DataTable>
+                    </Box>
+                )}
             </List>
         </Box>
     );
@@ -168,11 +212,12 @@ export const RUCreate = () => ( // Formulario completo para reporte de emergenci
                 <NumberInput required source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
             </GridSection>
             <ColumnSection title="Ubicación">
+                <MapInput name="location" />
                 <TextInput required source="ubicacion.direccion" label="Dirección" />
-                <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
                     <TextInput required source="ubicacion.entreCalles1" label="Entre" />
                     <TextInput required source="ubicacion.entreCalles2" label="Y" />
-                </div>
+                </Box>
                 <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                 <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
             </ColumnSection>
@@ -252,10 +297,10 @@ export const RUShow = () => {
 
                 <ColumnSection title="Ubicación" labeled>
                     <TextField source="ubicacion.direccion" label="Dirección" />
-                    <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                    <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
                         <TextField source="ubicacion.entreCalles1" label="Entre" />
                         <TextField source="ubicacion.entreCalles2" label="Y" />
-                    </div>
+                    </Box>
                     <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
                     <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
                 </ColumnSection>
@@ -270,7 +315,7 @@ export const RUShow = () => {
 
                 <ColumnSection title="Observaciones" labeled>
                     <TextField source="observacionesGenerales" label="Observaciones Generales" />
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '1em' }}>
+                    <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                         Evidencias Adicionales
                     </Typography>
                     <ImageField source="evidencia" label="Evidencias" />

@@ -9,6 +9,8 @@ import {
     EditButton,
     Edit,
     SimpleForm,
+    Datagrid,
+    FunctionField,
     TextInput,
     ReferenceInput,
     Create,
@@ -57,10 +59,12 @@ import { RowSection, ColumnSection,
     TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput,
     evidenceBoxSx, accordionSx, TimeGridSection, TimeInputWithIcon,
     PanelHistorialCambios, CompactoHistorialCambios, ZonasLesion,
-    Glasgow, tableListSx
+    Glasgow
 } from "../componentes";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { useMediaQuery } from '@mui/material';
+// Mapa
+import { MapInput } from "../MapInput";
 
 // Filtros para la lista
 export const RMFilters = [
@@ -72,37 +76,83 @@ export const RMFilters = [
     <NumberInput source="turno" label="Turno" />,
     <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
     <TextInput source="nombrePaciente" label="Nombre paciente" />,
-]
+];
 
 export const RMList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
+    // Obtener tamaño de pantalla
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+
     return (
         <Box sx={listBoxSx} >
-            <Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '1em',
+                }}
+            >
                 <LocalHospitalIcon />
                 <Typography variant="h4">
-                    Reportes Médicos
+                    Reportes Urbanos
                 </Typography>
             </Box>
             
-            <List filters={canAccess ? RMFilters : undefined}
-                sx={tableListSx}
-            >
-            <DataTable>
-                <DataTable.Col source="folio" label="Folio" />
-                <DataTable.Col source="fecha" label="Fecha" />
-                <DataTable.Col source="turno" label="Turno" />
-                <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                <DataTable.Col>
-                <EditButton />
-                </DataTable.Col>
-            </DataTable>
+            <List
+                filters={canAccess ? RMFilters : undefined}>
+                {isSmall ? (
+                    <Datagrid
+                        rowClick="show"
+                    >
+                        <FunctionField
+                            label="Reportes"
+                            render={(record: any) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                    <Typography variant="body1" fontWeight='bold'>
+                                        {`Folio: ${record.folio}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Paciente: ${record.nombrePaciente ?? '-'}`}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {`Fecha: ${record.fecha ?? '-'}`}
+                                    </Typography>
+                                </Box>
+                            )}
+                        />
+                        <FunctionField
+                            render={(record: any) => (
+                                <EditButton
+                                    record={record}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'text.disabled',
+                                        backgroundColor: '#0000001b',
+                                    }}
+                                />
+                            )}
+                        />
+                    </Datagrid>
+                ) : (
+                    <Box sx={{ overflowX: 'auto' }}>
+                        <DataTable>
+                            <DataTable.Col source="folio" label="Folio" />
+                            <DataTable.Col source="fecha" label="Fecha" />
+                            <DataTable.Col source="turno" label="Turno" />
+                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                            <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                            <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                            <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                            <DataTable.Col source="nombreMedico" label="Nombre médico" />
+                            <DataTable.Col>
+                                <EditButton />
+                            </DataTable.Col>
+                        </DataTable>
+                    </Box>
+                )}
             </List>
         </Box>
     );
@@ -178,11 +228,12 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     />
                 </ColumnSection>
                 <ColumnSection title="Ubicación">
+                    <MapInput name="location" />
                     <TextInput required source="ubicacion.calle" label="Calle" />
-                    <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
-                        <TextInput required source="ubicacion.numExt" label="Entre" />
-                        <TextInput required source="ubicacion.numInt" label="Y" />
-                    </div>
+                    <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
+                        <TextInput required source="ubicacion.entre" label="Entre" />
+                        <TextInput required source="ubicacion.y" label="Y" />
+                    </Box>
                     <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
                     <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
                 </ColumnSection>
@@ -687,10 +738,10 @@ export const RMShow = () => {
                     </ColumnSection>
                     <ColumnSection labeled title="Ubicación">
                         <TextField source="ubicacion.calle" label="Calle" />
-                        <div style={{ display: 'flex', gap: '1em', width: '100%' }}>
+                        <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
                             <TextField source="ubicacion.numExt" label="Entre" />
                             <TextField source="ubicacion.numInt" label="Y" />
-                        </div>
+                        </Box>
                         <TextField source="ubicacion.colonia" label="Colonia o Comunidad" />
                         <TextField source="ubicacion.municipio" label="Alcaldía o Municipio" />
                     </ColumnSection>
