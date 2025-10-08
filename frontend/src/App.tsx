@@ -24,11 +24,11 @@ import { authProvider } from "./authProvider";
 // Idioma
 import { i18nProviderNoLocale } from './i18nProvider';
 // Layout
-import { MyLayout } from './MyLayout';
+import { MyLayout } from './ui/MyLayout';
 // Tema y accesibilidad
-import { AccThemeProvider, useAccSettings } from './MyTheme';
+import { AccThemeProvider, useAccSettings } from './ui/MyTheme';
 // Página de inicio de sesión
-import { LoginPage } from './loginPage';
+import { LoginPage } from './ui/loginPage';
 import 'leaflet/dist/leaflet.css';
 
 // Componente que envuelve Admin para aplicar el tema con ajustes de accesibilidad

@@ -28,7 +28,7 @@ import {
     Datagrid,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../utils/componentes";
 import { Typography, Box } from "@mui/material";
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import { useMediaQuery } from '@mui/material';

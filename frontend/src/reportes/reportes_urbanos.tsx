@@ -34,15 +34,15 @@ import {
     RowSection, ColumnSection, GridSection, TextInputWithCounter, MyToolbar,
     listBoxSx, evidenceBoxSx, MotivoToggleInput,
     PanelHistorialCambios, CompactoHistorialCambios
-} from "../componentes";
+} from "../utils/componentes";
 import { Typography, Box } from "@mui/material";
 import EmergencyIcon from '@mui/icons-material/Emergency';
 // Opciones para SelectInput
-import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "../opciones";
+import { MODO_ACTIVACION_CHOICES, GRAVEDAD_CHOICES, AUTORIDADES_CHOICES } from "../utils/opciones";
 // Panel de historial de cambios
 import { useMediaQuery } from '@mui/material';
 // Mapa
-import { MapInput } from "../MapInput";
+import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RUFilters = [

@@ -4,7 +4,7 @@
 
 import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
-import { listBoxSx } from "../componentes";
+import { listBoxSx } from "../utils/componentes";
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 // Gráficas
 import { GraficasUrbanas } from "./GraficasUrbanas";

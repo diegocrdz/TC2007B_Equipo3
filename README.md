@@ -2,6 +2,8 @@
 
 **Aplicación web para la gestión de emergencias prehospitalarias y urbanas de la Alcaldía de Cuajimalpa**
 
+![Banner del proyecto](./img/banner_readme.png)
+
 > **Nota:** Este proyecto fue desarrollado como propuesta (MVP) para la automatización de registros de la Alcaldía Cuajimalpa y la Secretaría de Gestión Integral de Riesgos y Protección Civil.
 
 ## Integrantes del equipo:

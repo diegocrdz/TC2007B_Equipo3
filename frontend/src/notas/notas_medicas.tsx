@@ -27,14 +27,14 @@ import {
     Datagrid,
 } from "react-admin";
 // Componentes personalizados
-import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../componentes";
+import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../utils/componentes";
 import { Typography, Box } from "@mui/material";
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import { useMediaQuery } from '@mui/material';
 // Opciones para SelectInput
-import { OCURRENCIA_CHOICES } from "../opciones";
+import { OCURRENCIA_CHOICES } from "../utils/opciones";
 // Mapa
-import { MapInput } from "../MapInput";
+import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const NMFilters = [

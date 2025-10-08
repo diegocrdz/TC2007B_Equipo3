@@ -53,14 +53,14 @@ import { MOTIVO_CHOICES, OCURRENCIA_CHOICES, SEXO_CHOICES, PRODUCTO_CHOICES,
     CONDICION_PACIENTE_CHOICES, PRIORIDAD_CHOICES, CONTROL_CERVICAL_CHOICES,
     ASISTENCIA_VENTILATORIA_CHOICES, VIA_VENOSAS_CHOICES,
     CONTROL_HEMORRAGIAS_CHOICES, ATENCION_BASICA_CHOICES
-} from "../opciones";
+} from "../utils/opciones";
 // Componentes personalizados
 import { RowSection, ColumnSection,
     TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput,
     evidenceBoxSx, accordionSx, TimeGridSection, TimeInputWithIcon,
     PanelHistorialCambios, CompactoHistorialCambios, ZonasLesion,
     Glasgow
-} from "../componentes";
+} from "../utils/componentes";
 // Íconos
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import CallIcon from '@mui/icons-material/Call';
@@ -72,7 +72,7 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import HomeIcon from '@mui/icons-material/Home';
 import { useMediaQuery } from '@mui/material';
 // Mapa
-import { MapInput } from "../MapInput";
+import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RMFilters = [
@@ -105,7 +105,7 @@ export const RMList = () => {
             >
                 <LocalHospitalIcon />
                 <Typography variant="h4">
-                    Reportes Urbanos
+                    Reportes Médicos
                 </Typography>
             </Box>
             
@@ -727,13 +727,13 @@ export const RMShow = () => {
                         <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
                     </RowSection>
                     <TimeGridSection labeled title="Registro de Horas">
-                        <TextField source="horaLlam" label="Hora Llamada 📞" />
-                        <TextField source="horaSal" label="Hora Salida 🚑" />
-                        <TextField source="horaLlegada" label="Hora Llegada 📍" />
-                        <TextField source="horaTras" label="Hora Traslado 🚐" />
-                        <TextField source="horaHos" label="Hora Hospital 🏥" />
-                        <TextField source="horaSalidaHos" label="Salida Hospital 🚪" />
-                        <TextField source="horaBase" label="Hora Base 🏠" />
+                        <TextField source="horaLlam" label="Hora Llamada" />
+                        <TextField source="horaSal" label="Hora Salida" />
+                        <TextField source="horaLlegada" label="Hora Llegada" />
+                        <TextField source="horaTras" label="Hora Traslado" />
+                        <TextField source="horaHos" label="Hora Hospital" />
+                        <TextField source="horaSalidaHos" label="Salida Hospital" />
+                        <TextField source="horaBase" label="Hora Base" />
                     </TimeGridSection>
                     <ColumnSection labeled title="Involucrados">
                         <TextField source="nombrePaciente" label="Nombre paciente" />

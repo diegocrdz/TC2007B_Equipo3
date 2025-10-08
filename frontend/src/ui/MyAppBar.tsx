@@ -1,5 +1,5 @@
 import { AppBar, TitlePortal, useSidebarState } from 'react-admin';
-import { SwipeableTemporaryDrawer } from './accMenu';
+import { SwipeableTemporaryDrawer } from '../ui/accMenu';
 import { Box, useMediaQuery } from '@mui/material';
 
 const Logo = () => {
