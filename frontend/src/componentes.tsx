@@ -18,6 +18,7 @@ import { Stack, Divider } from "@mui/material";
 import { Table, TableContainer, TableRow, TableBody, TableCell } from "@mui/material";
 // Íconos
 import PersonIcon from '@mui/icons-material/Person';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 // Estilos para diferentes layouts en las secciones del formulario
 // Estilo para filas
@@ -144,11 +145,10 @@ export const GridSection = ({ title, children, labeled=false }:
     </Box>
 );
 
-// Componente especializado para horarios
-export const TimeGridSection = ({ title, children, icon = "🕐", labeled=false }: { 
+// Componente para horarios
+export const TimeGridSection = ({ title, children, labeled=false }: { 
     title: string, 
     children: React.ReactNode,
-    icon?: string,
     labeled?: boolean
 }) => (
     <Box sx={{
@@ -168,7 +168,7 @@ export const TimeGridSection = ({ title, children, icon = "🕐", labeled=false 
             gap: 1,
             mb: 3
         }}>
-            {icon} {title}
+            <AccessTimeIcon fontSize="small" /> {title}
         </Typography>
         <Box sx={{
             display: 'grid',
@@ -186,25 +186,30 @@ export const TimeGridSection = ({ title, children, icon = "🕐", labeled=false 
         </Box>
     </Box>
 );
+// Componente TimeInput con icono MUI al inicio del label
 
-// Componente TimeInput con icono personalizado
-export const TimeInputWithIcon = ({ 
-    source, 
-    label, 
-    icon, 
+export const TimeInputWithIcon = ({
+    source,
+    label,
+    icon,
     required = false,
-    ...props 
-}: { 
-    source: string, 
-    label: string, 
-    icon: string,
+    ...props
+}: {
+    source: string,
+    label: string,
+    icon?: React.ReactNode,
     required?: boolean,
     [key: string]: any
 }) => (
-    <TimeInput 
+    <TimeInput
         required={required}
-        source={source} 
-        label={`${icon} ${label}`}
+        source={source}
+        label={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {icon}
+                {label}
+            </Box>
+        }
         sx={{ width: '100%' }}
         {...props}
     />

@@ -61,7 +61,15 @@ import { RowSection, ColumnSection,
     PanelHistorialCambios, CompactoHistorialCambios, ZonasLesion,
     Glasgow
 } from "../componentes";
+// Íconos
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import CallIcon from '@mui/icons-material/Call';
+import SendIcon from '@mui/icons-material/Send';
+import PlaceIcon from '@mui/icons-material/Place';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import HomeIcon from '@mui/icons-material/Home';
 import { useMediaQuery } from '@mui/material';
 // Mapa
 import { MapInput } from "../MapInput";
@@ -206,13 +214,13 @@ export const RMCreate = () => ( // Prototipo con los campos del reporte de papel
                     <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
                 </RowSection>
                 <TimeGridSection title="Registro de Horas">
-                    <TimeInputWithIcon required source="horaLlam" label="Hora Llamada" icon="📞" />
-                    <TimeInputWithIcon required source="horaSal" label="Hora Salida" icon="🚑" />
-                    <TimeInputWithIcon required source="horaLlegada" label="Hora Llegada" icon="📍" />
-                    <TimeInputWithIcon required source="horaTras" label="Hora Traslado" icon="🚐" />
-                    <TimeInputWithIcon required source="horaHos" label="Hora Hospital" icon="🏥" />
-                    <TimeInputWithIcon required source="horaSalidaHos" label="Salida Hospital" icon="🚪" />
-                    <TimeInputWithIcon required source="horaBase" label="Hora Base" icon="🏠" />
+                    <TimeInputWithIcon required source="horaLlam" label="Hora Llamada" icon={<CallIcon />} />
+                    <TimeInputWithIcon required source="horaSal" label="Hora Salida" icon={<SendIcon />} />
+                    <TimeInputWithIcon required source="horaLlegada" label="Hora Llegada" icon={<PlaceIcon />} />
+                    <TimeInputWithIcon required source="horaTras" label="Hora Traslado" icon={<AirportShuttleIcon />} />
+                    <TimeInputWithIcon required source="horaHos" label="Hora Hospital" icon={<ApartmentIcon />} />
+                    <TimeInputWithIcon required source="horaSalidaHos" label="Salida Hospital" icon={<MeetingRoomIcon />} />
+                    <TimeInputWithIcon required source="horaBase" label="Hora Base" icon={<HomeIcon />} />
                 </TimeGridSection>
                 <ColumnSection title="Involucrados">
                     <TextInput required source="nombrePaciente" label="Nombre paciente" />

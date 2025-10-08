@@ -1,4 +1,4 @@
-# app-admin
+# frontend
 
 ## Installation
 
