@@ -1,6 +1,14 @@
 /*
-    Generación de temas personalizados con opciones de accesibilidad (tamaño y tipo de letra)
-    Basado en los temas bwDarkTheme y bwLightTheme de react-admin
+Generación de temas personalizados con opciones de accesibilidad (tamaño y tipo de letra)
+Basado en los temas bwDarkTheme y bwLightTheme de react-admin
+Fecha: 11/08/2025
+
+Referencias:
+- Temas de react-admin: https://marmelab.com/react-admin/Theming.html#using-a-custom-theme
+- Tipografía en Material-UI: https://mui.com/material-ui/customization/typography/
+- Deepmerge y sobreescribir temas: https://mui.com/material-ui/customization/theming/#theme-provider
+- Crear contexto: https://react.dev/reference/react/createContext
+- useMemo: https://react.dev/reference/react/useMemo
 */
 
 import React from 'react';

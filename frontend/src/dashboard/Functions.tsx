@@ -1,3 +1,8 @@
+/*
+Funciones rápidas y administrativas en el dashboard
+Fecha: 11/08/2025
+*/
+
 import { Box, useTheme } from '@mui/material';
 import { useRedirect, usePermissions } from 'react-admin';
 // Icons
@@ -9,6 +14,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
 // Funciones rápidas para cada rol
 const functionData = {
@@ -43,6 +49,7 @@ const adminFunctionData = {
     admin: [
         { title: 'Ver estadísticas médicas', to: '/estadisticas_medicas', icon: <ShowChartIcon fontSize="large" /> },
         { title: 'Ver estadísticas urbanas', to: '/estadisticas_urbanas', icon: <AutoGraphIcon fontSize="large" /> },
+        { title: 'Gestionar usuarios', to: '/usuarios', icon: <SupervisedUserCircleIcon fontSize="large" /> },
     ],
 };
 
@@ -105,8 +112,8 @@ const AdminFunctionBox = ({ title, to, idx, icon }: { title: string, to: string,
     
     // Colores específicos para funciones administrativas
     const adminColors = {
-        dark: ['#7cd393ff', '#5e9bc6ff'],
-        light: ['#4ba061ff', '#3f6c8fff'] 
+        dark: ['#7cd393ff', '#5e9bc6ff', '#e4bca7ff'],
+        light: ['#4ba061ff', '#3f6c8fff', '#874e34ff'],
     };
     
     const mode = theme.palette.mode;
@@ -224,7 +231,13 @@ export const AdminFunctions = () => {
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    // Columnas para diferentes tamaños de pantalla
+                    gridTemplateColumns: {
+                        xs: 'repeat(1, 1fr)', // Muy pequeña
+                        sm: 'repeat(1, 1fr)', // Pequeña
+                        md: 'repeat(3, 1fr)', // Mediana
+                        lg: 'repeat(3, 1fr)', // Grande
+                    },
                     gap: '20px',
                 }}
             >

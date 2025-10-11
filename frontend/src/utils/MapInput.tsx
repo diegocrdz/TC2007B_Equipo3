@@ -1,3 +1,9 @@
+/*
+Componente de entrada de mapa para formularios
+Permite seleccionar una ubicación en un mapa, arrastrar un pin y geolocalizar
+Fecha: 11/08/2025
+*/
+
 import { useEffect, useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Box, Button, Typography } from "@mui/material";

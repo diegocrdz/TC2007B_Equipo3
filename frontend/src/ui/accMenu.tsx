@@ -1,3 +1,14 @@
+/*
+Componente del menú de accesibilidad
+Permite a los usuarios ajustar configuraciones como el tamaño y tipo de letra
+Fecha: 11/08/2025
+
+Referencias:
+- Menú lateral: https://mui.com/material-ui/react-drawer/#swipeable
+- Stack: https://mui.com/material-ui/react-stack/
+- Select: https://mui.com/material-ui/react-select/
+*/
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -97,9 +108,10 @@ const StackItem = ({ title, icon, opt_title, options, value, onChange }:
     )
 };
 
-// 
+// Tipo para las anclas del menú lateral
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
+// Componente del menú lateral de accesibilidad
 export const SwipeableTemporaryDrawer = () => {
     const { settings, updateSettings } = useAccSettings();
 
@@ -167,7 +179,7 @@ export const SwipeableTemporaryDrawer = () => {
     );
 
     return (
-        <>
+        <Box>
             <Button
                 onClick={toggleDrawer('right', true)}
                 sx={{
@@ -191,6 +203,6 @@ export const SwipeableTemporaryDrawer = () => {
             >
                 {list()}
             </SwipeableDrawer>
-        </>
+        </Box>
     );
 }

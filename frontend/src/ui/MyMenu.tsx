@@ -1,3 +1,9 @@
+/*
+Componente de menú personalizado para react-admin
+Incluye secciones basadas en permisos y un logo
+Fecha: 11/08/2025
+*/
+
 import { Menu, useSidebarState, useCanAccess } from 'react-admin';
 import { Divider, ListSubheader } from '@mui/material';
 
@@ -97,7 +103,13 @@ export const MyMenu = () => {
 					name="estadisticas_urbanas"
 					title="Estadísticas Urbanas"
 					aria-label='Estadísticas Urbanas'
-				/>
+				/>,
+				<Menu.ResourceItem
+					key="usuarios"
+					name="usuarios"
+					title="Usuarios"
+					aria-label='Usuarios'
+				/>,
 			]}
 			<Divider />
 

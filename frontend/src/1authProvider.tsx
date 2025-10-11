@@ -1,9 +1,3 @@
-/*
-Proveedor de autenticación para react-admin
-Incluye login, logout, verificación de permisos y obtención de identidad
-Fecha: 11/08/2025
-*/
-
 import { AuthProvider } from "react-admin";
 
 type Role = 'admin' | 'jefe' | 'paramedico' | 'urbano';
@@ -45,69 +39,73 @@ const accessControlStrategies = {
 }
 
 export const authProvider: AuthProvider = {
-    // Cuando usuario intenta iniciar sesión
-    async login({ username, password }) {
-        if (!(username && password)) {
-            throw new Error("Credenciales inválidas");
+
+    // Iniciar sesión
+    async login({username, password}) {
+        const request = new Request('http://localhost:3000/login', {
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+        });
+        try {
+            const res = await fetch(request);
+            if (res.status < 200 || res.status >= 300) {
+                throw new Error(res.statusText);
+            }
+            const auth=await res.json();
+            sessionStorage.setItem("auth", auth.token);
+            sessionStorage.setItem("identity", JSON.stringify({"id":auth.id, "fullName":auth.fullName, "role":auth.role, "turno":auth.turno}));
+            return Promise.resolve();
+        } catch {
+            throw new Error("Error en usuario o password");
         }
-        localStorage.setItem("username", username);
-        // assign role based on username
-        let role = "";
-        let turno = "";
-        switch (username) {
-            case 'admin':
-                role = 'admin';
-                turno = 'N/A';
-                break;
-            case 'jefe':
-                role = 'jefe';
-                turno = '1';
-                break;
-            case 'paramedico':
-                role = 'paramedico';
-                turno = '2';
-                break;
-            case 'urbano':
-                role = 'urbano';
-                turno = '3';
-                break;
-            default:
-                break;
-        }
-        localStorage.setItem("permissions", role);
-        localStorage.setItem("turno", turno);
     },
-    // Cuando el usuario cierra sesión
+
+    // Cerrar sesión
     async logout() {
-        localStorage.removeItem("username");
+        sessionStorage.removeItem("auth");
+        sessionStorage.removeItem("identity");
+        return Promise.resolve();
     },
+
     // Cuando la API devuelve un error
-    async checkError({ status }: { status: number }) {
+    async checkError(error) {
+        const status = error.status;
         if (status === 401 || status === 403) {
-            localStorage.removeItem("username");
-            throw new Error("Session expired");
+            sessionStorage.removeItem("auth");
+            sessionStorage.removeItem("identity");
+            return Promise.reject();
         }
+        return Promise.resolve();
     },
+
     // Cuando el usuario cambia de interfaz, verificar si está autenticado
     async checkAuth() {
-        if (!localStorage.getItem("username")) {
-            throw new Error("Authentication required");
-        }
+        return sessionStorage.getItem("auth") ? Promise.resolve() : Promise.reject()
     },
+
     // Obtener los permisos del usuario
     async getPermissions() {
-        const turno = localStorage.getItem("turno");
-        const role = localStorage.getItem("permissions");
+        const turno = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').turno as string : null;
+        const role = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').role as Role : null;
         return { role, turno };
     },
+
     // Verificar si el usuario tiene acceso a un recurso y acción específicos
     async canAccess({ resource, action }: { resource: string; action: string }) {
-        const role = (localStorage.getItem("permissions") as Role);
+        // Busca el rol de usuario en sessionStorage
+        const role = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').role as Role : null;
+        if (!role) return false;
+        // Obtiene la estrategia de control de acceso para el rol
+        const strategy = accessControlStrategies[role];
+        if (!strategy) return false;
+        // Devuelve si el usuario tiene acceso o no
         return accessControlStrategies[role]({ resource, action });
     },
+
     // Obtener la identidad del usuario
     async getIdentity() {
-        const username = localStorage.getItem("username");
+        const username = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').id as string : null;
         if (!username) {
             throw new Error("No user logged in");
         }

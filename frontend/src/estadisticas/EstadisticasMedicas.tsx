@@ -1,10 +1,13 @@
 /*
-    Página de Estadísticas Médicas
+Página de Estadísticas Médicas
+Fecha: 11/08/2025
 */
 
 import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
+// Componentes
 import { listBoxSx } from "../utils/componentes";
+// Iconos
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 // Gráficas
 import { GraficasMedicas } from "./GraficasMedicas";

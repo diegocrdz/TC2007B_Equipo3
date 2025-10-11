@@ -1,3 +1,9 @@
+/*
+Componente personalizado de la barra de aplicaciones
+Incluye un logo y un menú de accesibilidad
+Fecha: 11/08/2025
+*/
+
 import { AppBar, TitlePortal, useSidebarState } from 'react-admin';
 import { SwipeableTemporaryDrawer } from '../ui/accMenu';
 import { Box, useMediaQuery } from '@mui/material';

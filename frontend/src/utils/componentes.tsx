@@ -1,5 +1,6 @@
 /*
-    Componentes personalizados reutilizables para formularios
+Componentes personalizados reutilizables para formularios
+Fecha: 11/08/2025
 */
 
 import * as React from "react";
@@ -202,7 +203,6 @@ export const TimeInputWithIcon = ({
     [key: string]: any
 }) => (
     <TimeInput
-        required={required}
         source={source}
         label={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -210,6 +210,7 @@ export const TimeInputWithIcon = ({
                 {label}
             </Box>
         }
+        required={required}
         sx={{ width: '100%' }}
         {...props}
     />
@@ -252,25 +253,45 @@ export const TextInputWithCounter = (
 };
 
 // Componente de botones para múltiples opciones (toggle buttons)
-export const MotivoToggleInput = ({ source, label, choices, exclusive=true } : {
+export const MotivoToggleInput = ({ source, label, choices, exclusive=true, required=false } : {
     source: string;
     label: string;
     choices: { id: string; name: string }[];
     exclusive?: boolean;
+    required?: boolean;
 }) => {
-    const { field } = useInput({ source });
+    // Usa useInput para usar el campo en react-admin
+    const { field, fieldState } = useInput({
+        source,
+        // Si es obligatorio, revisa que tenga valor
+        validate: required ? (value) => {
+            if (!value) {
+                return 'Requerido';
+            }
+            return undefined;
+        } : undefined,
+    });
+
+    const error = fieldState.error !== undefined;
     
     return (
         <Box>
-            <Typography variant="subtitle2" color="textSecondary">{label}</Typography>
+            {required
+                ? <Typography variant="subtitle2" color="textSecondary">{label}*</Typography>
+                : <Typography variant="subtitle2" color="textSecondary">{label}</Typography>
+            }
             {exclusive
                 ? <Typography variant="caption" color="textSecondary">Selecciona una opción</Typography>
                 : <Typography variant="caption" color="textSecondary">Selecciona una o más opciones</Typography>
             }
+            {error && (
+                <Typography variant="caption" color="error" display="block">Campo requerido</Typography>
+            )}
             <ToggleButtonGroup
                 value={field.value}
                 exclusive={exclusive}
                 onChange={(event, newValue) => field.onChange(newValue)}
+                aria-label={label}
                 sx={{
                     display: 'grid',
                     gridTemplateColumns: {

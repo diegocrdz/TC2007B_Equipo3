@@ -1,5 +1,7 @@
 /*
-    Formularios para Notas Médicas
+Recurso para Notas Médicas
+Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
+Fecha: 11/08/2025
 */
 
 // react-admin
@@ -164,63 +166,74 @@ export const NMEdit = () => {
     );
 };
 
-export const NMCreate = () => ( 
-    <Create
-        sx={{
-            marginBottom: '5em',
-        }}
-    >
-        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
-            { /*------------------------------------------------------*/}
-            <RowSection title="Fecha y Hora" border={true}>
-                <DateInput required source="fecha" label="Fecha"
-                    defaultValue={new Date()} // Fecha actual por defecto
-                />
-                <TimeInput required source="hora" label="Hora"
-                    defaultValue={new Date()} // Hora actual por defecto
-                />
-            </RowSection>
-            <RowSection title="Turno y Personal" border={true}>
-                <NumberInput required source="turno" label="Turno" />
-                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
-            </RowSection>
-            <ColumnSection title="Involucrados">
-                <TextInput required source="nombrePaciente" label="Nombre paciente" />
-                <TextInput required source="nombreTestigo" label="Nombre testigo" />
-                <TextInput required source="nombreParamedico" label="Nombre paramédico" />
-                <TextInput required source="nombreMedico" label="Nombre médico" />
-            </ColumnSection>
-            <ColumnSection title="Ubicación">
-                <MapInput name="location" />
-                <TextInput required source="ubicacion.calle" label="Calle" />
-                <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
-                    <TextInput required source="ubicacion.numExt" label="Entre" />
-                    <TextInput required source="ubicacion.numInt" label="Y" />
-                </Box>
-                <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
-                <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
-            </ColumnSection>
-            <ColumnSection title="Ocurrencia">
-                <MotivoToggleInput
-                    source="ocurrencia"
-                    label="Lugar de Ocurrencia"
-                    choices={OCURRENCIA_CHOICES}
-                />
-                <TextInput source="ocurrenciaOtro" label="Otro (especificar)" />
-            </ColumnSection>
-            <ColumnSection title="Detalles">
-                <TextInput required source="asunto" label="Asunto" />
-                <TextInputWithCounter
-                    source="observaciones"
-                    label="Observaciones"
-                    maxLength={1000}
-                    multiline
-                    rows={3}
-                />
-            </ColumnSection>
-        </SimpleForm>
-    </Create>
-);
+export const NMCreate = () => {
+
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+
+    const onSuccess = () => {
+        notify('Nota creada', { undoable: true });
+        redirect('/notas_medicas');
+        refresh();
+    };
+
+    return (
+        <Create sx={{ marginBottom: '5em' }} mutationOptions={{ onSuccess }}>
+            <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
+                { /*------------------------------------------------------*/}
+                <RowSection title="Fecha y Hora" border={true}>
+                    <DateInput required source="fecha" label="Fecha"
+                        defaultValue={new Date()} // Fecha actual por defecto
+                    />
+                    <TimeInput required source="hora" label="Hora"
+                        defaultValue={new Date()} // Hora actual por defecto
+                    />
+                </RowSection>
+                <RowSection title="Turno y Personal" border={true}>
+                    <NumberInput required source="turno" label="Turno" />
+                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                </RowSection>
+                <ColumnSection title="Involucrados">
+                    <TextInput required source="nombrePaciente" label="Nombre paciente" />
+                    <TextInput required source="nombreTestigo" label="Nombre testigo" />
+                    <TextInput required source="nombreParamedico" label="Nombre paramédico" />
+                    <TextInput required source="nombreMedico" label="Nombre médico" />
+                </ColumnSection>
+                <ColumnSection title="Ubicación">
+                    <MapInput name="location" />
+                    <TextInput required source="ubicacion.calle" label="Calle" />
+                    <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
+                        <TextInput required source="ubicacion.numExt" label="Entre" />
+                        <TextInput required source="ubicacion.numInt" label="Y" />
+                    </Box>
+                    <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
+                    <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
+                </ColumnSection>
+                <ColumnSection title="Ocurrencia">
+                    <MotivoToggleInput
+                        required
+                        source="ocurrencia"
+                        label="Lugar de Ocurrencia"
+                        choices={OCURRENCIA_CHOICES}
+                    />
+                    <TextInput source="ocurrenciaOtro" label="Otro (especificar)" />
+                </ColumnSection>
+                <ColumnSection title="Detalles">
+                    <TextInput required source="asunto" label="Asunto" />
+                    <TextInputWithCounter
+                        required
+                        source="observaciones"
+                        label="Observaciones"
+                        maxLength={1000}
+                        multiline
+                        rows={3}
+                    />
+                </ColumnSection>
+            </SimpleForm>
+        </Create>
+    );
+};
 
 export const NMShow = () => (
     <Show sx={{ marginBottom: '5em' }} >

@@ -1,10 +1,13 @@
 /*
-    Página de Estadísticas Urbanas
+Página de Estadísticas Urbanas
+Fecha: 11/08/2025
 */
 
 import { Box, Typography } from "@mui/material";
 import { usePermissions } from "react-admin";
+// Componentes
 import { listBoxSx } from "../utils/componentes";
+// Iconos
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 // Gráficas
 import { GraficasUrbanas } from "./GraficasUrbanas";

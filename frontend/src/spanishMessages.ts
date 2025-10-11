@@ -1,3 +1,8 @@
+/*
+Traducciones de mensajes de react-admin al español
+Fecha: 11/08/2025
+*/
+
 import { TranslationMessages } from 'ra-core';
 
 const spanishMessages: TranslationMessages = {

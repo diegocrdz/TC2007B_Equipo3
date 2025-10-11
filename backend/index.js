@@ -119,7 +119,8 @@ app.post("/login", async (req, res)=>{
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.password, pass)){
 		let token=jwt.sign({"usuario":data.usuario}, "secretKey", {expiresIn: 900})
-		res.json({"token":token, "id":data.usuario, "nombre":data.nombre})
+		// res.json({"token":token, "id":data.usuario, "nombre":data.nombre})
+		res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "role": data.rol, "turno": data.turno})
 	}else{
 		res.sendStatus(401);
 	}

@@ -1,3 +1,9 @@
+/*
+Gráficas Urbanas
+Se generan gráficas y estadísticas basadas en los datos de reportes urbanos y notas urbanas.
+Fecha: 11/08/2025
+*/
+
 import { Box, Typography } from '@mui/material';
 import { useGetList } from 'react-admin';
 // Íconos para reportes registrados, notas registradas y tiempo de traslado promedio

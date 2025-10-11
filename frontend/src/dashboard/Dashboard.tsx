@@ -1,3 +1,9 @@
+/*
+Dashboard principal
+Muestra acciones rápidas y la información del usuario actual
+Fecha: 11/08/2025
+*/
+
 import { useGetIdentity, usePermissions } from "react-admin";
 import { Box, Card, CardHeader } from "@mui/material";
 import { Functions, AdminFunctions } from "./Functions";

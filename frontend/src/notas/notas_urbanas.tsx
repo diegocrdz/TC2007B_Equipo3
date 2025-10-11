@@ -1,5 +1,7 @@
 /*
-    Formularios para Notas Urbanas
+Recurso para Notas Urbanas
+Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
+Fecha: 11/08/2025
 */
 
 // react-admin
@@ -151,39 +153,48 @@ export const NUEdit = () => {
     );
 };
 
-export const NUCreate = () => ( 
-    <Create
-        sx={{
-            marginBottom: '5em',
-        }}
-    >
-        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
-            <RowSection title="Fecha y hora" border={true}>
-                <DateInput required source="fecha" label="Fecha"
-                    defaultValue={new Date()} // Fecha actual por defecto
-                />
-                <TimeInput required source="hora" label="Hora"
-                    defaultValue={new Date()} // Hora actual por defecto
-                />
-            </RowSection>
-            <RowSection title="Turno y Personal" border={true}>
-                <NumberInput required source="turno" label="Turno" />
-                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
-            </RowSection>
-            <ColumnSection title="Detalles">
-                <TextInput required source="asunto" label="Asunto" />
-                <TextInputWithCounter
-                    required
-                    source="observaciones"
-                    label="Observaciones"
-                    maxLength={500}
-                    multiline
-                    rows={3}
-                />
-            </ColumnSection>
-        </SimpleForm>
-    </Create>
-);
+export const NUCreate = () => {
+
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+
+    const onSuccess = () => {
+        notify('Nota creada', { undoable: true });
+        redirect('/notas_urbanas');
+        refresh();
+    };
+
+    return (
+        <Create sx={{ marginBottom: '5em' }} mutationOptions={{ onSuccess }} >
+            <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
+                <RowSection title="Fecha y hora" border={true}>
+                    <DateInput required source="fecha" label="Fecha"
+                        defaultValue={new Date()} // Fecha actual por defecto
+                    />
+                    <TimeInput required source="hora" label="Hora"
+                        defaultValue={new Date()} // Hora actual por defecto
+                    />
+                </RowSection>
+                <RowSection title="Turno y Personal" border={true}>
+                    <NumberInput required source="turno" label="Turno" />
+                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                </RowSection>
+                <ColumnSection title="Detalles">
+                    <TextInput required source="asunto" label="Asunto" />
+                    <TextInputWithCounter
+                        required
+                        source="observaciones"
+                        label="Observaciones"
+                        maxLength={500}
+                        multiline
+                        rows={3}
+                    />
+                </ColumnSection>
+            </SimpleForm>
+        </Create>
+    );
+};
 
 export const NUShow = () => (
     <Show sx={{ marginBottom: '5em', }} >

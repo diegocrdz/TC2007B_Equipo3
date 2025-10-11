@@ -1,5 +1,7 @@
 /*
-    Formularios para Reportes Urbanos
+Recurso para Reportes Urbanos
+Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
+Fecha: 11/08/2025
 */
 
 // react-admin
@@ -188,83 +190,99 @@ export const RUEdit = () => {
     );
 };
 
-export const RUCreate = () => ( // Formulario completo para reporte de emergencias urbanas
-    <Create sx={{ marginBottom: '5em' }} >
-        <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
-            <RowSection title="Folio y Fecha" border={true}>
-                <TextInput required source="folio" label="Folio" />
-                <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
-            </RowSection>
-            <RowSection title="Turno y Personal" border={true}>
-                <NumberInput required source="turno" label="Turno" />
-                <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
-            </RowSection>
-            <ColumnSection title="Activación del Servicio">
-                <MotivoToggleInput
-                    source="modoActivacion"
-                    label="Modo de Activación"
-                    choices={MODO_ACTIVACION_CHOICES}
-                />
-                <TextInput required source="tipoServicio" label="Tipo de Servicio" />
-            </ColumnSection>
-            <GridSection title="Horarios de Atención">
-                <DateTimeInput required source="fechaHoraAtencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
-                <NumberInput required source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
-            </GridSection>
-            <ColumnSection title="Ubicación">
-                <MapInput name="location" />
-                <TextInput required source="ubicacion.direccion" label="Dirección" />
-                <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
-                    <TextInput required source="ubicacion.entreCalles1" label="Entre" />
-                    <TextInput required source="ubicacion.entreCalles2" label="Y" />
-                </Box>
-                <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
-                <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
-            </ColumnSection>
-            <ColumnSection title="Gravedad">
-                <MotivoToggleInput
-                    source="gravedad"
-                    label="Gravedad de la Emergencia"
-                    choices={GRAVEDAD_CHOICES}
-                />
-            </ColumnSection>
-            <RowSection title="Recorrido" border={true}>
-                <NumberInput required source="kmRecorridos" label="Kilómetros Recorridos" />
-            </RowSection>
-            <ColumnSection title="Observaciones">
-                <TextInputWithCounter required source="observacionesGenerales" label="Observaciones Generales" maxLength={500} rows={2} />
-                <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
-                    Evidencias Adicionales
-                </Typography>
-                <ImageInput
-                    sx={evidenceBoxSx}
-                    source="evidencia"
-                    accept={{ 'image/*': ['.png', '.jpg'] }}
-                    maxSize={50000000} // 50 MB
-                    multiple // Acepta múltiples imágenes
-                    label="Evidencias"
-                >
-                    <ImageField source="src" title="title" />
-                </ImageInput>
-            </ColumnSection>
-            <ColumnSection title="Dictamen">
-                <TextInput required source="dictamen" label="Dictamen" />
-            </ColumnSection>
-            <ColumnSection title="Responsables de la Emergencia">
-                <TextInput required source="responsableInmueble" label="Responsable del Inmueble" />
-                <TextInput required source="responsableZona" label="Responsable de la Zona" />
-            </ColumnSection>
-            <ColumnSection title="Autoridades y Dependencias Participantes">
-                <MotivoToggleInput
-                    source="autoridadesParticipantes"
-                    label="Autoridades y Dependencias Participantes"
-                    choices={AUTORIDADES_CHOICES}
-                />
-                <TextInput source="autoridadesParticipantesOtros" label="Otros (especificar)" fullWidth />
-            </ColumnSection>
-        </SimpleForm>
-    </Create>
-);
+export const RUCreate = () => {
+
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+
+    const onSuccess = () => {
+        notify('Reporte creado', { undoable: true });
+        redirect('/reportes_urbanos');
+        refresh();
+    };
+
+    return (
+        <Create sx={{ marginBottom: '5em' }} mutationOptions={{ onSuccess }} >
+            <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
+                <RowSection title="Folio y Fecha" border={true}>
+                    <TextInput required source="folio" label="Folio" />
+                    <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
+                </RowSection>
+                <RowSection title="Turno y Personal" border={true}>
+                    <NumberInput required source="turno" label="Turno" />
+                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                </RowSection>
+                <ColumnSection title="Activación del Servicio">
+                    <MotivoToggleInput
+                        required
+                        source="modoActivacion"
+                        label="Modo de Activación"
+                        choices={MODO_ACTIVACION_CHOICES}
+                    />
+                    <TextInput required source="tipoServicio" label="Tipo de Servicio" />
+                </ColumnSection>
+                <GridSection title="Horarios de Atención">
+                    <DateTimeInput required source="fechaHoraAtencion" label="Fecha y Hora de Atención" defaultValue={new Date()} />
+                    <NumberInput required source="tiempoTrasladoMinutos" label="Tiempo de Traslado (minutos)" />
+                </GridSection>
+                <ColumnSection title="Ubicación">
+                    <MapInput name="location" />
+                    <TextInput required source="ubicacion.calle" label="Calle" />
+                    <Box sx={{ display: 'flex', gap: '1em', width: '100%' }}>
+                        <TextInput required source="ubicacion.entreCalles1" label="Entre" />
+                        <TextInput required source="ubicacion.entreCalles2" label="Y" />
+                    </Box>
+                    <TextInput required source="ubicacion.colonia" label="Colonia o Comunidad" />
+                    <TextInput required source="ubicacion.municipio" label="Alcaldía o Municipio" />
+                </ColumnSection>
+                <ColumnSection title="Gravedad">
+                    <MotivoToggleInput
+                        required
+                        source="gravedad"
+                        label="Gravedad de la Emergencia"
+                        choices={GRAVEDAD_CHOICES}
+                    />
+                </ColumnSection>
+                <RowSection title="Recorrido" border={true}>
+                    <NumberInput required source="kmRecorridos" label="Kilómetros Recorridos" />
+                </RowSection>
+                <ColumnSection title="Observaciones">
+                    <TextInputWithCounter required source="observacionesGenerales" label="Observaciones Generales" maxLength={500} rows={2} />
+                    <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
+                        Evidencias Adicionales
+                    </Typography>
+                    <ImageInput
+                        sx={evidenceBoxSx}
+                        source="evidencia"
+                        accept={{ 'image/*': ['.png', '.jpg'] }}
+                        maxSize={50000000} // 50 MB
+                        multiple // Acepta múltiples imágenes
+                        label="Evidencias"
+                    >
+                        <ImageField source="src" title="title" />
+                    </ImageInput>
+                </ColumnSection>
+                <ColumnSection title="Dictamen">
+                    <TextInput required source="dictamen" label="Dictamen" />
+                </ColumnSection>
+                <ColumnSection title="Responsables de la Emergencia">
+                    <TextInput required source="responsableInmueble" label="Responsable del Inmueble" />
+                    <TextInput required source="responsableZona" label="Responsable de la Zona" />
+                </ColumnSection>
+                <ColumnSection title="Autoridades y Dependencias Participantes">
+                    <MotivoToggleInput
+                        required
+                        source="autoridadesParticipantes"
+                        label="Autoridades y Dependencias Participantes"
+                        choices={AUTORIDADES_CHOICES}
+                    />
+                    <TextInput source="autoridadesParticipantesOtros" label="Otros (especificar)" fullWidth />
+                </ColumnSection>
+            </SimpleForm>
+        </Create>
+    );
+};
 
 export const RUShow = () => {
     // Obtener tamaño de pantalla

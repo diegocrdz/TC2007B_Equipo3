@@ -1,5 +1,6 @@
 /*
-    Opciones para los campos SelectInput de los reportes y notas médicas y urbanas
+Opciones para los campos SelectInput de los reportes y notas
+Fecha: 11/08/2025
 */
 
 export const MOTIVO_CHOICES = [
@@ -29,49 +30,49 @@ export const PRODUCTO_CHOICES = [
 ];
 
 export const AGENTE_CHOICES = [
-    { id: 'Agente.arma', name: 'Arma' },
-    { id: 'Agente.juguete', name: 'Juguete' },
-    { id: 'Agente.explosion', name: 'Explosión' },
-    { id: 'Agente.fuego', name: 'Fuego' },
-    { id: 'Agente.animal', name: 'Animal' },
-    { id: 'Agente.bicicleta', name: 'Bicicleta' },
-    { id: 'Agente.automotor', name: 'Automotor' },
-    { id: 'Agente.maquinaria', name: 'Maquinaria' },
-    { id: 'Agente.herramienta', name: 'Herramienta' },
-    { id: 'Agente.electricoDano', name: 'Eléctrico / Daño' },
-    { id: 'Agente.sustanciaCaliente', name: 'Sustancia caliente' },
-    { id: 'Agente.sustanciaToxica', name: 'Sustancia tóxica' },
-    { id: 'Agente.productoBiologico', name: 'Producto biológico' },
-    { id: 'Agente.serHumano', name: 'Ser humano' },
-    { id: 'Agente.otro', name: 'Otro' },
+    { id: 'arma', name: 'Arma' },
+    { id: 'juguete', name: 'Juguete' },
+    { id: 'explosion', name: 'Explosión' },
+    { id: 'fuego', name: 'Fuego' },
+    { id: 'animal', name: 'Animal' },
+    { id: 'bicicleta', name: 'Bicicleta' },
+    { id: 'automotor', name: 'Automotor' },
+    { id: 'maquinaria', name: 'Maquinaria' },
+    { id: 'herramienta', name: 'Herramienta' },
+    { id: 'electricoDano', name: 'Eléctrico / Daño' },
+    { id: 'sustanciaCaliente', name: 'Sustancia caliente' },
+    { id: 'sustanciaToxica', name: 'Sustancia tóxica' },
+    { id: 'productoBiologico', name: 'Producto biológico' },
+    { id: 'serHumano', name: 'Ser humano' },
+    { id: 'otro', name: 'Otro' },
 ];
 
 export const TIPO_ACCIDENTE_CHOICES = [
-    { id: 'accidente.colision', name: 'Colisión' },
-    { id: 'accidente.volcadura', name: 'Volcadura' },
-    { id: 'accidente.automotor', name: 'Automotor' },
-    { id: 'accidente.bicicleta', name: 'Bicicleta' },
-    { id: 'accidente.motocicleta', name: 'Motocicleta' },
-    { id: 'accidente.maquinaria', name: 'Maquinaria' },
-    { id: 'accidente.objeto', name: 'Contra objeto fijo' },
+    { id: 'colision', name: 'Colisión' },
+    { id: 'volcadura', name: 'Volcadura' },
+    { id: 'automotor', name: 'Automotor' },
+    { id: 'bicicleta', name: 'Bicicleta' },
+    { id: 'motocicleta', name: 'Motocicleta' },
+    { id: 'maquinaria', name: 'Maquinaria' },
+    { id: 'objeto', name: 'Contra objeto fijo' },
 ];
 
 export const IMPACTO_CHOICES = [
-    { id: 'accidente.posterior', name: 'Posterior' },
-    { id: 'accidente.volcadura', name: 'Volcadura' },
-    { id: 'accidente.rotacional', name: 'Rotacional' },
-    { id: 'accidente.frontal', name: 'Frontal' },
-    { id: 'accidente.lateral', name: 'Lateral' },
+    { id: 'posterior', name: 'Posterior' },
+    { id: 'volcadura', name: 'Volcadura' },
+    { id: 'rotacional', name: 'Rotacional' },
+    { id: 'frontal', name: 'Frontal' },
+    { id: 'lateral', name: 'Lateral' },
 ];
 
 export const PARABRISAS_CHOICES = [
-    { id: 'accidente.integro', name: 'Íntegro' },
-    { id: 'accidente.estrellado', name: 'Estrellado' },
+    { id: 'integro', name: 'Íntegro' },
+    { id: 'estrellado', name: 'Estrellado' },
 ];
 
 export const VOLANTE_CHOICES = [
-    { id: 'accidente.integro', name: 'Íntegro' },
-    { id: 'accidente.doblado', name: 'Doblado' },
+    { id: 'integro', name: 'Íntegro' },
+    { id: 'doblado', name: 'Doblado' },
 ];
 
 export const SI_NO_CHOICES = [
@@ -80,103 +81,103 @@ export const SI_NO_CHOICES = [
 ];
 
 export const CINTURON_CHOICES = [
-    { id: 'accidente.colocado', name: 'Colocado' },
-    { id: 'accidente.no_colocado', name: 'No colocado' },
+    { id: 'colocado', name: 'Colocado' },
+    { id: 'no_colocado', name: 'No colocado' },
 ];
 
 export const DENTRO_VEHICULO_CHOICES = [
-    { id: 'accidente.si', name: 'Sí' },
-    { id: 'accidente.no', name: 'No' },
-    { id: 'accidente.eyectado', name: 'Eyectado' },
+    { id: 'si', name: 'Sí' },
+    { id: 'no', name: 'No' },
+    { id: 'eyectado', name: 'Eyectado' },
 ];
 
 export const ATROPELLADO_CHOICES = [
-    { id: 'atropellado.automotor', name: 'Automotor' },
-    { id: 'atropellado.motocicleta', name: 'Motocicleta' },
-    { id: 'atropellado.bicicleta', name: 'Bicicleta' },
-    { id: 'atropellado.maquinaria', name: 'Maquinaria' },
+    { id: 'automotor', name: 'Automotor' },
+    { id: 'motocicleta', name: 'Motocicleta' },
+    { id: 'bicicleta', name: 'Bicicleta' },
+    { id: 'maquinaria', name: 'Maquinaria' },
 ];
 
 export const ORIGEN_PROBABLE_CHOICES = [
-    { id: 'causa_clinica.neurologica', name: 'Neurológica' },
-    { id: 'causa_clinica.infecciosa', name: 'Infecciosa' },
-    { id: 'causa_clinica.musculoEsqueletico', name: 'Músculo esquelético' },
-    { id: 'causa_clinica.urogenital', name: 'Urogenital' },
-    { id: 'causa_clinica.digestiva', name: 'Digestiva' },
-    { id: 'causa_clinica.cardiovascular', name: 'Cardiovascular' },
-    { id: 'causa_clinica.oncologico', name: 'Oncológico' },
-    { id: 'causa_clinica.metabolico', name: 'Metabólico' },
-    { id: 'causa_clinica.ginecoobstetrica', name: 'Ginecoobstétrica' },
-    { id: 'causa_clinica.respiratorio', name: 'Respiratorio' },
-    { id: 'causa_clinica.cognitivoEmocional', name: 'Cognitivo emocional' },
-    { id: 'causa_clinica.otro', name: 'Otro' },
+    { id: 'neurologica', name: 'Neurológica' },
+    { id: 'infecciosa', name: 'Infecciosa' },
+    { id: 'musculoEsqueletico', name: 'Músculo esquelético' },
+    { id: 'urogenital', name: 'Urogenital' },
+    { id: 'digestiva', name: 'Digestiva' },
+    { id: 'cardiovascular', name: 'Cardiovascular' },
+    { id: 'oncologico', name: 'Oncológico' },
+    { id: 'metabolico', name: 'Metabólico' },
+    { id: 'ginecoobstetrica', name: 'Ginecoobstétrica' },
+    { id: 'respiratorio', name: 'Respiratorio' },
+    { id: 'cognitivoEmocional', name: 'Cognitivo emocional' },
+    { id: 'otro', name: 'Otro' },
 ];
 
 export const NIVEL_CONSCIENCIA_CHOICES = [
-    { id: 'evaluacion.alerta', name: 'Alerta' },
-    { id: 'evaluacion.dolor', name: 'Dolor' },
-    { id: 'evaluacion.verbal', name: 'Verbal' },
-    { id: 'evaluacion.inconsciente', name: 'Inconsciente' }
+    { id: 'alerta', name: 'Alerta' },
+    { id: 'dolor', name: 'Dolor' },
+    { id: 'verbal', name: 'Verbal' },
+    { id: 'inconsciente', name: 'Inconsciente' }
 ];
 
 export const DEGLUCION_CHOICES = [
-    { id: 'evaluacion.ausente', name: 'Ausente' },
-    { id: 'evaluacion.presente', name: 'Presente' }
+    { id: 'ausente', name: 'Ausente' },
+    { id: 'presente', name: 'Presente' }
 ];
 
 export const VIA_AEREA_CHOICES = [
-    { id: 'evaluacion.permeable', name: 'Permeable' },
-    { id: 'evaluacion.comprometida', name: 'Comprometida' }
+    { id: 'permeable', name: 'Permeable' },
+    { id: 'comprometida', name: 'Comprometida' }
 ];
 
 export const VENTILACION_CHOICES = [
-    { id: 'evaluacion.automatismoRegular', name: 'Automatismo regular' },
-    { id: 'evaluacion.automatismoIrregular', name: 'Automatismo irregular' },
-    { id: 'evaluacion.automatismoRapido', name: 'Automatismo rápido' },
-    { id: 'evaluacion.automatismoSuperficial', name: 'Automatismo superficial' },
-    { id: 'evaluacion.apnea', name: 'Apnea' }
+    { id: 'automatismoRegular', name: 'Automatismo regular' },
+    { id: 'automatismoIrregular', name: 'Automatismo irregular' },
+    { id: 'automatismoRapido', name: 'Automatismo rápido' },
+    { id: 'automatismoSuperficial', name: 'Automatismo superficial' },
+    { id: 'apnea', name: 'Apnea' }
 ];
 
 export const AUSCULTACION_CHOICES = [
-    { id: 'evaluacion.ruidosNormales', name: 'Ruidos respiratorios normales' },
-    { id: 'evaluacion.ruidosDisminuidos', name: 'Ruidos respiratorios disminuidos' },
-    { id: 'evaluacion.ruidosAusentes', name: 'Ruidos respiratorios ausentes' }
+    { id: 'ruidosNormales', name: 'Ruidos respiratorios normales' },
+    { id: 'ruidosDisminuidos', name: 'Ruidos respiratorios disminuidos' },
+    { id: 'ruidosAusentes', name: 'Ruidos respiratorios ausentes' }
 ];
 
 export const HEMITORAX_CHOICES = [
-    { id: 'evaluacion.derecho', name: 'Derecho' },
-    { id: 'evaluacion.izquierdo', name: 'Izquierdo' }
+    { id: 'derecho', name: 'Derecho' },
+    { id: 'izquierdo', name: 'Izquierdo' }
 ];
 
 export const SITIO_CHOICES = [
-    { id: 'evaluacion.apical', name: 'Apical' },
-    { id: 'evaluacion.base', name: 'Base' }
+    { id: 'apical', name: 'Apical' },
+    { id: 'base', name: 'Base' }
 ];
 
 export const PRESENCIA_PULSOS_CHOICES = [
-    { id: 'evaluacion.carotideo', name: 'Carótideo' },
-    { id: 'evaluacion.radial', name: 'Radial' },
-    { id: 'evaluacion.paroCardiorespiratorio', name: 'Paro cardiorespiratorio' }
+    { id: 'carotideo', name: 'Carótideo' },
+    { id: 'radial', name: 'Radial' },
+    { id: 'paroCardiorespiratorio', name: 'Paro cardiorespiratorio' }
 ];
 
 export const CALIDAD_CHOICES = [
-    { id: 'evaluacion.rapido', name: 'Rápido' },
-    { id: 'evaluacion.lento', name: 'Lento' },
-    { id: 'evaluacion.ritmico', name: 'Rítmico' },
-    { id: 'evaluacion.arritmico', name: 'Arrítmico' }
+    { id: 'rapido', name: 'Rápido' },
+    { id: 'lento', name: 'Lento' },
+    { id: 'ritmico', name: 'Rítmico' },
+    { id: 'arritmico', name: 'Arrítmico' }
 ];
 
 export const PIEL_CHOICES = [
-    { id: 'evaluacion.normal', name: 'Normal' },
-    { id: 'evaluacion.palida', name: 'Pálida' },
-    { id: 'evaluacion.cianotica', name: 'Cianótica' }
+    { id: 'normal', name: 'Normal' },
+    { id: 'palida', name: 'Pálida' },
+    { id: 'cianotica', name: 'Cianótica' }
 ];
 
 export const CARACTERISTICAS_CHOICES = [
-    { id: 'evaluacion.caliente', name: 'Caliente' },
-    { id: 'evaluacion.fria', name: 'Fría' },
-    { id: 'evaluacion.diaforesis', name: 'Diaforesis' },
-    { id: 'evaluacion.normotermico', name: 'Normotérmico' }
+    { id: 'caliente', name: 'Caliente' },
+    { id: 'fria', name: 'Fría' },
+    { id: 'diaforesis', name: 'Diaforesis' },
+    { id: 'normotermico', name: 'Normotérmico' }
 ];
 
 export const ASISTENCIA_VENTILATORIA_CHOICES = [

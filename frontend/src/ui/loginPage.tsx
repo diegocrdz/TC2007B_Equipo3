@@ -1,12 +1,11 @@
-// src/LoginPage.tsx
+/*
+Página de inicio de sesión personalizada
+Fecha: 11/08/2025
+*/
+
 import { useLogin, useNotify, useTheme, PasswordInput, SimpleForm, TextInput } from "react-admin";
-import {
-    Box,
-    Paper,
-    Button,
-    Typography,
-    IconButton,
-} from "@mui/material";
+import { Box, Paper, Button, Typography, IconButton } from "@mui/material";
+// Íconos de cambio de tema
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 // Botón de accesibilidad

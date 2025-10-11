@@ -436,11 +436,11 @@ const data: DataStore = {
         }
     ],
     usuarios: [
-        { id: 1, usuario: "admin", contrasena: "123", rol: "admin" },
-        { id: 2, usuario: "jefe_turno", contrasena: "123", rol: "jefe", turno: 1 },
-        { id: 3, usuario: "paramedico", contrasena: "123", rol: "paramedico", turno: 1 },
-        { id: 4, usuario: "urbano", contrasena: "123", rol: "urbano", turno: 2 },
-        { id: 5, usuario: "urbano2", contrasena: "123", rol: "urbano", turno: 3 },
+        { id: 1, usuario: "admin", contrasena: "123", rol: "admin", nombre: "Jorge1" },
+        { id: 2, usuario: "jefe_turno", contrasena: "123", rol: "jefe", turno: 1, nombre: "Jorge2" },
+        { id: 3, usuario: "paramedico", contrasena: "123", rol: "paramedico", turno: 1, nombre: "Jorge3" },
+        { id: 4, usuario: "urbano", contrasena: "123", rol: "urbano", turno: 2, nombre: "Jorge4" },
+        { id: 5, usuario: "urbano2", contrasena: "123", rol: "urbano", turno: 3, nombre: "Jorge5" },
     ],
 };
 

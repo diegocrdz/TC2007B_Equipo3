@@ -1,3 +1,9 @@
+/*
+Gráficas Médicas
+Se generan gráficas y estadísticas basadas en los datos de reportes y notas médicas.
+Fecha: 11/08/2025
+*/
+
 import { Box, Typography } from '@mui/material';
 import { useGetList } from 'react-admin';
 // Íconos
