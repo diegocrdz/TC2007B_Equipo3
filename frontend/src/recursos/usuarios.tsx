@@ -35,6 +35,7 @@ export const NUFilters = [
     <NumberInput source="id" label="ID" />,
     <TextInput source="usuario" label="Usuario" />,
     <TextInput source="nombre" label="Nombre" />,
+    <NumberInput source="turno" label="Turno" />,
     <NumberInput source="rol" label="Rol" />,
 ]
 
@@ -97,6 +98,7 @@ export const UsuarioList = () => {
                         <DataTable.Col source="id" label="ID" />
                         <DataTable.Col source="usuario" label="Usuario" />
                         <DataTable.Col source="nombre" label="Nombre" />
+                        <DataTable.Col source="turno" label="Turno" />
                         <DataTable.Col source="rol" label="Rol" />
                         <DataTable.Col>
                             <EditButton />
@@ -126,6 +128,7 @@ export const UsuarioEdit = () => {
                 <ColumnSection title="Editar Usuario">
                     <TextInput required source="usuario" label="Usuario" />
                     <TextInput required source="nombre" label="Nombre" />
+                    <NumberInput required source="turno" label="Turno" />
                     <MotivoToggleInput
                         source="rol"
                         label="Rol"
@@ -161,6 +164,7 @@ export const UsuarioCreate = () => {
                 <ColumnSection title="Nuevo Usuario">
                     <TextInput required source="usuario" label="Usuario" />
                         <TextInput required source="nombre" label="Nombre" />
+                        <NumberInput required source="turno" label="Turno" />
                         <MotivoToggleInput
                             required
                             source="rol"
@@ -185,6 +189,7 @@ export const UsuarioShow = () => (
             <TextField source="id" label="ID" />
             <TextField source="usuario" label="Usuario" />
             <TextField source="nombre" label="Nombre" />
+            <TextField source="turno" label="Turno" />
             <TextField source="rol" label="Rol" />
         </SimpleShowLayout>
     </Show>
