@@ -96,7 +96,7 @@ export const RMList = () => {
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
     return (
-        <Box sx={listBoxSx} >
+        <Box sx={listBoxSx}>
             <Box
                 sx={{
                     display: 'flex',
@@ -147,21 +147,19 @@ export const RMList = () => {
                         />
                     </Datagrid>
                 ) : (
-                    <Box sx={{ overflowX: 'auto' }}>
-                        <DataTable>
-                            <DataTable.Col source="folio" label="Folio" />
-                            <DataTable.Col source="fecha" label="Fecha" />
-                            <DataTable.Col source="turno" label="Turno" />
-                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                            <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                            <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                            <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                            <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                            <DataTable.Col>
-                                <EditButton />
-                            </DataTable.Col>
-                        </DataTable>
-                    </Box>
+                    <DataTable>
+                        <DataTable.Col source="folio" label="Folio" />
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                        <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                        <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                        <DataTable.Col source="nombreMedico" label="Nombre médico" />
+                        <DataTable.Col>
+                            <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
                 )}
             </List>
         </Box>

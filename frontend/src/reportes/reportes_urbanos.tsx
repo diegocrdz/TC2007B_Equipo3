@@ -124,20 +124,18 @@ export const RUList = () => {
                         />
                     </Datagrid>
                 ) : (
-                    <Box sx={{ overflowX: 'auto' }}>
-                        <DataTable>
-                            <DataTable.Col source="folio" label="Folio" />
-                            <DataTable.Col source="fecha" label="Fecha" />
-                            <DataTable.Col source="turno" label="Turno" />
-                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                            <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
-                            <DataTable.Col source="gravedad" label="Gravedad" />
-                            <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
-                            <DataTable.Col>
-                            <EditButton />
-                            </DataTable.Col>
-                        </DataTable>
-                    </Box>
+                    <DataTable>
+                        <DataTable.Col source="folio" label="Folio" />
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
+                        <DataTable.Col source="gravedad" label="Gravedad" />
+                        <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
+                        <DataTable.Col>
+                        <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
                 )}
             </List>
         </Box>
