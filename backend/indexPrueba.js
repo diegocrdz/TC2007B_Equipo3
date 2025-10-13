@@ -57,7 +57,119 @@ app.get("/reportes", async (req,res)=>{
     }
 });
 
-// GET Lista de reportes médicos
+//METODOS QUE YA TENIAMOS
+app.get("/reportes", async (req,res)=>{
+    try{
+    let token=req.get("Authentication");
+    let verifiedToken=await jwt.verify(token, "secretKey");
+    let user=verifiedToken.usuario;	
+    if("_sort" in req.query){//getList
+        let sortBy=req.query._sort;
+        let sortOrder=req.query._order=="ASC"?1:-1;
+        let inicio=Number(req.query._start);
+        let fin=Number(req.query._end);
+        let sorter={}
+        sorter[sortBy]=sortOrder;
+        let data= await db.collection("ejemplo402").find({}).sort(sorter).project({_id:0}).toArray();
+        res.set("Access-Control-Expose-Headers", "X-Total-Count");
+        res.set("X-Total-Count", data.length);
+        data=data.slice(inicio,fin)
+        log(user, "reportes", "leer");
+        res.json(data)
+    }else if("id" in req.query){
+        let data=[];
+        for(let index=0; index<req.query.id.length; index++){
+            let dataParcial=await db.collection("ejemplo402").find({id: Number(req.query.id[index])}.project({_id:0}).toArray())
+            data= await data.concat(dataParcial);
+        }
+        res.json(data);
+    }else{
+        let data=await db.collection("ejemplo402").find(req.query).project({_id:0}).toArray();
+        res.set("Access-Control-Expose-Headers", "X-Total-Count");
+        res.set("X-Total-Count", data.length);
+        res.json(data);
+    }
+    }catch{
+        res.sendStatus(401);
+    }
+});
+
+//getOne
+
+app.get("/reportes/:id", async (req,res)=>{
+    let data=await db.collection("ejemplo402").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
+    res.json(data[0]);
+});
+
+//createOne
+app.post("/reportes", async (req,res)=>{
+    let valores=req.body
+    valores["id"]=Number(valores["id"])
+    let data=await db.collection("ejemplo402").insertOne(valores);
+    res.json(data)
+});
+
+//deleteOne
+app.delete("/reportes/:id", async(req,res)=>{
+    let data=await db.collection("ejemplo402").deleteOne({"id": Number(req.params.id)});
+    res.json(data)
+})
+
+//updateOne
+app.put("/reportes/:id", async(req,res)=>{
+    let valores=req.body
+    valores["id"]=Number(valores["id"])
+    let data =await db.collection("ejemplo402").updateOne({"id":valores["id"]}, {"$set":valores})
+    data=await db.collection("ejemplo402").find({"id":valores["id"]}).project({_id:0}).toArray();
+    res.json(data[0]);
+})
+
+async function connectToDB(){
+    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b");
+    await client.connect();
+    db=client.db();
+    console.log("conectado a la base de datos");
+}
+
+
+app.post("/registrarse", async(req, res)=>{
+    let user=req.body.username;
+    let pass=req.body.password;
+    let nombre=req.body.nombre;
+    let tipo=req.body.tipo;
+    let data=await db.collection("usuarios402").findOne({"usuario":user})
+    if(data==null){
+        const hash=await argon2.hash(pass, {type: argon2.argon2id, memoryCost: 19*1024, timeCost:2, parallelism:1, saltLength:16})
+        let usuarioAgregar={"usuario":user, "password":hash, "nombre":nombre, "tipo":tipo}
+        data=await db.collection("usuarios402").insertOne(usuarioAgregar);
+        res.sendStatus(201);
+    }else{
+        res.sendStatus(403)
+    }
+})
+
+app.post("/login", async (req, res)=>{
+    let user=req.body.username;
+    let pass=req.body.password;
+    let data=await db.collection("usuarios402").findOne({"usuario":user});
+    if(data==null){
+        res.sendStatus(401);
+    }else if(await argon2.verify(data.password, pass)){
+        let token=jwt.sign({"usuario":data.usuario}, "secretKey", {expiresIn: 900})
+        // res.json({"token":token, "id":data.usuario, "nombre":data.nombre})
+        res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "role": data.rol, "turno": data.turno})
+    }else{
+        res.sendStatus(401);
+    }
+})
+
+app.listen(PORT, ()=>{
+    connectToDB();
+    console.log("aplicacion corriendo en puerto 3000");
+});
+
+// REPORTES MEDICOS
+// Get Lista de reportes médicos
 app.get("/reportes_medicos", async (req, res) => {
     try {
         let token = req.get("Authentication");
@@ -111,12 +223,6 @@ app.get("/reportes_medicos", async (req, res) => {
     }
 });
 
-//getOne
-app.get("/reportes/:id", async (req,res)=>{
-    let data=await db.collection("ejemplo402").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
-    res.json(data[0]);
-});
-
 // getOne reporte médico específico
 app.get("/reportes_medicos/:folio", async (req, res) => {
     try {
@@ -139,14 +245,6 @@ app.get("/reportes_medicos/:folio", async (req, res) => {
         console.error("Error al obtener reporte médico:", error);
         res.sendStatus(401);
     }
-});
-
-//createOne
-app.post("/reportes", async (req,res)=>{
-    let valores=req.body
-    valores["id"]=Number(valores["id"])
-    let data=await db.collection("ejemplo402").insertOne(valores);
-    res.json(data)
 });
 
 //CreateOne Reporte Medico
@@ -186,42 +284,6 @@ app.post("/reportes_medicos", async (req, res) => {
     }
 });
 
-//CreateOne Reporte Urbano
-app.post("/reportes_urbanos", async (req, res) => {
-    try {
-        let token = req.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let user = verifiedToken.usuario;
-
-        let reporteUrbano = req.body;
-
-        reporteUrbano.fechaCreacion = new Date();
-        reporteUrbano.usuarioCreador = user;
-        reporteUrbano.ultimaModificacion = new Date();
-        reporteUrbano.usuarioModificacion = user;
-
-        let data = await db.collection("reportes_urbanos").insertOne(reporteUrbano);
-
-        let reporteCreado = await db.collection("reportes_urbanos")
-            .find({ folio: reporteUrbano.folio })
-            .project({ _id: 0 })
-            .toArray();
-
-        res.status(201).json(reporteCreado[0]);
-
-    } catch (error) {
-        console.error("Error al crear reporte urbano:", error);
-        res.status(401).json({ error: "No autorizado o error en la creación" });
-    }
-});
-
-
-//deleteOne
-app.delete("/reportes/:id", async(req,res)=>{
-    let data=await db.collection("ejemplo402").deleteOne({"id": Number(req.params.id)});
-    res.json(data)
-})
-
 //DeleteOne Eliminar reporte médico
 app.delete("/reportes_medicos/:folio", async (req, res) => {
     try {
@@ -240,16 +302,7 @@ app.delete("/reportes_medicos/:folio", async (req, res) => {
     }
 });
 
-//updateOne
-app.put("/reportes/:id", async(req,res)=>{
-    let valores=req.body
-    valores["id"]=Number(valores["id"])
-    let data =await db.collection("ejemplo402").updateOne({"id":valores["id"]}, {"$set":valores})
-    data=await db.collection("ejemplo402").find({"id":valores["id"]}).project({_id:0}).toArray();
-    res.json(data[0]);
-})
-
-// PUT Actualizar reporte médico
+// PutOne Actualizar reporte médico
 app.put("/reportes_medicos/:folio", async (req, res) => {
     try {
         let token = req.get("Authentication");
@@ -280,46 +333,159 @@ app.put("/reportes_medicos/:folio", async (req, res) => {
     }
 });
 
-async function connectToDB(){
-    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b");
-    await client.connect();
-    db=client.db();
-    console.log("conectado a la base de datos");
-}
+//REPORTES URBANOS
+// Get Lista de reportes urbanos
+app.get("/reportes_urbanos", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
 
+        if ("_sort" in req.query) {
+            let sortBy = req.query._sort;
+            let sortOrder = req.query._order == "ASC" ? 1 : -1;
+            let inicio = Number(req.query._start);
+            let fin = Number(req.query._end);
+            let sorter = {};
+            sorter[sortBy] = sortOrder;
 
-app.post("/registrarse", async(req, res)=>{
-    let user=req.body.username;
-    let pass=req.body.password;
-    let nombre=req.body.nombre;
-    let tipo=req.body.tipo;
-    let data=await db.collection("usuarios402").findOne({"usuario":user})
-    if(data==null){
-        const hash=await argon2.hash(pass, {type: argon2.argon2id, memoryCost: 19*1024, timeCost:2, parallelism:1, saltLength:16})
-        let usuarioAgregar={"usuario":user, "password":hash, "nombre":nombre, "tipo":tipo}
-        data=await db.collection("usuarios402").insertOne(usuarioAgregar);
-        res.sendStatus(201);
-    }else{
-        res.sendStatus(403)
-    }
-})
+            let data = await db.collection("reportes_urbanos")
+                .find({})
+                .sort(sorter)
+                .project({ _id: 0 })
+                .toArray();
 
-app.post("/login", async (req, res)=>{
-    let user=req.body.username;
-    let pass=req.body.password;
-    let data=await db.collection("usuarios402").findOne({"usuario":user});
-    if(data==null){
+            res.set("Access-Control-Expose-Headers", "X-Total-Count");
+            res.set("X-Total-Count", data.length);
+            data = data.slice(inicio, fin);
+            res.json(data);
+
+        } else if ("id" in req.query) {
+            let data = [];
+            for (let index = 0; index < req.query.id.length; index++) {
+                let dataParcial = await db.collection("reportes_urbanos")
+                    .find({ folio: req.query.id[index] })
+                    .project({ _id: 0 })
+                    .toArray();
+                data = data.concat(dataParcial);
+            }
+            res.json(data);
+
+        } else {
+            let data = await db.collection("reportes_urbanos")
+                .find(req.query)
+                .project({ _id: 0 })
+                .toArray();
+
+            res.set("Access-Control-Expose-Headers", "X-Total-Count");
+            res.set("X-Total-Count", data.length);
+            res.json(data);
+        }
+
+    } catch (error) {
+        console.error("Error al obtener reportes urbanos:", error);
         res.sendStatus(401);
-    }else if(await argon2.verify(data.password, pass)){
-        let token=jwt.sign({"usuario":data.usuario}, "secretKey", {expiresIn: 900})
-        // res.json({"token":token, "id":data.usuario, "nombre":data.nombre})
-        res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "role": data.rol, "turno": data.turno})
-    }else{
+    }
+});
+
+// GetOne Un reporte urbano específico
+app.get("/reportes_urbanos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let data = await db.collection("reportes_urbanos")
+            .find({ folio: req.params.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        if (data.length > 0) {
+            res.json(data[0]);
+        } else {
+            res.status(404).json({ error: "Reporte no encontrado" });
+        }
+
+    } catch (error) {
+        console.error("Error al obtener reporte urbano:", error);
         res.sendStatus(401);
     }
-})
+});
 
-app.listen(PORT, ()=>{
-    connectToDB();
-    console.log("aplicacion corriendo en puerto 3000");
+// PostOne Crear reporte urbano
+app.post("/reportes_urbanos", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let reporteUrbano = req.body;
+
+        reporteUrbano.fechaCreacion = new Date();
+        reporteUrbano.usuarioCreador = user;
+        reporteUrbano.ultimaModificacion = new Date();
+        reporteUrbano.usuarioModificacion = user;
+
+        let data = await db.collection("reportes_urbanos").insertOne(reporteUrbano);
+
+        let reporteCreado = await db.collection("reportes_urbanos")
+            .find({ folio: reporteUrbano.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        res.status(201).json(reporteCreado[0]);
+
+    } catch (error) {
+        console.error("Error al crear reporte urbano:", error);
+        res.status(401).json({ error: "No autorizado o error en la creación" });
+    }
+});
+
+// PutOne Actualizar reporte urbano
+app.put("/reportes_urbanos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let valores = req.body;
+        valores.ultimaModificacion = new Date();
+        valores.usuarioModificacion = user;
+
+        let result = await db.collection("reportes_urbanos")
+            .updateOne({ folio: req.params.folio }, { $set: valores });
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: "Reporte no encontrado" });
+        }
+
+        let data = await db.collection("reportes_urbanos")
+            .find({ folio: req.params.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        res.json(data[0]);
+
+    } catch (error) {
+        console.error("Error al actualizar reporte urbano:", error);
+        res.sendStatus(401);
+    }
+});
+
+// DeleteOne Eliminar reporte urbano
+app.delete("/reportes_urbanos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let data = await db.collection("reportes_urbanos")
+            .deleteOne({ folio: req.params.folio });
+
+        res.json(data);
+
+    } catch (error) {
+        console.error("Error al eliminar reporte urbano:", error);
+        res.sendStatus(401);
+    }
 });
