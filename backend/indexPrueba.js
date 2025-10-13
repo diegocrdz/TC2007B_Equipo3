@@ -57,11 +57,88 @@ app.get("/reportes", async (req,res)=>{
     }
 });
 
-//getOne
+// GET Lista de reportes médicos
+app.get("/reportes_medicos", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
 
+        if ("_sort" in req.query) {
+            let sortBy = req.query._sort;
+            let sortOrder = req.query._order == "ASC" ? 1 : -1;
+            let inicio = Number(req.query._start);
+            let fin = Number(req.query._end);
+            let sorter = {};
+            sorter[sortBy] = sortOrder;
+
+            let data = await db.collection("reportes_medicos")
+                .find({})
+                .sort(sorter)
+                .project({ _id: 0 })
+                .toArray();
+
+            res.set("Access-Control-Expose-Headers", "X-Total-Count");
+            res.set("X-Total-Count", data.length);
+            data = data.slice(inicio, fin);
+            res.json(data);
+
+        } else if ("id" in req.query) {
+            let data = [];
+            for (let index = 0; index < req.query.id.length; index++) {
+                let dataParcial = await db.collection("reportes_medicos")
+                    .find({ folio: req.query.id[index] })
+                    .project({ _id: 0 })
+                    .toArray();
+                data = data.concat(dataParcial);
+            }
+            res.json(data);
+
+        } else {
+            let data = await db.collection("reportes_medicos")
+                .find(req.query)
+                .project({ _id: 0 })
+                .toArray();
+
+            res.set("Access-Control-Expose-Headers", "X-Total-Count");
+            res.set("X-Total-Count", data.length);
+            res.json(data);
+        }
+
+    } catch (error) {
+        console.error("Error al obtener reportes médicos:", error);
+        res.sendStatus(401);
+    }
+});
+
+//getOne
 app.get("/reportes/:id", async (req,res)=>{
     let data=await db.collection("ejemplo402").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
     res.json(data[0]);
+});
+
+// getOne reporte médico específico
+app.get("/reportes_medicos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let data = await db.collection("reportes_medicos")
+            .find({ folio: req.params.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        if (data.length > 0) {
+            res.json(data[0]);
+        } else {
+            res.status(404).json({ error: "Reporte no encontrado" });
+        }
+
+    } catch (error) {
+        console.error("Error al obtener reporte médico:", error);
+        res.sendStatus(401);
+    }
 });
 
 //createOne
@@ -139,12 +216,29 @@ app.post("/reportes_urbanos", async (req, res) => {
 });
 
 
-
 //deleteOne
 app.delete("/reportes/:id", async(req,res)=>{
     let data=await db.collection("ejemplo402").deleteOne({"id": Number(req.params.id)});
     res.json(data)
 })
+
+//DeleteOne Eliminar reporte médico
+app.delete("/reportes_medicos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let data = await db.collection("reportes_medicos")
+            .deleteOne({ folio: req.params.folio });
+
+        res.json(data);
+
+    } catch (error) {
+        console.error("Error al eliminar reporte médico:", error);
+        res.sendStatus(401);
+    }
+});
 
 //updateOne
 app.put("/reportes/:id", async(req,res)=>{
@@ -154,6 +248,37 @@ app.put("/reportes/:id", async(req,res)=>{
     data=await db.collection("ejemplo402").find({"id":valores["id"]}).project({_id:0}).toArray();
     res.json(data[0]);
 })
+
+// PUT Actualizar reporte médico
+app.put("/reportes_medicos/:folio", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let valores = req.body;
+        valores.ultimaModificacion = new Date();
+        valores.usuarioModificacion = user;
+
+        let result = await db.collection("reportes_medicos")
+            .updateOne({ folio: req.params.folio }, { $set: valores });
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: "Reporte no encontrado" });
+        }
+
+        let data = await db.collection("reportes_medicos")
+            .find({ folio: req.params.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        res.json(data[0]);
+
+    } catch (error) {
+        console.error("Error al actualizar reporte médico:", error);
+        res.sendStatus(401);
+    }
+});
 
 async function connectToDB(){
     let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b");
