@@ -102,12 +102,42 @@ app.post("/reportes_medicos", async (req, res) => {
             .toArray();
 
         res.status(201).json(reporteCreado[0]);
-
+        
     } catch (error) {
         console.error("Error al crear reporte médico:", error);
         res.status(401).json({ error: "No autorizado o error en la creación" });
     }
 });
+
+//CreateOne Reporte Urbano
+app.post("/reportes_urbanos", async (req, res) => {
+    try {
+        let token = req.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.usuario;
+
+        let reporteUrbano = req.body;
+
+        reporteUrbano.fechaCreacion = new Date();
+        reporteUrbano.usuarioCreador = user;
+        reporteUrbano.ultimaModificacion = new Date();
+        reporteUrbano.usuarioModificacion = user;
+
+        let data = await db.collection("reportes_urbanos").insertOne(reporteUrbano);
+
+        let reporteCreado = await db.collection("reportes_urbanos")
+            .find({ folio: reporteUrbano.folio })
+            .project({ _id: 0 })
+            .toArray();
+
+        res.status(201).json(reporteCreado[0]);
+
+    } catch (error) {
+        console.error("Error al crear reporte urbano:", error);
+        res.status(401).json({ error: "No autorizado o error en la creación" });
+    }
+});
+
 
 
 //deleteOne
