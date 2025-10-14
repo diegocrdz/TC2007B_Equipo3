@@ -14,7 +14,6 @@ import {
     Datagrid,
     FunctionField,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -23,7 +22,6 @@ import {
     useRedirect,
     useCanAccess,
     TabbedForm,
-    SelectInput,
     TabbedShowLayout,
     DateInput,
     TimeInput,
@@ -78,14 +76,13 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RMFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="nombrePaciente" label="Nombre paciente" />,
+    <TextInput key="search" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <TextInput key="folio" source="folio" label="Folio" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
 ];
 
 export const RMList = () => {

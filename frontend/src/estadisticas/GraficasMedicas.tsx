@@ -18,6 +18,7 @@ import { Filtros, RecuadroDatos, estilosContenedorGrafica, estilosGrafica, color
 const DatosIniciales = () => {
     // Obtener el número de reportes médicos registrados
     const { data: reportesMedicos, isLoading } = useGetList('reportes_medicos');
+
     const numeroTraslados = reportesMedicos?.length || 0;
 
     // Obtener el número de notas médicas registradas

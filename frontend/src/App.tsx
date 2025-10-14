@@ -6,14 +6,12 @@ Fecha: 11/08/2025
 
 import { Admin, Resource, CustomRoutes, Authenticated } from "react-admin";
 import { Route } from "react-router-dom";
-// import {dataProvider} from "./dataProvider";
-import { mockDataProvider } from "./mockDataProvider";
 // Recursos
 import { RMList, RMEdit, RMCreate, RMShow } from "./reportes/reportes_medicos";
 import { NMList, NMEdit, NMCreate, NMShow } from "./notas/notas_medicas";
 import { RUList, RUEdit, RUCreate, RUShow } from "./reportes/reportes_urbanos";
 import { NUList, NUEdit, NUCreate, NUShow } from "./notas/notas_urbanas";
-import { UsuarioList, UsuarioEdit, UsuarioCreate, UsuarioShow } from "./recursos/Usuarios";
+import { UsuarioList, UsuarioEdit, UsuarioCreate, UsuarioShow } from "./recursos/usuarios";
 // Iconos
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/Emergency';
@@ -36,7 +34,9 @@ import { MyLayout } from './ui/MyLayout';
 // Tema y accesibilidad
 import { AccThemeProvider, useAccSettings } from './ui/MyTheme';
 // Página de inicio de sesión
-import { LoginPage } from './ui/LoginPage';
+import { LoginPage } from './ui/loginPage';
+// dataProvider
+import { dataProvider } from "./dataProvider";
 // CSS de leaflet (mapas)
 import 'leaflet/dist/leaflet.css';
 
@@ -49,7 +49,7 @@ const AppWrapper = () => {
         <Admin
             layout={MyLayout}
             dashboard={Dashboard}
-            dataProvider={mockDataProvider}
+            dataProvider={dataProvider}
             authProvider={authProvider}
             i18nProvider={i18nProviderNoLocale}
             darkTheme={themes.dark}

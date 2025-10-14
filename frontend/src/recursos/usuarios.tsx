@@ -31,12 +31,12 @@ import { useMediaQuery } from '@mui/material';
 
 // Filtros para la lista
 export const NUFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <NumberInput source="id" label="ID" />,
-    <TextInput source="usuario" label="Usuario" />,
-    <TextInput source="nombre" label="Nombre" />,
-    <NumberInput source="turno" label="Turno" />,
-    <NumberInput source="rol" label="Rol" />,
+    <TextInput key="q" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <TextInput key="usuario" source="usuario" label="Usuario" />,
+    <TextInput key="nombre" source="nombre" label="Nombre" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="rol" source="rol" label="Rol" />,
 ]
 
 export const UsuarioList = () => {    
@@ -128,6 +128,7 @@ export const UsuarioEdit = () => {
                 <ColumnSection title="Editar Usuario">
                     <TextInput required source="usuario" label="Usuario" />
                     <TextInput required source="nombre" label="Nombre" />
+                    <TextInput required source="contrasena" label="Contraseña" />
                     <NumberInput required source="turno" label="Turno" />
                     <MotivoToggleInput
                         source="rol"
@@ -164,6 +165,7 @@ export const UsuarioCreate = () => {
                 <ColumnSection title="Nuevo Usuario">
                     <TextInput required source="usuario" label="Usuario" />
                         <TextInput required source="nombre" label="Nombre" />
+                        <TextInput required source="contrasena" label="Contraseña" />
                         <NumberInput required source="turno" label="Turno" />
                         <MotivoToggleInput
                             required
@@ -189,6 +191,7 @@ export const UsuarioShow = () => (
             <TextField source="id" label="ID" />
             <TextField source="usuario" label="Usuario" />
             <TextField source="nombre" label="Nombre" />
+            <TextField source="contrasena" label="Contraseña" />
             <TextField source="turno" label="Turno" />
             <TextField source="rol" label="Rol" />
         </SimpleShowLayout>

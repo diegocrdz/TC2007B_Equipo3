@@ -12,7 +12,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -48,15 +47,15 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RUFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="tipoServicio" label="Tipo de Servicio" />,
+    <TextInput key="search" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <TextInput key="folio" source="folio" label="Folio" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="tipoServicio" source="tipoServicio" label="Tipo de Servicio" />,
     <SelectInput 
+        key="gravedad"
         source="gravedad" 
         label="Gravedad"
         choices={GRAVEDAD_CHOICES}

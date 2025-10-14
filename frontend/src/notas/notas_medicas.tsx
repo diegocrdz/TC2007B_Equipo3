@@ -12,7 +12,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -20,7 +19,6 @@ import {
     useRefresh,
     useRedirect,
     useCanAccess,
-    SelectInput,
     DateInput,
     TimeInput,
     SimpleShowLayout,
@@ -40,15 +38,13 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const NMFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="nombrePaciente" label="Nombre paciente" />,
-    <TextInput source="nombreMedico" label="Nombre médico" />,
+    <TextInput key="q" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
+    <TextInput key="nombreMedico" source="nombreMedico" label="Nombre médico" />,
 ]
 
 export const NMList = () => {
