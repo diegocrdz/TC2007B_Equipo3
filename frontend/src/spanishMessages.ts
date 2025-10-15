@@ -228,6 +228,11 @@ const spanishMessages: TranslationMessages = {
             },
         },
     },
+    myapp: {
+        validation: {
+            unique: 'No disponible',
+        },
+    },
 };
 
 export default spanishMessages;

@@ -33,6 +33,7 @@ import {
     ArrayField,
     SingleFieldList,
     NumberField,
+    useGetIdentity,
 } from "react-admin";
 // MUI
 import Accordion from '@mui/material/Accordion';
@@ -89,6 +90,9 @@ export const RMList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
+    // El filtrado por rol ahora se maneja en el backend
+    // Solo necesitamos un filtro vacío ya que el backend aplicará los filtros de seguridad
+
     // Obtener tamaño de pantalla
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
@@ -109,7 +113,8 @@ export const RMList = () => {
             </Box>
             
             <List
-                filters={canAccess ? RMFilters : undefined}>
+                filters={canAccess ? RMFilters : undefined}
+            >
                 {isSmall ? (
                     <Datagrid
                         rowClick="show"
@@ -200,6 +205,7 @@ export const RMCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Reporte creado', { undoable: true });
@@ -219,8 +225,18 @@ export const RMCreate = () => {
                         />
                     </RowSection>
                     <RowSection title="Turno y Personal" border={true}>
-                        <NumberInput required source="turno" label="Turno" />
-                        <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <NumberInput
+                            required source="turno"
+                            label="Turno"
+                            defaultValue={identity?.turno || 1}
+                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        />
+                        <TextInput
+                            required source="personalACargo"
+                            label="Nombre del Personal a Cargo"
+                            defaultValue={identity?.fullName || ''}
+                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        />
                     </RowSection>
                     <TimeGridSection title="Registro de Horas">
                         <TimeInputWithIcon required source="horaLlam" label="Hora Llamada" icon={<CallIcon />} />
@@ -234,7 +250,13 @@ export const RMCreate = () => {
                     <ColumnSection title="Involucrados">
                         <TextInput required source="nombrePaciente" label="Nombre paciente" />
                         <TextInput required source="nombreTestigo" label="Nombre testigo" />
-                        <TextInput required source="nombreParamedico" label="Nombre paramédico" />
+                        <TextInput 
+                            required 
+                            source="nombreParamedico" 
+                            label="Nombre paramédico"
+                            defaultValue={identity?.fullName || ''}
+                            disabled={identity?.rol !== 'admin'}
+                        />
                         <TextInput required source="nombreMedico" label="Nombre médico" />
                     </ColumnSection>
                     <ColumnSection title="Motivo de ocurrencia">

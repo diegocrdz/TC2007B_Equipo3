@@ -22,6 +22,7 @@ import {
     NumberInput,
     FunctionField,
     Datagrid,
+    useUnique,
 } from "react-admin";
 // Componentes personalizados
 import { ColumnSection, MyToolbar, listBoxSx, MotivoToggleInput } from "../utils/componentes";
@@ -136,7 +137,7 @@ export const UsuarioEdit = () => {
                         choices={[
                             { id: "admin", name: "Administrador" },
                             { id: "jefe", name: "Jefe de Turno" },
-                            { id: "medico", name: "Médico" },
+                            { id: "urbano", name: "Urbano" },
                             { id: "paramedico", name: "Paramédico" },
                         ]}
                     >
@@ -148,6 +149,9 @@ export const UsuarioEdit = () => {
 };
 
 export const UsuarioCreate = () => {
+
+    // Solo permitir crear usuarios únicos
+    const unique = useUnique();
 
     const notify = useNotify();
     const refresh = useRefresh();
@@ -163,22 +167,22 @@ export const UsuarioCreate = () => {
         <Create sx={{marginBottom: '5em'}} mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
                 <ColumnSection title="Nuevo Usuario">
-                    <TextInput required source="usuario" label="Usuario" />
-                        <TextInput required source="nombre" label="Nombre" />
-                        <TextInput required source="contrasena" label="Contraseña" />
-                        <NumberInput required source="turno" label="Turno" />
-                        <MotivoToggleInput
-                            required
-                            source="rol"
-                            label="Rol"
-                            choices={[
-                                { id: "admin", name: "Administrador" },
-                                { id: "jefe", name: "Jefe de Turno" },
-                                { id: "medico", name: "Médico" },
-                                { id: "paramedico", name: "Paramédico" },
-                            ]}
-                        >
-                        </MotivoToggleInput>
+                    <TextInput required source="usuario" label="Usuario" validate={unique({message:'myapp.validation.unique'})} />
+                    <TextInput required source="nombre" label="Nombre" />
+                    <TextInput required source="contrasena" label="Contraseña" />
+                    <NumberInput required source="turno" label="Turno" />
+                    <MotivoToggleInput
+                        required
+                        source="rol"
+                        label="Rol"
+                        choices={[
+                            { id: "admin", name: "Administrador" },
+                            { id: "jefe", name: "Jefe de Turno" },
+                            { id: "urbano", name: "Urbano" },
+                            { id: "paramedico", name: "Paramédico" },
+                        ]}
+                    >
+                    </MotivoToggleInput>
                 </ColumnSection>
             </SimpleForm>
         </Create>

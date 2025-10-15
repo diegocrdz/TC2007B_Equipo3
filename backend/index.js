@@ -66,9 +66,18 @@ app.get("/reportes_medicos", async (req,res)=>{
 		let token=req.get("Authentication");
 		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 		let user=verifiedToken.usuario;
+		let rol=verifiedToken.rol;
+		let turno=verifiedToken.turno;
 
 		// Diccionario para construir filtros
 		let filters = {};
+
+		// Filtros default
+		if (rol === "paramedico") {
+			filters.personalACargo = user;
+		} else if (rol === "jefe_turno" && turno) {
+			filters.turno = turno;
+		}
 		
 		// Manejo del filtro de búsqueda global (q)
 		if (req.query.q) {
@@ -127,11 +136,20 @@ app.get("/reportes_medicos", async (req,res)=>{
 app.get("/reportes_urbanos", async (req,res)=>{
 	try {
 		let token=req.get("Authentication");
-		let verifiedToken=await jwt.verify(token, "secretKey");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 		let user=verifiedToken.usuario;
+		let rol=verifiedToken.rol;
+		let turno=verifiedToken.turno;
 
 		// Diccionario para construir filtros
 		let filters = {};
+
+		// Filtros default
+		if (rol === "urbano") {
+			filters.personalACargo = user;
+		} else if (rol === "jefe_turno" && turno) {
+			filters.turno = turno;
+		}
 		
 		// Manejo del filtro de búsqueda global (q)
 		if (req.query.q) {
@@ -191,11 +209,20 @@ app.get("/reportes_urbanos", async (req,res)=>{
 app.get("/notas_medicas", async (req,res)=>{
 	try {
 		let token=req.get("Authentication");
-		let verifiedToken=await jwt.verify(token, "secretKey");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 		let user=verifiedToken.usuario;
+		let rol=verifiedToken.rol;
+		let turno=verifiedToken.turno;
 
 		// Diccionario para construir filtros
 		let filters = {};
+
+		// Filtros default
+		if (rol === "paramedico") {
+			filters.personalACargo = user;
+		} else if (rol === "jefe_turno" && turno) {
+			filters.turno = turno;
+		}
 		
 		// Manejo del filtro de búsqueda global (q)
 		if (req.query.q) {
@@ -253,11 +280,20 @@ app.get("/notas_medicas", async (req,res)=>{
 app.get("/notas_urbanas", async (req,res)=>{
 	try {
 		let token=req.get("Authentication");
-		let verifiedToken=await jwt.verify(token, "secretKey");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 		let user=verifiedToken.usuario;
+		let rol=verifiedToken.rol;
+		let turno=verifiedToken.turno;
 
 		// Diccionario para construir filtros
 		let filters = {};
+
+		// Filtros default
+		if (rol === "urbano") {
+			filters.personalACargo = user;
+		} else if (rol === "jefe_turno" && turno) {
+			filters.turno = turno;
+		}
 		
 		// Manejo del filtro de búsqueda global (q)
 		if (req.query.q) {
@@ -312,7 +348,7 @@ app.get("/notas_urbanas", async (req,res)=>{
 app.get("/usuarios", async (req,res)=>{
 	try {
 		let token=req.get("Authentication");
-		let verifiedToken=await jwt.verify(token, "secretKey");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 		let user=verifiedToken.usuario;
 
 		// Diccionario para construir filtros
@@ -521,7 +557,7 @@ app.put("/reportes_medicos/:id", async(req,res)=>{
 
 	// Obtener usuario del token
 	let token=req.get("Authentication");
-	let verifiedToken=await jwt.verify(token, "secretKey");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 	let usuario=verifiedToken.usuario;
 
 	// Constuir nuevo log de cambios
@@ -557,7 +593,7 @@ app.put("/reportes_urbanos/:id", async(req,res)=>{
 
 	// Obtener usuario del token
 	let token=req.get("Authentication");
-	let verifiedToken=await jwt.verify(token, "secretKey");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
 	let usuario=verifiedToken.usuario;
 
 	// Constuir nuevo log de cambios
@@ -612,7 +648,7 @@ app.post("/login", async (req, res)=>{
 	if(data==null){
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.contrasena, pass)){
-		let token=jwt.sign({"usuario":data.usuario}, await process.env.JWTKEY, {expiresIn: 900})
+		let token=jwt.sign({"usuario":data.usuario, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
 		res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "rol": data.rol, "turno": data.turno})
 	}else{
 		res.sendStatus(401);

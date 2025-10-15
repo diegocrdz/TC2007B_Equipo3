@@ -25,6 +25,7 @@ import {
     NumberInput,
     FunctionField,
     Datagrid,
+    useGetIdentity,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../utils/componentes";
@@ -167,6 +168,7 @@ export const NMCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Nota creada', { undoable: true });
@@ -187,8 +189,18 @@ export const NMCreate = () => {
                     />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
-                    <NumberInput required source="turno" label="Turno" />
-                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <NumberInput
+                        required source="turno"
+                        label="Turno"
+                        defaultValue={identity?.turno || 1}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
+                    <TextInput
+                        required source="personalACargo"
+                        label="Nombre del Personal a Cargo"
+                        defaultValue={identity?.fullName || ''}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
                 </RowSection>
                 <ColumnSection title="Involucrados">
                     <TextInput required source="nombrePaciente" label="Nombre paciente" />

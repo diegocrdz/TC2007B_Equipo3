@@ -107,12 +107,16 @@ export const authProvider: AuthProvider = {
     // Obtener la identidad del usuario
     async getIdentity() {
         const username = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').id as string : null;
+        const rol = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').rol as Role : null;
+        const turno = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').turno as string : null;
         if (!username) {
             throw new Error("No user logged in");
         }
         return {
             id: username,
-            fullName: `${username}`
+            fullName: `${username}`,
+            rol: rol,
+            turno: turno
         };
     },
 };

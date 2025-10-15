@@ -29,6 +29,7 @@ import {
     DateField,
     FunctionField,
     Datagrid,
+    useGetIdentity,
 } from "react-admin";
 // Componentes personalizados
 import {
@@ -192,6 +193,7 @@ export const RUCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Reporte creado', { undoable: true });
@@ -207,8 +209,18 @@ export const RUCreate = () => {
                     <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
-                    <NumberInput required source="turno" label="Turno" />
-                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <NumberInput
+                        required source="turno"
+                        label="Turno"
+                        defaultValue={identity?.turno || 1}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
+                    <TextInput
+                        required source="personalACargo"
+                        label="Nombre del Personal a Cargo"
+                        defaultValue={identity?.fullName || ''}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
                 </RowSection>
                 <ColumnSection title="Activación del Servicio">
                     <MotivoToggleInput
