@@ -82,7 +82,7 @@ export const RMFilters = [
     <TextInput key="folio" source="folio" label="Folio" />,
     <DateInput key="fecha" source="fecha" label="Fecha" />,
     <NumberInput key="turno" source="turno" label="Turno" />,
-    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Usuario" />,
     <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
 ];
 
@@ -153,7 +153,7 @@ export const RMList = () => {
                         <DataTable.Col source="folio" label="Folio" />
                         <DataTable.Col source="fecha" label="Fecha" />
                         <DataTable.Col source="turno" label="Turno" />
-                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="personalACargo" label="Usuario" />
                         <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
                         <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
                         <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
@@ -190,7 +190,7 @@ export const RMEdit = () => {
                 <TextInput source="folio" label="Folio" />
                 <DateInput disabled source="fecha" label="Fecha" />
                 <NumberInput disabled source="turno" label="Turno" />
-                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextInput disabled source="personalACargo" label="Usuario" />
                 <TextInput disabled source="nombrePaciente" label="Nombre paciente" />
                 <TextInput disabled source="nombreTestigo" label="Nombre testigo" />
                 <TextInput disabled source="nombreParamedico" label="Nombre paramédico" />
@@ -221,7 +221,8 @@ export const RMCreate = () => {
                     <RowSection title="Folio y Fecha" border={true}>
                         <TextInput required source="folio" label="Folio" />
                         <DateInput required source="fecha" label="Fecha"
-                            defaultValue={new Date()} // Fecha actual por defecto
+                            // Nueva fecha en formato YYYY-MM-DD
+                            defaultValue={new Date().toISOString().split('T')[0]}
                         />
                     </RowSection>
                     <RowSection title="Turno y Personal" border={true}>
@@ -233,7 +234,7 @@ export const RMCreate = () => {
                         />
                         <TextInput
                             required source="personalACargo"
-                            label="Nombre del Personal a Cargo"
+                            label="Usuario"
                             defaultValue={identity?.fullName || ''}
                             slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                         />
@@ -542,7 +543,9 @@ export const RMCreate = () => {
                                         <TextInput source="evalSec.nombre" label="Nombre" />
                                         <NumberInput source="evalSec.asuntoNo" label="Asunto No" />
                                     </RowSection>
-                                    <DateInput source="evalSec.fecha" label="Fecha" />
+                                    <DateInput source="evalSec.fecha" label="Fecha" 
+                                        defaultValue={new Date().toISOString().split('T')[0]}
+                                    />
                                     <ArrayInput source="evalSec.zonasLesion" label="Zonas de lesión">
                                         <SimpleFormIterator inline>
                                             <NumberInput source="zona" label="Zona (Número)" />
@@ -758,7 +761,7 @@ export const RMShow = () => {
                     </RowSection>
                     <RowSection labeled title="Turno y Personal" border={true}>
                         <TextField source="turno" label="Turno" />
-                        <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <TextField source="personalACargo" label="Usuario" />
                     </RowSection>
                     <TimeGridSection labeled title="Registro de Horas">
                         <TextField source="horaLlam" label="Hora Llamada" />
@@ -1094,7 +1097,7 @@ export const RMShow = () => {
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                             Evidencias Adicionales
                         </Typography>
-                        <ImageField source="evidencia" title="Evidencias Adicionales" />
+                        <ImageField source="src" title="title" label="Trabajo a futuro" />
                     </Box>
                 </TabbedShowLayout.Tab>
             </TabbedShowLayout>

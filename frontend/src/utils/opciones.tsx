@@ -4,259 +4,259 @@ Fecha: 11/08/2025
 */
 
 export const MOTIVO_CHOICES = [
-    { id: "enfermedad", name: "Enfermedad" },
-    { id: "traumatismo", name: "Traumatismo" },
-    { id: "ginecoobstetrico", name: "Ginecoobstétrico" },
+    { id: "Enfermedad", name: "Enfermedad" },
+    { id: "Traumatismo", name: "Traumatismo" },
+    { id: "Ginecoobstétrico", name: "Ginecoobstétrico" },
 ];
 
 export const OCURRENCIA_CHOICES = [
-    { id: "transporte_publico", name: "Transporte público" },
-    { id: "escuela", name: "Escuela" },
-    { id: "trabajo", name: "Trabajo" },
-    { id: "hogar", name: "Hogar" },
-    { id: "recreacion_deporte", name: "Recreación y Deporte" },
-    { id: "via_publica", name: "Vía Pública" },
-    { id: "otro", name: "Otro" },
+    { id: "Transporte público", name: "Transporte público" },
+    { id: "Escuela", name: "Escuela" },
+    { id: "Trabajo", name: "Trabajo" },
+    { id: "Hogar", name: "Hogar" },
+    { id: "Recreación y Deporte", name: "Recreación y Deporte" },
+    { id: "Vía Pública", name: "Vía Pública" },
+    { id: "Otro", name: "Otro" },
 ];
 
 export const SEXO_CHOICES = [
-    { id: 'masculino', name: 'Masculino' },
-    { id: 'femenino', name: 'Femenino' },
+    { id: 'Masculino', name: 'Masculino' },
+    { id: 'Femenino', name: 'Femenino' },
 ];
 
 export const PRODUCTO_CHOICES = [
-    { id: 'vivo', name: 'Vivo' },
-    { id: 'muerto', name: 'Muerto' },
+    { id: 'Vivo', name: 'Vivo' },
+    { id: 'Muerto', name: 'Muerto' },
 ];
 
 export const AGENTE_CHOICES = [
-    { id: 'arma', name: 'Arma' },
-    { id: 'juguete', name: 'Juguete' },
-    { id: 'explosion', name: 'Explosión' },
-    { id: 'fuego', name: 'Fuego' },
-    { id: 'animal', name: 'Animal' },
-    { id: 'bicicleta', name: 'Bicicleta' },
-    { id: 'automotor', name: 'Automotor' },
-    { id: 'maquinaria', name: 'Maquinaria' },
-    { id: 'herramienta', name: 'Herramienta' },
-    { id: 'electricoDano', name: 'Eléctrico / Daño' },
-    { id: 'sustanciaCaliente', name: 'Sustancia caliente' },
-    { id: 'sustanciaToxica', name: 'Sustancia tóxica' },
-    { id: 'productoBiologico', name: 'Producto biológico' },
-    { id: 'serHumano', name: 'Ser humano' },
-    { id: 'otro', name: 'Otro' },
+    { id: 'Arma', name: 'Arma' },
+    { id: 'Juguete', name: 'Juguete' },
+    { id: 'Explosión', name: 'Explosión' },
+    { id: 'Fuego', name: 'Fuego' },
+    { id: 'Animal', name: 'Animal' },
+    { id: 'Bicicleta', name: 'Bicicleta' },
+    { id: 'Automotor', name: 'Automotor' },
+    { id: 'Maquinaria', name: 'Maquinaria' },
+    { id: 'Herramienta', name: 'Herramienta' },
+    { id: 'Eléctrico / Daño', name: 'Eléctrico / Daño' },
+    { id: 'Sustancia caliente', name: 'Sustancia caliente' },
+    { id: 'Sustancia tóxica', name: 'Sustancia tóxica' },
+    { id: 'Producto biológico', name: 'Producto biológico' },
+    { id: 'Ser humano', name: 'Ser humano' },
+    { id: 'Otro', name: 'Otro' },
 ];
 
 export const TIPO_ACCIDENTE_CHOICES = [
-    { id: 'colision', name: 'Colisión' },
-    { id: 'volcadura', name: 'Volcadura' },
-    { id: 'automotor', name: 'Automotor' },
-    { id: 'bicicleta', name: 'Bicicleta' },
-    { id: 'motocicleta', name: 'Motocicleta' },
-    { id: 'maquinaria', name: 'Maquinaria' },
-    { id: 'objeto', name: 'Contra objeto fijo' },
+    { id: 'Colisión', name: 'Colisión' },
+    { id: 'Volcadura', name: 'Volcadura' },
+    { id: 'Automotor', name: 'Automotor' },
+    { id: 'Bicicleta', name: 'Bicicleta' },
+    { id: 'Motocicleta', name: 'Motocicleta' },
+    { id: 'Maquinaria', name: 'Maquinaria' },
+    { id: 'Contra objeto fijo', name: 'Contra objeto fijo' },
 ];
 
 export const IMPACTO_CHOICES = [
-    { id: 'posterior', name: 'Posterior' },
-    { id: 'volcadura', name: 'Volcadura' },
-    { id: 'rotacional', name: 'Rotacional' },
-    { id: 'frontal', name: 'Frontal' },
-    { id: 'lateral', name: 'Lateral' },
+    { id: 'Posterior', name: 'Posterior' },
+    { id: 'Volcadura', name: 'Volcadura' },
+    { id: 'Rotacional', name: 'Rotacional' },
+    { id: 'Frontal', name: 'Frontal' },
+    { id: 'Lateral', name: 'Lateral' },
 ];
 
 export const PARABRISAS_CHOICES = [
-    { id: 'integro', name: 'Íntegro' },
-    { id: 'estrellado', name: 'Estrellado' },
+    { id: 'Íntegro', name: 'Íntegro' },
+    { id: 'Estrellado', name: 'Estrellado' },
 ];
 
 export const VOLANTE_CHOICES = [
-    { id: 'integro', name: 'Íntegro' },
-    { id: 'doblado', name: 'Doblado' },
+    { id: 'Íntegro', name: 'Íntegro' },
+    { id: 'Doblado', name: 'Doblado' },
 ];
 
 export const SI_NO_CHOICES = [
-    { id: 'si', name: 'Sí' },
-    { id: 'no', name: 'No' },
+    { id: 'Sí', name: 'Sí' },
+    { id: 'No', name: 'No' },
 ];
 
 export const CINTURON_CHOICES = [
-    { id: 'colocado', name: 'Colocado' },
-    { id: 'no_colocado', name: 'No colocado' },
+    { id: 'Colocado', name: 'Colocado' },
+    { id: 'No colocado', name: 'No colocado' },
 ];
 
 export const DENTRO_VEHICULO_CHOICES = [
-    { id: 'si', name: 'Sí' },
-    { id: 'no', name: 'No' },
-    { id: 'eyectado', name: 'Eyectado' },
+    { id: 'Sí', name: 'Sí' },
+    { id: 'No', name: 'No' },
+    { id: 'Eyectado', name: 'Eyectado' },
 ];
 
 export const ATROPELLADO_CHOICES = [
-    { id: 'automotor', name: 'Automotor' },
-    { id: 'motocicleta', name: 'Motocicleta' },
-    { id: 'bicicleta', name: 'Bicicleta' },
-    { id: 'maquinaria', name: 'Maquinaria' },
+    { id: 'Automotor', name: 'Automotor' },
+    { id: 'Motocicleta', name: 'Motocicleta' },
+    { id: 'Bicicleta', name: 'Bicicleta' },
+    { id: 'Maquinaria', name: 'Maquinaria' },
 ];
 
 export const ORIGEN_PROBABLE_CHOICES = [
-    { id: 'neurologica', name: 'Neurológica' },
-    { id: 'infecciosa', name: 'Infecciosa' },
-    { id: 'musculoEsqueletico', name: 'Músculo esquelético' },
-    { id: 'urogenital', name: 'Urogenital' },
-    { id: 'digestiva', name: 'Digestiva' },
-    { id: 'cardiovascular', name: 'Cardiovascular' },
-    { id: 'oncologico', name: 'Oncológico' },
-    { id: 'metabolico', name: 'Metabólico' },
-    { id: 'ginecoobstetrica', name: 'Ginecoobstétrica' },
-    { id: 'respiratorio', name: 'Respiratorio' },
-    { id: 'cognitivoEmocional', name: 'Cognitivo emocional' },
-    { id: 'otro', name: 'Otro' },
+    { id: 'Neurológica', name: 'Neurológica' },
+    { id: 'Infecciosa', name: 'Infecciosa' },
+    { id: 'Músculo esquelético', name: 'Músculo esquelético' },
+    { id: 'Urogenital', name: 'Urogenital' },
+    { id: 'Digestiva', name: 'Digestiva' },
+    { id: 'Cardiovascular', name: 'Cardiovascular' },
+    { id: 'Oncológico', name: 'Oncológico' },
+    { id: 'Metabólico', name: 'Metabólico' },
+    { id: 'Ginecoobstétrica', name: 'Ginecoobstétrica' },
+    { id: 'Respiratorio', name: 'Respiratorio' },
+    { id: 'Cognitivo emocional', name: 'Cognitivo emocional' },
+    { id: 'Otro', name: 'Otro' },
 ];
 
 export const NIVEL_CONSCIENCIA_CHOICES = [
-    { id: 'alerta', name: 'Alerta' },
-    { id: 'dolor', name: 'Dolor' },
-    { id: 'verbal', name: 'Verbal' },
-    { id: 'inconsciente', name: 'Inconsciente' }
+    { id: 'Alerta', name: 'Alerta' },
+    { id: 'Dolor', name: 'Dolor' },
+    { id: 'Verbal', name: 'Verbal' },
+    { id: 'Inconsciente', name: 'Inconsciente' }
 ];
 
 export const DEGLUCION_CHOICES = [
-    { id: 'ausente', name: 'Ausente' },
-    { id: 'presente', name: 'Presente' }
+    { id: 'Ausente', name: 'Ausente' },
+    { id: 'Presente', name: 'Presente' }
 ];
 
 export const VIA_AEREA_CHOICES = [
-    { id: 'permeable', name: 'Permeable' },
-    { id: 'comprometida', name: 'Comprometida' }
+    { id: 'Permeable', name: 'Permeable' },
+    { id: 'Comprometida', name: 'Comprometida' }
 ];
 
 export const VENTILACION_CHOICES = [
-    { id: 'automatismoRegular', name: 'Automatismo regular' },
-    { id: 'automatismoIrregular', name: 'Automatismo irregular' },
-    { id: 'automatismoRapido', name: 'Automatismo rápido' },
-    { id: 'automatismoSuperficial', name: 'Automatismo superficial' },
-    { id: 'apnea', name: 'Apnea' }
+    { id: 'Automatismo regular', name: 'Automatismo regular' },
+    { id: 'Automatismo irregular', name: 'Automatismo irregular' },
+    { id: 'Automatismo rápido', name: 'Automatismo rápido' },
+    { id: 'Automatismo superficial', name: 'Automatismo superficial' },
+    { id: 'Apnea', name: 'Apnea' }
 ];
 
 export const AUSCULTACION_CHOICES = [
-    { id: 'ruidosNormales', name: 'Ruidos respiratorios normales' },
-    { id: 'ruidosDisminuidos', name: 'Ruidos respiratorios disminuidos' },
-    { id: 'ruidosAusentes', name: 'Ruidos respiratorios ausentes' }
+    { id: 'Ruidos respiratorios normales', name: 'Ruidos respiratorios normales' },
+    { id: 'Ruidos respiratorios disminuidos', name: 'Ruidos respiratorios disminuidos' },
+    { id: 'Ruidos respiratorios ausentes', name: 'Ruidos respiratorios ausentes' }
 ];
 
 export const HEMITORAX_CHOICES = [
-    { id: 'derecho', name: 'Derecho' },
-    { id: 'izquierdo', name: 'Izquierdo' }
+    { id: 'Derecho', name: 'Derecho' },
+    { id: 'Izquierdo', name: 'Izquierdo' }
 ];
 
 export const SITIO_CHOICES = [
-    { id: 'apical', name: 'Apical' },
-    { id: 'base', name: 'Base' }
+    { id: 'Apical', name: 'Apical' },
+    { id: 'Base', name: 'Base' }
 ];
 
 export const PRESENCIA_PULSOS_CHOICES = [
-    { id: 'carotideo', name: 'Carótideo' },
-    { id: 'radial', name: 'Radial' },
-    { id: 'paroCardiorespiratorio', name: 'Paro cardiorespiratorio' }
+    { id: 'Carótideo', name: 'Carótideo' },
+    { id: 'Radial', name: 'Radial' },
+    { id: 'Paro cardiorespiratorio', name: 'Paro cardiorespiratorio' }
 ];
 
 export const CALIDAD_CHOICES = [
-    { id: 'rapido', name: 'Rápido' },
-    { id: 'lento', name: 'Lento' },
-    { id: 'ritmico', name: 'Rítmico' },
-    { id: 'arritmico', name: 'Arrítmico' }
+    { id: 'Rápido', name: 'Rápido' },
+    { id: 'Lento', name: 'Lento' },
+    { id: 'Rítmico', name: 'Rítmico' },
+    { id: 'Arrítmico', name: 'Arrítmico' }
 ];
 
 export const PIEL_CHOICES = [
-    { id: 'normal', name: 'Normal' },
-    { id: 'palida', name: 'Pálida' },
-    { id: 'cianotica', name: 'Cianótica' }
+    { id: 'Normal', name: 'Normal' },
+    { id: 'Pálida', name: 'Pálida' },
+    { id: 'Cianótica', name: 'Cianótica' }
 ];
 
 export const CARACTERISTICAS_CHOICES = [
-    { id: 'caliente', name: 'Caliente' },
-    { id: 'fria', name: 'Fría' },
-    { id: 'diaforesis', name: 'Diaforesis' },
-    { id: 'normotermico', name: 'Normotérmico' }
+    { id: 'Caliente', name: 'Caliente' },
+    { id: 'Fría', name: 'Fría' },
+    { id: 'Diaforesis', name: 'Diaforesis' },
+    { id: 'Normotérmico', name: 'Normotérmico' }
 ];
 
 export const ASISTENCIA_VENTILATORIA_CHOICES = [
-    { id: "balon_valvula_mascarilla", name: "Balón válvula mascarilla" },
-    { id: "valvula_demanda", name: "Válvula de demanda" },
-    { id: "hiperventilacion", name: "Hiperventilación" },
-    { id: "puntas_nasales", name: "Puntas nasales" },
-    { id: "mascarilla_simple", name: "Mascarilla simple" },
-    { id: "ventilador_automatico", name: "Ventilador automático" },
-    { id: "hemitorax_derecho", name: "Hemitorax derecho" },
-    { id: "hemitorax_izquierdo", name: "Hemitorax izquierdo" },
-    { id: "descompresion_pleural", name: "Descompresión pleural con agua" },
-    { id: "mascarilla_reservorio", name: "Mascarilla con reservorio" },
-    { id: "mascarilla_venturi", name: "Mascarilla Venturi" },
+    { id: "Balón válvula mascarilla", name: "Balón válvula mascarilla" },
+    { id: "Válvula de demanda", name: "Válvula de demanda" },
+    { id: "Hiperventilación", name: "Hiperventilación" },
+    { id: "Puntas nasales", name: "Puntas nasales" },
+    { id: "Mascarilla simple", name: "Mascarilla simple" },
+    { id: "Ventilador automático", name: "Ventilador automático" },
+    { id: "Hemitorax derecho", name: "Hemitorax derecho" },
+    { id: "Hemitorax izquierdo", name: "Hemitorax izquierdo" },
+    { id: "Descompresión pleural con agua", name: "Descompresión pleural con agua" },
+    { id: "Mascarilla con reservorio", name: "Mascarilla con reservorio" },
+    { id: "Mascarilla Venturi", name: "Mascarilla Venturi" },
 ];
 
 export const CONTROL_CERVICAL_CHOICES = [
-    { id: "manual", name: "Manual" },
-    { id: "collarin_rigido", name: "Collarín rígido" },
-    { id: "collarin_blando", name: "Collarín blando" },
+    { id: "Manual", name: "Manual" },
+    { id: "Collarín rígido", name: "Collarín rígido" },
+    { id: "Collarín blando", name: "Collarín blando" },
 ];
 
 export const CONTROL_HEMORRAGIAS_CHOICES = [
-    { id: "presion_directa", name: "Presión directa" },
-    { id: "presion_indirecta", name: "Presión indirecta" },
-    { id: "gravedad", name: "Gravedad" },
-    { id: "vendaje_compresivo", name: "Vendaje compresivo" },
-    { id: "criotepia", name: "Crioterapia" },
-    { id: "mast", name: "MAST" },
+    { id: "Presión directa", name: "Presión directa" },
+    { id: "Presión indirecta", name: "Presión indirecta" },
+    { id: "Gravedad", name: "Gravedad" },
+    { id: "Vendaje compresivo", name: "Vendaje compresivo" },
+    { id: "Crioterapia", name: "Crioterapia" },
+    { id: "MAST", name: "MAST" },
 ];
 
 export const VIA_VENOSAS_CHOICES = [
-    { id: "hartmann", name: "Hartmann" },
-    { id: "nacl_09", name: "NaCl 0.9 %" },
-    { id: "mixta", name: "Mixta" },
-    { id: "glucosa5", name: "Glucosa 5%" },
-    { id: "otra", name: "Otra" },
+    { id: "Hartmann", name: "Hartmann" },
+    { id: "NaCl 0.9 %", name: "NaCl 0.9 %" },
+    { id: "Mixta", name: "Mixta" },
+    { id: "Glucosa 5%", name: "Glucosa 5%" },
+    { id: "Otra", name: "Otra" },
 ];
 
 export const ATENCION_BASICA_CHOICES = [
-    { id: "rcp_basica", name: "RCP básica" },
-    { id: "rcp_avanzada", name: "RCP avanzada" },
-    { id: "curacion", name: "Curación" },
-    { id: "inmovilizacion", name: "Inmovilización de extremidades" },
-    { id: "empaquetamiento", name: "Empaquetamiento" },
-    { id: "vendaje", name: "Vendaje" },
+    { id: "RCP básica", name: "RCP básica" },
+    { id: "RCP avanzada", name: "RCP avanzada" },
+    { id: "Curación", name: "Curación" },
+    { id: "Inmovilización de extremidades", name: "Inmovilización de extremidades" },
+    { id: "Empaquetamiento", name: "Empaquetamiento" },
+    { id: "Vendaje", name: "Vendaje" },
 ];
 
 export const CONDICION_PACIENTE_CHOICES = [
-    { id: "critico", name: "Crítico" },
-    { id: "estable", name: "Estable" },
-    { id: "no_critico", name: "No crítico" },
-    { id: "inestable", name: "Inestable" },
+    { id: "Crítico", name: "Crítico" },
+    { id: "Estable", name: "Estable" },
+    { id: "No crítico", name: "No crítico" },
+    { id: "Inestable", name: "Inestable" },
 ];
 
 export const PRIORIDAD_CHOICES = [
-    { id: "rojo", name: "Rojo" },
-    { id: "amarillo", name: "Amarillo" },
-    { id: "verde", name: "Verde" },
-    { id: "negra", name: "Negra" },
+    { id: "Rojo", name: "Rojo" },
+    { id: "Amarillo", name: "Amarillo" },
+    { id: "Verde", name: "Verde" },
+    { id: "Negra", name: "Negra" },
 ];
 
 // Reportes urbanos
 
 export const MODO_ACTIVACION_CHOICES = [
-    { id: "llamada_emergencia", name: "Llamada de emergencia" },
-    { id: "seguimiento_oficio", name: "Seguimiento de oficio" },
+    { id: "Llamada de emergencia", name: "Llamada de emergencia" },
+    { id: "Seguimiento de oficio", name: "Seguimiento de oficio" },
 ];
 
 export const GRAVEDAD_CHOICES = [
-    { id: "baja", name: "Baja" },
-    { id: "media", name: "Media" },
-    { id: "alta", name: "Alta" },
+    { id: "Baja", name: "Baja" },
+    { id: "Media", name: "Media" },
+    { id: "Alta", name: "Alta" },
 ];
 
 export const AUTORIDADES_CHOICES = [
-    { id: "seguridad_publica", name: "Seguridad Pública" },
-    { id: "policia", name: "Policía" },
-    { id: "bomberos", name: "Bomberos" },
-    { id: "cruz_roja", name: "Cruz Roja" },
-    { id: "otra", name: "Otra" },
+    { id: "Seguridad Pública", name: "Seguridad Pública" },
+    { id: "Policía", name: "Policía" },
+    { id: "Bomberos", name: "Bomberos" },
+    { id: "Cruz Roja", name: "Cruz Roja" },
+    { id: "Otra", name: "Otra" },
 ];

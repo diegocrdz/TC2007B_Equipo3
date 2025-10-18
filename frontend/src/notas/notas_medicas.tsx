@@ -43,7 +43,7 @@ export const NMFilters = [
     <NumberInput key="id" source="id" label="ID" />,
     <DateInput key="fecha" source="fecha" label="Fecha" />,
     <NumberInput key="turno" source="turno" label="Turno" />,
-    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Usuario" />,
     <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
     <TextInput key="nombreMedico" source="nombreMedico" label="Nombre médico" />,
 ]
@@ -110,7 +110,7 @@ export const NMList = () => {
                         <DataTable.Col source="fecha" label="Fecha" />
                         <DataTable.Col source="hora" label="Hora" />
                         <DataTable.Col source="turno" label="Turno" />
-                        <DataTable.Col source="personalACargo" label="Personal a Cargo" />
+                        <DataTable.Col source="personalACargo" label="Usuario" />
                         <DataTable.Col source="nombrePaciente" label="Paciente" />
                         <DataTable.Col source="nombreTestigo" label="Testigo" />
                         <DataTable.Col source="nombreParamedico" label="Paramédico" />
@@ -144,7 +144,7 @@ export const NMEdit = () => {
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
                 <NumberInput disabled source="turno" label="Turno" />
-                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextInput disabled source="personalACargo" label="Usuario" />
                 <TextInput disabled source="nombrePaciente" label="Nombre paciente" />
                 <TextInput disabled source="nombreTestigo" label="Nombre testigo" />
                 <TextInput disabled source="nombreParamedico" label="Nombre paramédico" />
@@ -182,7 +182,7 @@ export const NMCreate = () => {
                 { /*------------------------------------------------------*/}
                 <RowSection title="Fecha y Hora" border={true}>
                     <DateInput required source="fecha" label="Fecha"
-                        defaultValue={new Date()} // Fecha actual por defecto
+                        defaultValue={new Date().toISOString().split('T')[0]} // Fecha actual en formato YYYY-MM-DD
                     />
                     <TimeInput required source="hora" label="Hora"
                         defaultValue={new Date()} // Hora actual por defecto
@@ -197,7 +197,7 @@ export const NMCreate = () => {
                     />
                     <TextInput
                         required source="personalACargo"
-                        label="Nombre del Personal a Cargo"
+                        label="Usuario"
                         defaultValue={identity?.fullName || ''}
                         slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                     />
@@ -253,7 +253,7 @@ export const NMShow = () => (
             </RowSection>
             <RowSection title="Turno y Personal" border={true} labeled={true}>
                 <TextField source="turno" label="Turno" />
-                <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextField source="personalACargo" label="Usuario" />
             </RowSection>
             <ColumnSection title="Involucrados" labeled={true}>
                 <TextField source="nombrePaciente" label="Nombre paciente" />

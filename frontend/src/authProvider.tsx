@@ -42,7 +42,6 @@ export const authProvider: AuthProvider = {
 
     // Iniciar sesión
     async login({username, password}) {
-        console.log(import.meta.env.VITE_BACKEND)
         const request=new Request(import.meta.env.VITE_BACKEND+"/login",{
             method:"POST",
             body: JSON.stringify({"username":username, "password":password}),
@@ -72,7 +71,7 @@ export const authProvider: AuthProvider = {
     // Cuando la API devuelve un error
     async checkError(error) {
         const status = error.status;
-        if (status === 401 || status === 403) {
+        if (status === 401) {
             sessionStorage.removeItem("auth");
             sessionStorage.removeItem("identity");
             return Promise.reject();

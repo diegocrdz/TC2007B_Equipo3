@@ -17,7 +17,6 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => {
             component="div"
             sx={{
 				fontSize: '1em',
-				letterSpacing: 1,
 				color: 'text.secondary',
             }}
 		>
@@ -111,10 +110,10 @@ export const MyMenu = () => {
 					aria-label='Usuarios'
 				/>,
 			]}
-			<Divider />
 
 			{canAccessMed && [
 				// Mostrar si el usuario tiene acceso a reportes médicos
+				<Divider key="divider-medicos" />,
 				<SectionTitle key="incidentes-medicos">Incidentes Médicos</SectionTitle>,
 				<Menu.ResourceItem
 					key="reportes_medicos"
@@ -132,6 +131,7 @@ export const MyMenu = () => {
 
 			{canAccessUrb && [
 				// Mostrar si el usuario tiene acceso a reportes urbanos
+				<Divider key="divider-urbanos" />,
 				<SectionTitle key="incidentes-urbanos">Incidentes Urbanos</SectionTitle>,
 				<Menu.ResourceItem
 					key="reportes_urbanos"
