@@ -22,6 +22,7 @@ import {
     NumberInput,
     FunctionField,
     Datagrid,
+    useUnique,
 } from "react-admin";
 // Componentes personalizados
 import { ColumnSection, MyToolbar, listBoxSx, MotivoToggleInput } from "../utils/componentes";
@@ -31,12 +32,12 @@ import { useMediaQuery } from '@mui/material';
 
 // Filtros para la lista
 export const NUFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <NumberInput source="id" label="ID" />,
-    <TextInput source="usuario" label="Usuario" />,
-    <TextInput source="nombre" label="Nombre" />,
-    <NumberInput source="turno" label="Turno" />,
-    <NumberInput source="rol" label="Rol" />,
+    <TextInput key="q" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <TextInput key="usuario" source="usuario" label="Usuario" />,
+    <TextInput key="nombre" source="nombre" label="Nombre" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="rol" source="rol" label="Rol" />,
 ]
 
 export const UsuarioList = () => {    
@@ -128,6 +129,7 @@ export const UsuarioEdit = () => {
                 <ColumnSection title="Editar Usuario">
                     <TextInput required source="usuario" label="Usuario" />
                     <TextInput required source="nombre" label="Nombre" />
+                    <TextInput required source="contrasena" label="Contraseña" />
                     <NumberInput required source="turno" label="Turno" />
                     <MotivoToggleInput
                         source="rol"
@@ -135,7 +137,7 @@ export const UsuarioEdit = () => {
                         choices={[
                             { id: "admin", name: "Administrador" },
                             { id: "jefe", name: "Jefe de Turno" },
-                            { id: "medico", name: "Médico" },
+                            { id: "urbano", name: "Urbano" },
                             { id: "paramedico", name: "Paramédico" },
                         ]}
                     >
@@ -147,6 +149,9 @@ export const UsuarioEdit = () => {
 };
 
 export const UsuarioCreate = () => {
+
+    // Solo permitir crear usuarios únicos
+    const unique = useUnique();
 
     const notify = useNotify();
     const refresh = useRefresh();
@@ -162,21 +167,22 @@ export const UsuarioCreate = () => {
         <Create sx={{marginBottom: '5em'}} mutationOptions={{ onSuccess }} >
             <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
                 <ColumnSection title="Nuevo Usuario">
-                    <TextInput required source="usuario" label="Usuario" />
-                        <TextInput required source="nombre" label="Nombre" />
-                        <NumberInput required source="turno" label="Turno" />
-                        <MotivoToggleInput
-                            required
-                            source="rol"
-                            label="Rol"
-                            choices={[
-                                { id: "admin", name: "Administrador" },
-                                { id: "jefe", name: "Jefe de Turno" },
-                                { id: "medico", name: "Médico" },
-                                { id: "paramedico", name: "Paramédico" },
-                            ]}
-                        >
-                        </MotivoToggleInput>
+                    <TextInput required source="usuario" label="Usuario" validate={unique({message:'myapp.validation.unique'})} />
+                    <TextInput required source="nombre" label="Nombre" />
+                    <TextInput required source="contrasena" label="Contraseña" />
+                    <NumberInput required source="turno" label="Turno" />
+                    <MotivoToggleInput
+                        required
+                        source="rol"
+                        label="Rol"
+                        choices={[
+                            { id: "admin", name: "Administrador" },
+                            { id: "jefe", name: "Jefe de Turno" },
+                            { id: "urbano", name: "Urbano" },
+                            { id: "paramedico", name: "Paramédico" },
+                        ]}
+                    >
+                    </MotivoToggleInput>
                 </ColumnSection>
             </SimpleForm>
         </Create>
@@ -189,6 +195,7 @@ export const UsuarioShow = () => (
             <TextField source="id" label="ID" />
             <TextField source="usuario" label="Usuario" />
             <TextField source="nombre" label="Nombre" />
+            <TextField source="contrasena" label="Contraseña" />
             <TextField source="turno" label="Turno" />
             <TextField source="rol" label="Rol" />
         </SimpleShowLayout>

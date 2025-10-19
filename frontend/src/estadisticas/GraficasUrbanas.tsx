@@ -12,46 +12,8 @@ import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 // Gráficas
 import { BarChart, LineChart, RadarChart } from '@mui/x-charts';
-
-// Componente reutilizable para mostrar un recuadro con datos
-const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor: number, icono: React.ReactNode }) => (
-    <Box
-        sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 3,
-            border: '2px solid',
-            borderColor: 'secondary.dark',
-            borderRadius: 3,
-            transition: '0.2s',
-            maxHeight: 120,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            background: '#ffffff10',
-        }}
-    >
-        <Box
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            {icono}
-            <Typography variant="subtitle2" color="primary.main" fontWeight="bold" sx={{ marginLeft: 1 }}>
-                {titulo}
-            </Typography>
-        </Box>
-        <Typography
-            variant="subtitle1"
-            color="primary.main"
-            fontWeight="bold"
-        >
-            {valor}
-        </Typography>
-    </Box>
-);
+// Utilidades
+import { Filtros, RecuadroDatos, estilosContenedorGrafica, estilosGrafica, colores } from './Utils';
 
 export const DatosIniciales = () => {
     // Obtener el número de reportes urbanos registrados
@@ -105,42 +67,6 @@ export const DatosIniciales = () => {
         </Box>
     );
 };
-
-// Estilos comunes para los contenedores de gráficas
-const estilosContenedorGrafica = () => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '1em',
-    padding: '1em',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(42, 71, 104, 0.1)',
-    border: '2px solid',
-    borderColor: 'primary.main',
-    background: '#aeb9e944',
-    height: '40vh',
-    width: '100%',
-    transition: '0.2s',
-
-    '&:hover': {
-        borderColor: 'secondary.dark',
-    }
-});
-
-// Estilos para las gráficas
-const estilosGrafica = () => ({
-    height: '80%',
-    width: '100%',
-});
-
-// Colores para las gráficas
-const colores = [
-    '#51ba6fff', '#ca8282ff', '#ffc658',
-    '#9c6d55ff', '#8dade1ff', '#a4de6c',
-    '#d0ed57ff', '#8884d8ff', '#82ca9dff',
-    '#ffc658ff', '#ff8042ff', '#8dd1e1ff'
-];
 
 // Radar: Gráfica de modo de activación de servicio
 const ModoActivacion = () => {
@@ -386,6 +312,7 @@ const TiempoRespuestaPorTipo = () => {
 export const GraficasUrbanas = () => (
     <Box>
         <DatosIniciales />
+        <Filtros />
         <Typography variant="h5" sx={{ marginBottom: '1em' }}>
             Gráficas
         </Typography>

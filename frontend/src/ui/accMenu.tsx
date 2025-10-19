@@ -25,6 +25,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useAccSettings } from './MyTheme';
+import Tooltip from '@mui/material/Tooltip';
 
 // Opciones para tipo de letra
 const FONT_FAMILY_OPTIONS = [
@@ -180,21 +181,23 @@ export const SwipeableTemporaryDrawer = () => {
 
     return (
         <Box>
-            <Button
-                onClick={toggleDrawer('right', true)}
-                sx={{
-                    minWidth: 0,
-                    margin: 0,
-                    border: 'none',
-                    color: 'inherit',
-                    '&:hover': {
-                        backgroundColor: 'transparent',
-                    }
-                }}
-                aria-label='Accesibilidad'
-            >
-                <AccessibilityIcon />
-            </Button>
+            <Tooltip title="Accesibilidad">
+                <Button
+                    onClick={toggleDrawer('right', true)}
+                    sx={{
+                        minWidth: 0,
+                        margin: 0,
+                        border: 'none',
+                        color: 'inherit',
+                        '&:hover': {
+                            backgroundColor: 'transparent',
+                        }
+                    }}
+                    aria-label='Accesibilidad'
+                >
+                    <AccessibilityIcon />
+                </Button>
+            </Tooltip>
             <SwipeableDrawer
                 anchor="right"
                 open={state.right}

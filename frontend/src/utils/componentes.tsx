@@ -535,7 +535,7 @@ export const PanelHistorialCambios = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <PersonIcon fontSize="small" />
                                 <Typography variant="caption" color="text.secondary">
-                                    Usuario ID: {cambio.usuarioId}
+                                    Usuario: {cambio.usuarioId}
                                 </Typography>
                             </Box>
                         </Box>

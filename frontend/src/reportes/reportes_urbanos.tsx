@@ -12,7 +12,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -30,6 +29,7 @@ import {
     DateField,
     FunctionField,
     Datagrid,
+    useGetIdentity,
 } from "react-admin";
 // Componentes personalizados
 import {
@@ -48,15 +48,15 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RUFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="tipoServicio" label="Tipo de Servicio" />,
+    <TextInput key="search" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <TextInput key="folio" source="folio" label="Folio" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="tipoServicio" source="tipoServicio" label="Tipo de Servicio" />,
     <SelectInput 
+        key="gravedad"
         source="gravedad" 
         label="Gravedad"
         choices={GRAVEDAD_CHOICES}
@@ -124,20 +124,18 @@ export const RUList = () => {
                         />
                     </Datagrid>
                 ) : (
-                    <Box sx={{ overflowX: 'auto' }}>
-                        <DataTable>
-                            <DataTable.Col source="folio" label="Folio" />
-                            <DataTable.Col source="fecha" label="Fecha" />
-                            <DataTable.Col source="turno" label="Turno" />
-                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                            <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
-                            <DataTable.Col source="gravedad" label="Gravedad" />
-                            <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
-                            <DataTable.Col>
-                            <EditButton />
-                            </DataTable.Col>
-                        </DataTable>
-                    </Box>
+                    <DataTable>
+                        <DataTable.Col source="folio" label="Folio" />
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
+                        <DataTable.Col source="gravedad" label="Gravedad" />
+                        <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
+                        <DataTable.Col>
+                        <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
                 )}
             </List>
         </Box>
@@ -195,6 +193,7 @@ export const RUCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Reporte creado', { undoable: true });
@@ -210,8 +209,18 @@ export const RUCreate = () => {
                     <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
-                    <NumberInput required source="turno" label="Turno" />
-                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <NumberInput
+                        required source="turno"
+                        label="Turno"
+                        defaultValue={identity?.turno || 1}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
+                    <TextInput
+                        required source="personalACargo"
+                        label="Nombre del Personal a Cargo"
+                        defaultValue={identity?.fullName || ''}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
                 </RowSection>
                 <ColumnSection title="Activación del Servicio">
                     <MotivoToggleInput

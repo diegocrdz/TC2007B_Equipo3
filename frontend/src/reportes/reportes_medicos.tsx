@@ -14,7 +14,6 @@ import {
     Datagrid,
     FunctionField,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -23,7 +22,6 @@ import {
     useRedirect,
     useCanAccess,
     TabbedForm,
-    SelectInput,
     TabbedShowLayout,
     DateInput,
     TimeInput,
@@ -35,6 +33,7 @@ import {
     ArrayField,
     SingleFieldList,
     NumberField,
+    useGetIdentity,
 } from "react-admin";
 // MUI
 import Accordion from '@mui/material/Accordion';
@@ -78,25 +77,27 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const RMFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="nombrePaciente" label="Nombre paciente" />,
+    <TextInput key="search" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <TextInput key="folio" source="folio" label="Folio" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
 ];
 
 export const RMList = () => {
     // Verificar acceso del usuario
     const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
 
+    // El filtrado por rol ahora se maneja en el backend
+    // Solo necesitamos un filtro vacío ya que el backend aplicará los filtros de seguridad
+
     // Obtener tamaño de pantalla
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
     return (
-        <Box sx={listBoxSx} >
+        <Box sx={listBoxSx}>
             <Box
                 sx={{
                     display: 'flex',
@@ -112,7 +113,8 @@ export const RMList = () => {
             </Box>
             
             <List
-                filters={canAccess ? RMFilters : undefined}>
+                filters={canAccess ? RMFilters : undefined}
+            >
                 {isSmall ? (
                     <Datagrid
                         rowClick="show"
@@ -147,21 +149,19 @@ export const RMList = () => {
                         />
                     </Datagrid>
                 ) : (
-                    <Box sx={{ overflowX: 'auto' }}>
-                        <DataTable>
-                            <DataTable.Col source="folio" label="Folio" />
-                            <DataTable.Col source="fecha" label="Fecha" />
-                            <DataTable.Col source="turno" label="Turno" />
-                            <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
-                            <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
-                            <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
-                            <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
-                            <DataTable.Col source="nombreMedico" label="Nombre médico" />
-                            <DataTable.Col>
-                                <EditButton />
-                            </DataTable.Col>
-                        </DataTable>
-                    </Box>
+                    <DataTable>
+                        <DataTable.Col source="folio" label="Folio" />
+                        <DataTable.Col source="fecha" label="Fecha" />
+                        <DataTable.Col source="turno" label="Turno" />
+                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="nombrePaciente" label="Nombre paciente" />
+                        <DataTable.Col source="nombreTestigo" label="Nombre testigo" />
+                        <DataTable.Col source="nombreParamedico" label="Nombre paramédico" />
+                        <DataTable.Col source="nombreMedico" label="Nombre médico" />
+                        <DataTable.Col>
+                            <EditButton />
+                        </DataTable.Col>
+                    </DataTable>
                 )}
             </List>
         </Box>
@@ -205,6 +205,7 @@ export const RMCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Reporte creado', { undoable: true });
@@ -224,8 +225,18 @@ export const RMCreate = () => {
                         />
                     </RowSection>
                     <RowSection title="Turno y Personal" border={true}>
-                        <NumberInput required source="turno" label="Turno" />
-                        <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <NumberInput
+                            required source="turno"
+                            label="Turno"
+                            defaultValue={identity?.turno || 1}
+                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        />
+                        <TextInput
+                            required source="personalACargo"
+                            label="Nombre del Personal a Cargo"
+                            defaultValue={identity?.fullName || ''}
+                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        />
                     </RowSection>
                     <TimeGridSection title="Registro de Horas">
                         <TimeInputWithIcon required source="horaLlam" label="Hora Llamada" icon={<CallIcon />} />
@@ -239,7 +250,13 @@ export const RMCreate = () => {
                     <ColumnSection title="Involucrados">
                         <TextInput required source="nombrePaciente" label="Nombre paciente" />
                         <TextInput required source="nombreTestigo" label="Nombre testigo" />
-                        <TextInput required source="nombreParamedico" label="Nombre paramédico" />
+                        <TextInput 
+                            required 
+                            source="nombreParamedico" 
+                            label="Nombre paramédico"
+                            defaultValue={identity?.fullName || ''}
+                            disabled={identity?.rol !== 'admin'}
+                        />
                         <TextInput required source="nombreMedico" label="Nombre médico" />
                     </ColumnSection>
                     <ColumnSection title="Motivo de ocurrencia">

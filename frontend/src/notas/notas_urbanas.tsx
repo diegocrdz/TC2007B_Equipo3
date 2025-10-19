@@ -12,7 +12,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -24,10 +23,10 @@ import {
     TimeInput,
     SimpleShowLayout,
     DateField,
-    SelectInput,
     NumberInput,
     FunctionField,
     Datagrid,
+    useGetIdentity,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx } from "../utils/componentes";
@@ -37,13 +36,11 @@ import { useMediaQuery } from '@mui/material';
 
 // Filtros para la lista
 export const NUFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Personal a Cargo" />,
+    <TextInput key="q" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Personal a Cargo" />,
 ]
 
 export const NUList = () => {
@@ -158,6 +155,7 @@ export const NUCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Nota creada', { undoable: true });
@@ -177,8 +175,18 @@ export const NUCreate = () => {
                     />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
-                    <NumberInput required source="turno" label="Turno" />
-                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <NumberInput
+                        required source="turno"
+                        label="Turno"
+                        defaultValue={identity?.turno || 1}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
+                    <TextInput
+                        required source="personalACargo"
+                        label="Nombre del Personal a Cargo"
+                        defaultValue={identity?.fullName || ''}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
                 </RowSection>
                 <ColumnSection title="Detalles">
                     <TextInput required source="asunto" label="Asunto" />

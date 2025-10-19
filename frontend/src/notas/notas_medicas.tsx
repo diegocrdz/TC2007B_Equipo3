@@ -12,7 +12,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     Create,
     Show,
     TextField,
@@ -20,13 +19,13 @@ import {
     useRefresh,
     useRedirect,
     useCanAccess,
-    SelectInput,
     DateInput,
     TimeInput,
     SimpleShowLayout,
     NumberInput,
     FunctionField,
     Datagrid,
+    useGetIdentity,
 } from "react-admin";
 // Componentes personalizados
 import { RowSection, ColumnSection, TextInputWithCounter, MyToolbar, listBoxSx, MotivoToggleInput } from "../utils/componentes";
@@ -40,15 +39,13 @@ import { MapInput } from "../utils/MapInput";
 
 // Filtros para la lista
 export const NMFilters = [
-    <TextInput source="q" label={'ra.action.search'} alwaysOn />,
-    <ReferenceInput source="usuarioId" label="Usuario" reference="usuarios">
-        <SelectInput optionText={(choice) => `${choice.usuario} (${choice.rol})`} />
-    </ReferenceInput>,
-    <DateInput source="fecha" label="Fecha" />,
-    <NumberInput source="turno" label="Turno" />,
-    <TextInput source="personalACargo" label="Nombre del Personal a Cargo" />,
-    <TextInput source="nombrePaciente" label="Nombre paciente" />,
-    <TextInput source="nombreMedico" label="Nombre médico" />,
+    <TextInput key="q" source="q" label={'ra.action.search'} alwaysOn />,
+    <NumberInput key="id" source="id" label="ID" />,
+    <DateInput key="fecha" source="fecha" label="Fecha" />,
+    <NumberInput key="turno" source="turno" label="Turno" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="nombrePaciente" source="nombrePaciente" label="Nombre paciente" />,
+    <TextInput key="nombreMedico" source="nombreMedico" label="Nombre médico" />,
 ]
 
 export const NMList = () => {
@@ -171,6 +168,7 @@ export const NMCreate = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const { identity } = useGetIdentity();
 
     const onSuccess = () => {
         notify('Nota creada', { undoable: true });
@@ -191,8 +189,18 @@ export const NMCreate = () => {
                     />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
-                    <NumberInput required source="turno" label="Turno" />
-                    <TextInput required source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <NumberInput
+                        required source="turno"
+                        label="Turno"
+                        defaultValue={identity?.turno || 1}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
+                    <TextInput
+                        required source="personalACargo"
+                        label="Nombre del Personal a Cargo"
+                        defaultValue={identity?.fullName || ''}
+                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                    />
                 </RowSection>
                 <ColumnSection title="Involucrados">
                     <TextInput required source="nombrePaciente" label="Nombre paciente" />
