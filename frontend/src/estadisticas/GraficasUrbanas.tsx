@@ -13,7 +13,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 // Gráficas
 import { BarChart, LineChart, RadarChart } from '@mui/x-charts';
 // Utilidades
-import { Filtros, RecuadroDatos, estilosContenedorGrafica, estilosGrafica, colores } from './Utils';
+import { Filtros, RecuadroDatos, estilosContenedorGraficaUrbana as estilosContenedorGrafica, estilosGrafica, coloresUrbanos as colores } from './Utils';
 
 export const DatosIniciales = () => {
     // Obtener el número de reportes urbanos registrados
@@ -25,9 +25,10 @@ export const DatosIniciales = () => {
     const numeroNotas = notasMedicas?.length || 0;
 
     // Calcular el tiempo de traslado promedio
-    const tiempoPromedio = reportesUrbanos?.reduce((acc: number, reporte: any) => 
-        acc + (reporte.tiempoTraslado || 0), 0
-    ) / (numeroReportes || 1);
+    const totalTraslado = reportesUrbanos?.reduce(
+        (acc: number, r: any) => acc + (r?.tiempoTrasladoMinutos ?? 0), 0
+    ) ?? 0;
+    const tiempoPromedio = numeroReportes ? +(totalTraslado / numeroReportes).toFixed(1) : 0;
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
@@ -72,19 +73,13 @@ export const DatosIniciales = () => {
 const ModoActivacion = () => {
     // Obtener reportes médicos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Contar modos de activación
-    const modoCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar el modo de activación
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const modo = reporte.modoActivacion || 'No especificado';
-            if (!modoCount[modo]) {
-                modoCount[modo] = 0;
-            }
-            modoCount[modo] += 1;
-        });
-    }
+    const modoCount: Record<string, number> = {};
+    (reportesUrbanos ?? []).forEach((r: any) => {
+        const modo = r?.modoActivacion || 'No especificado';
+        modoCount[modo] = (modoCount[modo] ?? 0) + 1;
+    });
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
@@ -117,48 +112,36 @@ const ModoActivacion = () => {
 const PrioridadEmergencia = () => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Contar prioridades
-    const prioridadCount: { [key: string]: number } = { 'BAJA': 0, 'MEDIA': 0, 'ALTA': 0 };
 
     // Para cada reporte, contar la prioridad
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const prioridad = reporte.prioridad || 'BAJA';
-            if (!prioridadCount[prioridad]) {
-                prioridadCount[prioridad] = 0;
-            }
-            prioridadCount[prioridad] += 1;
-        });
-    }
+    const gravedadCount: Record<string, number> = {};
+    (reportesUrbanos ?? []).forEach((r: any) => {
+        const g = r?.gravedad || 'No especificada';
+        gravedadCount[g] = (gravedadCount[g] ?? 0) + 1;
+    });
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
     // Datos para la gráfica
-    const prioridades = Object.keys(prioridadCount);
-    const datos = prioridades.map(prioridad => prioridadCount[prioridad]);
+    const gravedades = Object.keys(gravedadCount);
+    const datos = gravedades.map(g => gravedadCount[g]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
             <Typography variant="h6">
-                Incidentes por prioridad de emergencia
+                Incidentes por gravedad de emergencia
             </Typography>
             <BarChart
                 sx={estilosGrafica()}
                 colors={[colores[1]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
                 xAxis={[
-                    {
-                        data: prioridades,
-                        label: 'Prioridad',
-                    }
+                    { data: gravedades, scaleType: 'band', label: 'Gravedad' },
                 ]}
                 yAxis={[
-                    {
-                        label: 'Número de incidentes',
-                    }
+                    { label: 'Número de incidentes' },
                 ]}
             />
         </Box>
@@ -169,25 +152,19 @@ const PrioridadEmergencia = () => {
 const AlcaldiasMasEmergencias = () => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Contar alcaldías
-    const alcaldiaCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar la alcaldía
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const alcaldia = reporte.alcaldia || 'No especificado';
-            if (!alcaldiaCount[alcaldia]) {
-                alcaldiaCount[alcaldia] = 0;
-            }
-            alcaldiaCount[alcaldia] += 1;
-        });
-    }
+    const alcaldiaCount: Record<string, number> = {};
+    (reportesUrbanos ?? []).forEach((r: any) => {
+        const alcaldia = r?.ubicacion?.municipio || 'No especificado';
+        alcaldiaCount[alcaldia] = (alcaldiaCount[alcaldia] ?? 0) + 1;
+    });
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
     // Datos para la gráfica
     const alcaldias = Object.keys(alcaldiaCount);
-    const datos = alcaldias.map(alcaldia => alcaldiaCount[alcaldia]);
+    const datos = alcaldias.map(a => alcaldiaCount[a]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
@@ -198,12 +175,11 @@ const AlcaldiasMasEmergencias = () => {
                 showToolbar
                 sx={estilosGrafica()}
                 colors={[colores[2]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                xAxis={[{ data: alcaldias, scaleType: 'band' }]}
-                yAxis={[{ width: 50 }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
+                xAxis={[{ data: alcaldias.map(t => t.replace(/\s+/g, '\n')), scaleType: 'band', label: 'Alcaldías' }]}
+                yAxis={[{ width: 50, label: 'Número de incidentes' }]}
             />
         </Box>
     );
@@ -213,25 +189,19 @@ const AlcaldiasMasEmergencias = () => {
 const ColoniasMasEmergencias = () => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Contar colonias
-    const coloniaCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar la colonia
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const colonia = reporte.colonia || 'No especificado';
-            if (!coloniaCount[colonia]) {
-                coloniaCount[colonia] = 0;
-            }
-            coloniaCount[colonia] += 1;
-        });
-    }
+    const coloniaCount: Record<string, number> = {};
+    (reportesUrbanos ?? []).forEach((r: any) => {
+        const col = r?.ubicacion?.colonia || 'No especificado';
+        coloniaCount[col] = (coloniaCount[col] ?? 0) + 1;
+    });
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
     // Datos para la gráfica
     const colonias = Object.keys(coloniaCount);
-    const datos = colonias.map(colonia => coloniaCount[colonia]);
+    const datos = colonias.map(c => coloniaCount[c]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
@@ -242,12 +212,11 @@ const ColoniasMasEmergencias = () => {
                 showToolbar
                 sx={estilosGrafica()}
                 colors={[colores[3]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                xAxis={[{ data: colonias, scaleType: 'band' }]}
-                yAxis={[{ width: 50 }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
+                xAxis={[{ data: colonias.map(t => t.replace(/\s+/g, '\n')), scaleType: 'band', label: 'Colonias' }]}
+                yAxis={[{ width: 50, label: 'Número de incidentes' }]}
             />
         </Box>
     );
@@ -257,30 +226,26 @@ const ColoniasMasEmergencias = () => {
 const TiempoRespuestaPorTipo = () => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Acumular tiempos por tipo de incidente
-    const tipoTiempo: { [key: string]: { total: number, count: number } } = {};
 
     // Para cada reporte, acumular el tiempo por tipo de incidente
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const tipo = reporte.tipoIncidente || 'No especificado';
-            const tiempo = reporte.tiempoRespuesta || 0;
-            if (!tipoTiempo[tipo]) {
-                tipoTiempo[tipo] = { total: 0, count: 0 };
-            }
-            tipoTiempo[tipo].total += tiempo;
-            tipoTiempo[tipo].count += 1;
-        });
-    }
+    const tipoTiempo: Record<string, { total: number; count: number }> = {};
+    (reportesUrbanos ?? []).forEach((r: any) => {
+        const tipo = r?.tipoServicio || 'No especificado';
+        const t = r?.tiempoTrasladoMinutos ?? 0;
+
+        if (!tipoTiempo[tipo]) tipoTiempo[tipo] = { total: 0, count: 0 };
+        tipoTiempo[tipo].total += t;
+        tipoTiempo[tipo].count += 1;
+    });
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
     // Calcular promedios
     const tipos = Object.keys(tipoTiempo);
-    const promedios = tipos.map(tipo => 
-        tipoTiempo[tipo].count ? tipoTiempo[tipo].total / tipoTiempo[tipo].count : 0
+    const promedios = tipos.map(
+        (tipo) => +(tipoTiempo[tipo].total / (tipoTiempo[tipo].count || 1)).toFixed(1)
     );
-
+    
     return (
         <Box sx={estilosContenedorGrafica()}>
             <Typography variant="h6">
@@ -289,21 +254,9 @@ const TiempoRespuestaPorTipo = () => {
             <BarChart
                 sx={estilosGrafica()}
                 colors={[colores[4]]}
-                series={[{
-                    data: promedios,
-                    label: 'Tiempo promedio (minutos)',
-                }]}
-                xAxis={[
-                    {
-                        data: tipos,
-                        label: 'Tipo de incidente',
-                    }
-                ]}
-                yAxis={[
-                    {
-                        label: 'Tiempo promedio (minutos)',
-                    }
-                ]}
+                series={[{ data: promedios, label: 'Promedio (minutos)' }]}
+                xAxis={[{ data: tipos.map(t => t.replace(/\s+/g, '\n')), scaleType: 'band', label: 'Tipo de servicio'}]}
+                yAxis={[{ label: 'Minutos promedio' }]}
             />
         </Box>
     );

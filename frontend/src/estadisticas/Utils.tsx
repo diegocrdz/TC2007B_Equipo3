@@ -31,6 +31,27 @@ export const estilosContenedorGrafica = () => ({
     }
 });
 
+export const estilosContenedorGraficaUrbana = () => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'left',
+    justifyContent: 'center',
+    gap: '1em',
+    padding: '1em',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(30, 60, 130, 0.2)',
+    border: '2px solid',
+    borderColor: '#1976d2',
+    background: '#a3d5ff44',
+    height: '40vh',
+    width: '100%',
+    transition: '0.2s',
+
+    '&:hover': {
+        borderColor: '#0d47a1',
+    }
+});
+
 // Estilos para las gráficas
 export const estilosGrafica = () => ({
     height: '80%',
@@ -43,6 +64,13 @@ export const colores = [
     '#9c6d55ff', '#8dade1ff', '#a4de6c',
     '#d0ed57ff', '#8884d8ff', '#82ca9dff',
     '#ffc658ff', '#ff8042ff', '#8dd1e1ff'
+];
+
+// Paleta azul para urbanas
+export const coloresUrbanos = [
+    '#2196f3ff', '#64b5f6ff', '#42a5f5ff',
+    '#1e88e5ff', '#1565c0ff', '#90caf9ff',
+    '#1976d2ff', '#0d47a1ff', '#82b1ffff',
 ];
 
 // Componentes
