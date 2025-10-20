@@ -44,6 +44,13 @@ export const colores = [
     '#ffc658ff', '#ff8042ff', '#8dd1e1ff'
 ];
 
+// Paleta azul para urbanas
+export const coloresUrbanos = [
+    '#2196f3ff', '#64b5f6ff', '#42a5f5ff',
+    '#1e88e5ff', '#1565c0ff', '#90caf9ff',
+    '#1976d2ff', '#0d47a1ff', '#82b1ffff',
+];
+
 // Componentes
 
 // Componente reutilizable para mostrar un recuadro con datos

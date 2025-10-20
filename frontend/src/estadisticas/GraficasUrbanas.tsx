@@ -14,7 +14,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 // Gráficas
 import { BarChart, LineChart, RadarChart } from '@mui/x-charts';
 // Utilidades
-import { Filtros, RecuadroDatos, estilosContenedorGrafica, estilosGrafica, colores } from './Utils';
+import { Filtros, RecuadroDatos, estilosContenedorGrafica, estilosGrafica, coloresUrbanos as colores } from './Utils';
 
 export const DatosIniciales = () => {
     // Obtener el número de reportes urbanos registrados
@@ -206,20 +206,14 @@ const GravedadEmergencia = ({ fechaInicio, fechaFin }: {
             <BarChart
                 sx={estilosGrafica()}
                 colors={[colores[1]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
                 xAxis={[
-                    {
-                        data: gravedades,
-                        label: 'Gravedad',
-                    }
+                    { data: gravedades, scaleType: 'band', label: 'Gravedad' },
                 ]}
                 yAxis={[
-                    {
-                        label: 'Número de incidentes',
-                    }
+                    { label: 'Número de incidentes' },
                 ]}
             />
         </Box>
@@ -263,7 +257,7 @@ const AlcaldiasMasEmergencias = ({ fechaInicio, fechaFin }: {
 
     // Datos para la gráfica
     const alcaldias = Object.keys(alcaldiaCount);
-    const datos = alcaldias.map(alcaldia => alcaldiaCount[alcaldia]);
+    const datos = alcaldias.map(a => alcaldiaCount[a]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
@@ -274,12 +268,17 @@ const AlcaldiasMasEmergencias = ({ fechaInicio, fechaFin }: {
                 showToolbar
                 sx={estilosGrafica()}
                 colors={[colores[2]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                xAxis={[{ data: alcaldias, scaleType: 'band' }]}
-                yAxis={[{ width: 50 }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
+                xAxis={[
+                    {
+                        data: alcaldias.map(t => t.replace(/\s+/g, '\n')),
+                        scaleType: 'band',
+                        label: 'Alcaldías'
+                    }
+                ]}
+                yAxis={[{ label: 'Número de incidentes' }]}
             />
         </Box>
     );
@@ -322,7 +321,7 @@ const ColoniasMasEmergencias = ({ fechaInicio, fechaFin }: {
 
     // Datos para la gráfica
     const colonias = Object.keys(coloniaCount);
-    const datos = colonias.map(colonia => coloniaCount[colonia]);
+    const datos = colonias.map(c => coloniaCount[c]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
@@ -333,12 +332,17 @@ const ColoniasMasEmergencias = ({ fechaInicio, fechaFin }: {
                 showToolbar
                 sx={estilosGrafica()}
                 colors={[colores[3]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                xAxis={[{ data: colonias, scaleType: 'band' }]}
-                yAxis={[{ width: 50 }]}
+                series={[
+                    { data: datos, label: 'Incidentes' },
+                ]}
+                xAxis={[
+                    {
+                        data: colonias.map(t => t.replace(/\s+/g, '\n')),
+                        scaleType: 'band',
+                        label: 'Colonias'
+                    }
+                ]}
+                yAxis={[{ label: 'Número de incidentes' }]}
             />
         </Box>
     );
@@ -386,7 +390,7 @@ const TiempoRespuestaPorTipo = ({ fechaInicio, fechaFin }: {
     const promedios = tipos.map(modo => 
         tipoTiempo[modo].count ? tipoTiempo[modo].total / tipoTiempo[modo].count : 0
     );
-
+    
     return (
         <Box sx={estilosContenedorGrafica()}>
             <Typography variant="h6">
@@ -401,15 +405,12 @@ const TiempoRespuestaPorTipo = ({ fechaInicio, fechaFin }: {
                 }]}
                 xAxis={[
                     {
-                        data: tipos,
                         label: 'Modo de activación',
+                        data: tipos.map(t => t.replace(/\s+/g, '\n')),
+                        scaleType: 'band'
                     }
                 ]}
-                yAxis={[
-                    {
-                        label: 'Tiempo prom. (min.)',
-                    }
-                ]}
+                yAxis={[{ label: 'Tiempo prom. (min.)' }]}
             />
         </Box>
     );
