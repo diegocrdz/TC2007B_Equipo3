@@ -273,7 +273,7 @@ const AlcaldiasMasEmergencias = ({ fechaInicio, fechaFin }: {
                 ]}
                 xAxis={[
                     {
-                        data: alcaldias.map(t => t.replace(/\s+/g, '\n')),
+                        data: alcaldias,
                         scaleType: 'band',
                         label: 'Alcaldías'
                     }
@@ -337,7 +337,7 @@ const ColoniasMasEmergencias = ({ fechaInicio, fechaFin }: {
                 ]}
                 xAxis={[
                     {
-                        data: colonias.map(t => t.replace(/\s+/g, '\n')),
+                        data: colonias,
                         scaleType: 'band',
                         label: 'Colonias'
                     }
@@ -406,7 +406,7 @@ const TiempoRespuestaPorTipo = ({ fechaInicio, fechaFin }: {
                 xAxis={[
                     {
                         label: 'Modo de activación',
-                        data: tipos.map(t => t.replace(/\s+/g, '\n')),
+                        data: tipos,
                         scaleType: 'band'
                     }
                 ]}

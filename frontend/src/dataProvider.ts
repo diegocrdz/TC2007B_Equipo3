@@ -30,6 +30,11 @@ const convertFileToBase64 = file =>
 
 // Procesa las imagenes y las convierte a base64 antes de guardarlas
 const procesarImagenes = async (params: any, dataProvider: DataProvider) => {
+
+    if (!params.evidencia || params.evidencia.length === 0) {
+        return params;
+    }
+
     // Busca las imagenes con rawFile que es una instancia de File
     const newPictures = params.evidencia.filter(
         p => p.rawFile instanceof File

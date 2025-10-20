@@ -717,7 +717,7 @@ app.post("/login", async (req, res)=>{
 	if(data==null){
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.contrasena, pass)){
-		let token=jwt.sign({"usuario":data.usuario, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
+		let token=jwt.sign({"usuario":data.usuario, "nombre":data.nombre, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
 		res.json({"token":token, "id":data.id, "usuario":data.usuario, "nombre":data.nombre, "rol":data.rol, "turno":data.turno});
 	}else{
 		res.sendStatus(401);

@@ -217,13 +217,13 @@ export const RUCreate = () => {
                         required source="turno"
                         label="Turno"
                         defaultValue={identity?.turno || 1}
-                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        slotProps={ { htmlInput : { readOnly: identity?.rol !== 'admin' } } }
                     />
                     <TextInput
                         required source="personalACargo"
                         label="Usuario"
                         defaultValue={identity?.usuario || ''}
-                        slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                        slotProps={ { htmlInput : { readOnly: identity?.rol !== 'admin' } } }
                     />
                 </RowSection>
                 <ColumnSection title="Activación del Servicio">

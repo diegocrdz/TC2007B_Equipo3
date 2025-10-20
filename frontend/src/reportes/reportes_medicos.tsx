@@ -230,13 +230,13 @@ export const RMCreate = () => {
                             required source="turno"
                             label="Turno"
                             defaultValue={identity?.turno || 1}
-                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                            slotProps={ { htmlInput : { readOnly: identity?.rol !== 'admin' } } }
                         />
                         <TextInput
                             required source="personalACargo"
                             label="Usuario"
                             defaultValue={identity?.usuario || ''}
-                            slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
+                            slotProps={ { htmlInput : { readOnly: identity?.rol !== 'admin' } } }
                         />
                     </RowSection>
                     <TimeGridSection title="Registro de Horas">
@@ -256,7 +256,7 @@ export const RMCreate = () => {
                             source="nombreParamedico" 
                             label="Nombre paramédico"
                             defaultValue={identity?.nombre || ''}
-                            disabled={identity?.rol !== 'admin'}
+                            slotProps={ { htmlInput : { readOnly: identity?.rol !== 'admin' } } }
                         />
                         <TextInput required source="nombreMedico" label="Nombre médico" />
                     </ColumnSection>
