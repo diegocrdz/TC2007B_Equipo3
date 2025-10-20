@@ -1,7 +1,7 @@
 /*
 Recurso para Reportes Médicos
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 11/08/2025
+Fecha: 20/08/2025
 */
 
 // react-admin
@@ -235,7 +235,7 @@ export const RMCreate = () => {
                         <TextInput
                             required source="personalACargo"
                             label="Usuario"
-                            defaultValue={identity?.fullName || ''}
+                            defaultValue={identity?.usuario || ''}
                             slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                         />
                     </RowSection>
@@ -255,7 +255,7 @@ export const RMCreate = () => {
                             required 
                             source="nombreParamedico" 
                             label="Nombre paramédico"
-                            defaultValue={identity?.fullName || ''}
+                            defaultValue={identity?.nombre || ''}
                             disabled={identity?.rol !== 'admin'}
                         />
                         <TextInput required source="nombreMedico" label="Nombre médico" />
@@ -732,9 +732,10 @@ export const RMCreate = () => {
                             sx={evidenceBoxSx}
                             label="Cargar imágenes"
                             source="evidencia"
-                            accept={{ 'image/*': ['.png', '.jpg'] }}
-                            maxSize={50000000} // 50 MB
+                            accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] }}
+                            maxSize={5000000} // 5 MB por imagen
                             multiple // Acepta múltiples imágenes
+                            placeholder={<p>Presiona para agregar una imagen no mayor a 5MB</p>}
                         >
                             <ImageField source="src" title="title" />
                         </ImageInput>
@@ -1097,7 +1098,11 @@ export const RMShow = () => {
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                             Evidencias Adicionales
                         </Typography>
-                        <ImageField source="src" title="title" label="Trabajo a futuro" />
+                        <ArrayField source="evidencia" label="Evidencias">
+                            <SingleFieldList>
+                                <ImageField source="src" title="title" label="Trabajo a futuro" />
+                            </SingleFieldList>
+                        </ArrayField>
                     </Box>
                 </TabbedShowLayout.Tab>
             </TabbedShowLayout>

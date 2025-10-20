@@ -1,3 +1,11 @@
+/*
+Backend para la aplicación SRE (Sistema de Reporte de Emergencias)
+Usa Express y MongoDB
+Contraseñas hasheadas con Argon2
+Autenticación con tokens JWT
+Fecha: 20/08/2025
+*/
+
 const express=require("express");
 const MongoClient=require("mongodb").MongoClient;
 var cors=require("cors");
@@ -11,7 +19,8 @@ const app=express();
 app.use(cors());
 const PORT=3000;
 let db;
-app.use(bodyParser.json());
+// Aumentar tamaño de request para admitir imágenes grandes
+app.use(bodyParser.json({ limit: '8mb' }));
 
 // Conexión a la base de datos
 async function connectToDB() {
@@ -709,7 +718,7 @@ app.post("/login", async (req, res)=>{
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.contrasena, pass)){
 		let token=jwt.sign({"usuario":data.usuario, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
-		res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "rol": data.rol, "turno": data.turno})
+		res.json({"token":token, "id":data.id, "usuario":data.usuario, "nombre":data.nombre, "rol":data.rol, "turno":data.turno});
 	}else{
 		res.sendStatus(401);
 	}

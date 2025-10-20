@@ -1,7 +1,7 @@
 /*
 Recurso para Reportes Urbanos
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 11/08/2025
+Fecha: 20/08/2025
 */
 
 // react-admin
@@ -30,6 +30,8 @@ import {
     FunctionField,
     Datagrid,
     useGetIdentity,
+    ArrayField,
+    SingleFieldList,
 } from "react-admin";
 // Componentes personalizados
 import {
@@ -220,7 +222,7 @@ export const RUCreate = () => {
                     <TextInput
                         required source="personalACargo"
                         label="Usuario"
-                        defaultValue={identity?.fullName || ''}
+                        defaultValue={identity?.usuario || ''}
                         slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                     />
                 </RowSection>
@@ -347,7 +349,11 @@ export const RUShow = () => {
                     <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                         Evidencias Adicionales
                     </Typography>
-                    <ImageField source="src" title="title" label="Trabajo a futuro" />
+                    <ArrayField source="evidencia" label="Evidencias">
+                        <SingleFieldList>
+                            <ImageField source="src" title="title" label="Trabajo a futuro" />
+                        </SingleFieldList>
+                    </ArrayField>
                 </ColumnSection>
 
                 <ColumnSection title="Dictamen" labeled>

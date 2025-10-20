@@ -198,7 +198,7 @@ export const NMCreate = () => {
                     <TextInput
                         required source="personalACargo"
                         label="Usuario"
-                        defaultValue={identity?.fullName || ''}
+                        defaultValue={identity?.usuario || ''}
                         slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                     />
                 </RowSection>

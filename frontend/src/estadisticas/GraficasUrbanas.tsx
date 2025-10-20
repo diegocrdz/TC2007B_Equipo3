@@ -1,9 +1,10 @@
 /*
 Gráficas Urbanas
 Se generan gráficas y estadísticas basadas en los datos de reportes urbanos y notas urbanas.
-Fecha: 11/08/2025
+Fecha: 20/08/2025
 */
 
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useGetList } from 'react-admin';
 // Íconos para reportes registrados, notas registradas y tiempo de traslado promedio
@@ -26,7 +27,7 @@ export const DatosIniciales = () => {
 
     // Calcular el tiempo de traslado promedio
     const tiempoPromedio = reportesUrbanos?.reduce((acc: number, reporte: any) => 
-        acc + (reporte.tiempoTraslado || 0), 0
+        acc + (reporte.tiempoTrasladoMinutos || 0), 0
     ) / (numeroReportes || 1);
 
     if (isLoading) return <Typography>Cargando...</Typography>;
@@ -59,7 +60,7 @@ export const DatosIniciales = () => {
                     icono={<StickyNote2Icon />}
                 />
                 <RecuadroDatos
-                    titulo="Tiempo de traslado promedio"
+                    titulo="Tiempo de traslado promedio (minutos)"
                     valor={tiempoPromedio}
                     icono={<AccessTimeIcon />}
                 />
@@ -69,15 +70,30 @@ export const DatosIniciales = () => {
 };
 
 // Radar: Gráfica de modo de activación de servicio
-const ModoActivacion = () => {
+const ModoActivacion = ({ fechaInicio, fechaFin }: {
+    fechaInicio: string,
+    fechaFin: string
+}) => {
     // Obtener reportes médicos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesUrbanos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
+
     // Contar modos de activación
     const modoCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar el modo de activación
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
             const modo = reporte.modoActivacion || 'No especificado';
             if (!modoCount[modo]) {
                 modoCount[modo] = 0;
@@ -92,55 +108,100 @@ const ModoActivacion = () => {
     const modos = Object.keys(modoCount);
     const datos = modos.map(modo => modoCount[modo]);
 
-    return (
-        <Box sx={estilosContenedorGrafica()}>
-            <Typography variant="h6">
-                Incidentes por modo de activación
-            </Typography>
-            <RadarChart
-                sx={estilosGrafica()}
-                colors={[colores[0]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                radar={{
-                    max: 10,
-                    metrics: modos,
-                }}
-            />
-        </Box>
-    );
+    // Si hay menos de 3 lugares, usar un gráfico de barras
+    if (modos.length < 3) {
+        return (
+            <Box sx={estilosContenedorGrafica()}>
+                <Typography variant="h6">
+                    Incidentes por modo de activación
+                </Typography>
+                <BarChart
+                    sx={estilosGrafica()}
+                    colors={[colores[0]]}
+                    series={[{
+                        data: datos,
+                        label: 'Incidentes',
+                    }]}
+                    xAxis={[
+                        {
+                            data: modos,
+                            label: 'Modo de activación',
+                        }
+                    ]}
+                    yAxis={[
+                        {
+                            label: 'Número de incidentes',
+                        }
+                    ]}
+                />
+            </Box>
+        );
+    } else {
+        return (
+            <Box sx={estilosContenedorGrafica()}>
+                <Typography variant="h6">
+                    Incidentes por modo de activación
+                </Typography>
+                <RadarChart
+                    sx={estilosGrafica()}
+                    colors={[colores[0]]}
+                    series={[{
+                        data: datos,
+                        label: 'Incidentes',
+                    }]}
+                    radar={{
+                        max: 10,
+                        metrics: modos,
+                    }}
+                />
+            </Box>
+        );
+    }
 }
 
-// Barra: Gráfica de reportes por prioridad de emergencia (BAJA/MEDIA/ALTA)
-const PrioridadEmergencia = () => {
+// Barra: Gráfica de reportes por gravedad de emergencia (BAJA/MEDIA/ALTA)
+const GravedadEmergencia = ({ fechaInicio, fechaFin }: {
+    fechaInicio: string,
+    fechaFin: string
+}) => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Contar prioridades
-    const prioridadCount: { [key: string]: number } = { 'BAJA': 0, 'MEDIA': 0, 'ALTA': 0 };
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesUrbanos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
+
+    // Contar gravedad
+    const gravedadCont: { [key: string]: number } = {};
 
     // Para cada reporte, contar la prioridad
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const prioridad = reporte.prioridad || 'BAJA';
-            if (!prioridadCount[prioridad]) {
-                prioridadCount[prioridad] = 0;
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const gravedad = reporte.gravedad || 'No especificado';
+            if (!gravedadCont[gravedad]) {
+                gravedadCont[gravedad] = 0;
             }
-            prioridadCount[prioridad] += 1;
+            gravedadCont[gravedad] += 1;
         });
     }
 
     if (isLoading) return <Typography>Cargando...</Typography>;
 
     // Datos para la gráfica
-    const prioridades = Object.keys(prioridadCount);
-    const datos = prioridades.map(prioridad => prioridadCount[prioridad]);
+    const gravedades = Object.keys(gravedadCont);
+    const datos = gravedades.map(gravedad => gravedadCont[gravedad]);
 
     return (
         <Box sx={estilosContenedorGrafica()}>
             <Typography variant="h6">
-                Incidentes por prioridad de emergencia
+                Incidentes por gravedad de emergencia
             </Typography>
             <BarChart
                 sx={estilosGrafica()}
@@ -151,8 +212,8 @@ const PrioridadEmergencia = () => {
                 }]}
                 xAxis={[
                     {
-                        data: prioridades,
-                        label: 'Prioridad',
+                        data: gravedades,
+                        label: 'Gravedad',
                     }
                 ]}
                 yAxis={[
@@ -166,16 +227,31 @@ const PrioridadEmergencia = () => {
 }
 
 // Línea: Gráfica de alcaldías con más emergencias
-const AlcaldiasMasEmergencias = () => {
+const AlcaldiasMasEmergencias = ({ fechaInicio, fechaFin }: {
+    fechaInicio: string,
+    fechaFin: string
+}) => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesUrbanos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
+
     // Contar alcaldías
     const alcaldiaCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar la alcaldía
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const alcaldia = reporte.alcaldia || 'No especificado';
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const alcaldia = reporte.ubicacion.municipio || 'No especificado';
             if (!alcaldiaCount[alcaldia]) {
                 alcaldiaCount[alcaldia] = 0;
             }
@@ -210,16 +286,31 @@ const AlcaldiasMasEmergencias = () => {
 }
 
 // Línea: Gráfica de colonias con más emergencias
-const ColoniasMasEmergencias = () => {
+const ColoniasMasEmergencias = ({ fechaInicio, fechaFin }: {
+    fechaInicio: string,
+    fechaFin: string
+}) => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesUrbanos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
+
     // Contar colonias
     const coloniaCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar la colonia
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const colonia = reporte.colonia || 'No especificado';
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const colonia = reporte.ubicacion.colonia || 'No especificado';
             if (!coloniaCount[colonia]) {
                 coloniaCount[colonia] = 0;
             }
@@ -253,23 +344,38 @@ const ColoniasMasEmergencias = () => {
     );
 }
 
-// Barra: Gráfica de tiempo promedio de respuesta por tipo de incidente
-const TiempoRespuestaPorTipo = () => {
+// Barra: Gráfica de tiempo promedio de respuesta por modo de activación
+const TiempoRespuestaPorTipo = ({ fechaInicio, fechaFin }: {
+    fechaInicio: string,
+    fechaFin: string
+}) => {
     // Obtener reportes urbanos
     const { data: reportesUrbanos, isLoading } = useGetList('reportes_urbanos');
-    // Acumular tiempos por tipo de incidente
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesUrbanos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
+
+    // Acumular tiempos pormodo de activación
     const tipoTiempo: { [key: string]: { total: number, count: number } } = {};
 
-    // Para cada reporte, acumular el tiempo por tipo de incidente
-    if (reportesUrbanos) {
-        reportesUrbanos.forEach((reporte: any) => {
-            const tipo = reporte.tipoIncidente || 'No especificado';
-            const tiempo = reporte.tiempoRespuesta || 0;
-            if (!tipoTiempo[tipo]) {
-                tipoTiempo[tipo] = { total: 0, count: 0 };
+    // Para cada reporte, acumular el tiempo por modo de activación
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const modo = reporte.modoActivacion || 'No especificado';
+            const tiempo = reporte.tiempoTrasladoMinutos || 0;
+            if (!tipoTiempo[modo]) {
+                tipoTiempo[modo] = { total: 0, count: 0 };
             }
-            tipoTiempo[tipo].total += tiempo;
-            tipoTiempo[tipo].count += 1;
+            tipoTiempo[modo].total += tiempo;
+            tipoTiempo[modo].count += 1;
         });
     }
 
@@ -277,8 +383,8 @@ const TiempoRespuestaPorTipo = () => {
 
     // Calcular promedios
     const tipos = Object.keys(tipoTiempo);
-    const promedios = tipos.map(tipo => 
-        tipoTiempo[tipo].count ? tipoTiempo[tipo].total / tipoTiempo[tipo].count : 0
+    const promedios = tipos.map(modo => 
+        tipoTiempo[modo].count ? tipoTiempo[modo].total / tipoTiempo[modo].count : 0
     );
 
     return (
@@ -296,12 +402,12 @@ const TiempoRespuestaPorTipo = () => {
                 xAxis={[
                     {
                         data: tipos,
-                        label: 'Tipo de incidente',
+                        label: 'Modo de activación',
                     }
                 ]}
                 yAxis={[
                     {
-                        label: 'Tiempo promedio (minutos)',
+                        label: 'Tiempo prom. (min.)',
                     }
                 ]}
             />
@@ -309,28 +415,39 @@ const TiempoRespuestaPorTipo = () => {
     );
 }
 
-export const GraficasUrbanas = () => (
-    <Box>
-        <DatosIniciales />
-        <Filtros />
-        <Typography variant="h5" sx={{ marginBottom: '1em' }}>
-            Gráficas
-        </Typography>
-        <Box
-            sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                    md: '1fr',
-                    lg: '1fr 1fr',
-                },
-                gap: 4,
-            }}
-        >
-            <ModoActivacion />
-            <PrioridadEmergencia />
-            <AlcaldiasMasEmergencias />
-            <ColoniasMasEmergencias />
-            <TiempoRespuestaPorTipo />
+export const GraficasUrbanas = () => {
+    // Fechas para los filtros
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    return (
+        <Box>
+            <DatosIniciales />
+            <Filtros
+                fechaInicio={fechaInicio}
+                setFechaInicio={setFechaInicio}
+                fechaFin={fechaFin}
+                setFechaFin={setFechaFin}
+            />
+            <Typography variant="h5" sx={{ marginBottom: '1em' }}>
+                Gráficas
+            </Typography>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        md: '1fr',
+                        lg: '1fr 1fr',
+                    },
+                    gap: 4,
+                }}
+            >
+                <ModoActivacion fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <GravedadEmergencia fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <AlcaldiasMasEmergencias fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <ColoniasMasEmergencias fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <TiempoRespuestaPorTipo fechaInicio={fechaInicio} fechaFin={fechaFin} />
+            </Box>
         </Box>
-    </Box>
-);
+    )
+};
