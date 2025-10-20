@@ -4,13 +4,12 @@ Fecha: 13/10/2025
 */
 
 import { TextField } from '@mui/material';
-import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 
 // Estilos
 
 // Estilos comunes para los contenedores de gráficas
-export const estilosContenedorGrafica = () => ({
+export const estilosContenedorGrafica = (graficas?: string) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
@@ -18,10 +17,10 @@ export const estilosContenedorGrafica = () => ({
     gap: '1em',
     padding: '1em',
     borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(42, 104, 70, 0.1)',
     border: '2px solid',
-    borderColor: 'primary.main',
-    background: '#aee9be44',
+    borderColor: 'secondary.dark',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    background: graficas === 'medicas' ? '#aef2c141' : '#7b9fe641',
     height: '40vh',
     width: '100%',
     transition: '0.2s',
@@ -45,10 +44,22 @@ export const colores = [
     '#ffc658ff', '#ff8042ff', '#8dd1e1ff'
 ];
 
+// Paleta azul para urbanas
+export const coloresUrbanos = [
+    '#2196f3ff', '#64b5f6ff', '#42a5f5ff',
+    '#1e88e5ff', '#1565c0ff', '#90caf9ff',
+    '#1976d2ff', '#0d47a1ff', '#82b1ffff',
+];
+
 // Componentes
 
 // Componente reutilizable para mostrar un recuadro con datos
-export const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor: number, icono: React.ReactNode }) => (
+export const RecuadroDatos = ({ titulo, valor, icono, graficas }: {
+    titulo: string,
+    valor: string | number,
+    icono: React.ReactNode,
+    graficas?: string,
+}) => (
     <Box
         sx={{
             display: 'flex',
@@ -62,7 +73,7 @@ export const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor
             transition: '0.2s',
             maxHeight: 120,
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            background: '#ffffff10',
+            background: graficas === 'medicas' ? '#aef2c141' : '#7b9fe641',
         }}
     >
         <Typography
@@ -78,6 +89,7 @@ export const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                gap: '0.5em',
             }}
         >
             {icono}
@@ -89,18 +101,19 @@ export const RecuadroDatos = ({ titulo, valor, icono } : { titulo: string, valor
 );
 
 // Componente para los filtros de las gráficas
-export const Filtros = () => {
-    // Estados para los filtros
-    const [fechaInicio, setFechaInicio] = useState('');
-    const [fechaFin, setFechaFin] = useState('');
-
+export const Filtros = ({fechaInicio, setFechaInicio, fechaFin, setFechaFin} : {
+    fechaInicio: string,
+    setFechaInicio: (fecha: string) => void,
+    fechaFin: string,
+    setFechaFin: (fecha: string) => void,
+}) => {
     const FiltroFechas = () => {
         return (
             <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
+                    alignItems: 'left',
                     justifyContent: 'center',
                     padding: 3,
                     border: '2px solid',
@@ -120,6 +133,7 @@ export const Filtros = () => {
                 <Box
                     sx={{
                         display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
                         gap: 2,
                         width: '100%',
                     }}
@@ -141,11 +155,6 @@ export const Filtros = () => {
                         }}
                         size="small"
                         fullWidth
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            }
-                        }}
                     />
                     
                     <TextField
@@ -165,11 +174,6 @@ export const Filtros = () => {
                         }}
                         size="small"
                         fullWidth
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            }
-                        }}
                     />
                 </Box>
             </Box>

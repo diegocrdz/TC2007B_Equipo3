@@ -10,10 +10,17 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 // Botón de accesibilidad
 import { SwipeableTemporaryDrawer } from "./accMenu";
+import { useEffect } from "react";
 
 export const LoginPage = () => {
     const login = useLogin(); // Función para iniciar sesión del authProvider
     const notify = useNotify(); // Notificaciones de por parte del authprovider
+
+    // Cerrar sesión cuando se monta el componente
+    useEffect(() => {
+        sessionStorage.removeItem("auth");
+        sessionStorage.removeItem("identity");
+    }, []);
 
     // Estado global de tema para la aplicación
     const [theme, setTheme] = useTheme();

@@ -1,7 +1,7 @@
 /*
 Recurso para Reportes Urbanos
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 11/08/2025
+Fecha: 20/08/2025
 */
 
 // react-admin
@@ -30,6 +30,8 @@ import {
     FunctionField,
     Datagrid,
     useGetIdentity,
+    ArrayField,
+    SingleFieldList,
 } from "react-admin";
 // Componentes personalizados
 import {
@@ -53,7 +55,7 @@ export const RUFilters = [
     <DateInput key="fecha" source="fecha" label="Fecha" />,
     <TextInput key="folio" source="folio" label="Folio" />,
     <NumberInput key="turno" source="turno" label="Turno" />,
-    <TextInput key="personalACargo" source="personalACargo" label="Nombre del Personal a Cargo" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Usuario" />,
     <TextInput key="tipoServicio" source="tipoServicio" label="Tipo de Servicio" />,
     <SelectInput 
         key="gravedad"
@@ -102,7 +104,7 @@ export const RUList = () => {
                                         {`Folio: ${record.folio}`}
                                     </Typography>
                                     <Typography variant="caption">
-                                        {`Personal: ${record.personalACargo ?? '-'}`}
+                                        {`Usuario: ${record.personalACargo ?? '-'}`}
                                     </Typography>
                                     <Typography variant="caption">
                                         {`Fecha: ${new Date(record.fecha).toLocaleDateString()}`}
@@ -128,7 +130,7 @@ export const RUList = () => {
                         <DataTable.Col source="folio" label="Folio" />
                         <DataTable.Col source="fecha" label="Fecha" />
                         <DataTable.Col source="turno" label="Turno" />
-                        <DataTable.Col source="personalACargo" label="Nombre del Personal a Cargo" />
+                        <DataTable.Col source="personalACargo" label="Usuario" />
                         <DataTable.Col source="tipoServicio" label="Tipo de Servicio" />
                         <DataTable.Col source="gravedad" label="Gravedad" />
                         <DataTable.Col source="ubicacion.direccion" label="Ubicación" />
@@ -164,7 +166,7 @@ export const RUEdit = () => {
                 <TextInput source="folio" label="Folio" />
                 <DateInput disabled source="fecha" label="Fecha" />
                 <NumberInput disabled source="turno" label="Turno" />
-                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextInput disabled source="personalACargo" label="Usuario" />
                 <TextInput disabled source="tipoServicio" label="Tipo de Servicio" />
                 <SelectInput
                     disabled
@@ -206,7 +208,9 @@ export const RUCreate = () => {
             <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />} >
                 <RowSection title="Folio y Fecha" border={true}>
                     <TextInput required source="folio" label="Folio" />
-                    <DateTimeInput required source="fecha" label="Fecha" defaultValue={new Date()} />
+                    <DateInput required source="fecha" label="Fecha" 
+                        defaultValue={new Date().toISOString().split('T')[0]}
+                    />
                 </RowSection>
                 <RowSection title="Turno y Personal" border={true}>
                     <NumberInput
@@ -217,8 +221,8 @@ export const RUCreate = () => {
                     />
                     <TextInput
                         required source="personalACargo"
-                        label="Nombre del Personal a Cargo"
-                        defaultValue={identity?.fullName || ''}
+                        label="Usuario"
+                        defaultValue={identity?.usuario || ''}
                         slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                     />
                 </RowSection>
@@ -309,7 +313,7 @@ export const RUShow = () => {
 
                 <RowSection title="Turno y Personal" border={true} labeled>
                     <TextField source="turno" label="Turno" />
-                    <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+                    <TextField source="personalACargo" label="Usuario" />
                 </RowSection>
 
                 <ColumnSection title="Activación del Servicio" labeled>
@@ -345,7 +349,11 @@ export const RUShow = () => {
                     <Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
                         Evidencias Adicionales
                     </Typography>
-                    <ImageField source="evidencia" label="Evidencias" />
+                    <ArrayField source="evidencia" label="Evidencias">
+                        <SingleFieldList>
+                            <ImageField source="src" title="title" label="Trabajo a futuro" />
+                        </SingleFieldList>
+                    </ArrayField>
                 </ColumnSection>
 
                 <ColumnSection title="Dictamen" labeled>

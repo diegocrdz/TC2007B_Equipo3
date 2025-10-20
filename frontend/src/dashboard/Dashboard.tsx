@@ -31,7 +31,7 @@ const UsuarioBox = () => {
             <AccountBoxIcon sx={{ fontSize: 100, color: 'text.primary' }} />
             <Box>
                 <CardHeader
-                    title={`${identityData?.fullName ?? "Usuario"}`}
+                    title={`${identityData?.usuario ?? "Usuario"}`}
                     sx={{ color: 'text.primary', padding: 0 }}
                 />
                 <Typography variant="subtitle1" sx={{ color: 'text.disabled' }} >

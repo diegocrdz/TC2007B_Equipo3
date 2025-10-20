@@ -40,7 +40,7 @@ export const NUFilters = [
     <NumberInput key="id" source="id" label="ID" />,
     <DateInput key="fecha" source="fecha" label="Fecha" />,
     <NumberInput key="turno" source="turno" label="Turno" />,
-    <TextInput key="personalACargo" source="personalACargo" label="Personal a Cargo" />,
+    <TextInput key="personalACargo" source="personalACargo" label="Usuario" />,
 ]
 
 export const NUList = () => {
@@ -79,7 +79,7 @@ export const NUList = () => {
                                         {record.asunto ?? 'Sin asunto'}
                                     </Typography>
                                     <Typography variant="caption">
-                                        {`Personal: ${record.personalACargo ?? '-'}`}
+                                        {`Usuario: ${record.personalACargo ?? '-'}`}
                                     </Typography>
                                     <Typography variant="caption">
                                         {`Fecha: ${record.fecha} - ${record.hora}`}
@@ -105,7 +105,7 @@ export const NUList = () => {
                         <DataTable.Col source="fecha" label="Fecha" />
                         <DataTable.Col source="hora" label="Hora" />
                         <DataTable.Col source="turno" label="Turno" />
-                        <DataTable.Col source="personalACargo" label="Personal a Cargo" />
+                        <DataTable.Col source="personalACargo" label="Usuario" />
                         <DataTable.Col source="asunto" label="Asunto" />
                         <DataTable.Col>
                             <EditButton />
@@ -135,7 +135,7 @@ export const NUEdit = () => {
                 <DateInput disabled source="fecha" label="Fecha" />
                 <TimeInput disabled source="hora" label="Hora" />
                 <NumberInput disabled source="turno" label="Turno" />
-                <TextInput disabled source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextInput disabled source="personalACargo" label="Usuario" />
                 <TextInput disabled source="asunto" label="Asunto" />
                 <TextInputWithCounter
                     disabled
@@ -168,7 +168,7 @@ export const NUCreate = () => {
             <SimpleForm warnWhenUnsavedChanges toolbar={<MyToolbar />}>
                 <RowSection title="Fecha y hora" border={true}>
                     <DateInput required source="fecha" label="Fecha"
-                        defaultValue={new Date()} // Fecha actual por defecto
+                        defaultValue={new Date().toISOString().split('T')[0]} // Fecha actual en formato YYYY-MM-DD
                     />
                     <TimeInput required source="hora" label="Hora"
                         defaultValue={new Date()} // Hora actual por defecto
@@ -183,8 +183,8 @@ export const NUCreate = () => {
                     />
                     <TextInput
                         required source="personalACargo"
-                        label="Nombre del Personal a Cargo"
-                        defaultValue={identity?.fullName || ''}
+                        label="Usuario"
+                        defaultValue={identity?.usuario || ''}
                         slotProps={{ input: { readOnly: identity?.rol !== 'admin' } }}
                     />
                 </RowSection>
@@ -213,7 +213,7 @@ export const NUShow = () => (
             </RowSection>
             <RowSection title="Turno y Personal" border={true} labeled={true}>
                 <TextField source="turno" label="Turno" />
-                <TextField source="personalACargo" label="Nombre del Personal a Cargo" />
+                <TextField source="personalACargo" label="Usuario" />
             </RowSection>
             <ColumnSection title="Detalles" labeled={true}>
                 <TextField source="asunto" label="Asunto" />

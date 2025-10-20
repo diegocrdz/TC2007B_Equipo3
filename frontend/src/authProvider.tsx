@@ -42,7 +42,6 @@ export const authProvider: AuthProvider = {
 
     // Iniciar sesión
     async login({username, password}) {
-        console.log(import.meta.env.VITE_BACKEND)
         const request=new Request(import.meta.env.VITE_BACKEND+"/login",{
             method:"POST",
             body: JSON.stringify({"username":username, "password":password}),
@@ -55,7 +54,7 @@ export const authProvider: AuthProvider = {
             }
             const auth=await res.json();
             sessionStorage.setItem("auth", auth.token);
-            sessionStorage.setItem("identity", JSON.stringify({"id":auth.id, "nombre":auth.nombre, "rol":auth.rol, "turno":auth.turno}));
+            sessionStorage.setItem("identity", JSON.stringify({"id":auth.id, "usuario":auth.usuario, "nombre":auth.nombre, "rol":auth.rol, "turno":auth.turno}));
             return Promise.resolve();
         } catch {
             throw new Error("Error en usuario o password");
@@ -72,7 +71,7 @@ export const authProvider: AuthProvider = {
     // Cuando la API devuelve un error
     async checkError(error) {
         const status = error.status;
-        if (status === 401 || status === 403) {
+        if (status === 401) {
             sessionStorage.removeItem("auth");
             sessionStorage.removeItem("identity");
             return Promise.reject();
@@ -106,15 +105,18 @@ export const authProvider: AuthProvider = {
 
     // Obtener la identidad del usuario
     async getIdentity() {
-        const username = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').id as string : null;
+        const id = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').id as string : null;
+        const usuario = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').usuario as string : null;
+        const nombre = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').nombre as string : null;
         const rol = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').rol as Role : null;
         const turno = sessionStorage.getItem("identity") ? JSON.parse(sessionStorage.getItem("identity") || '{}').turno as string : null;
-        if (!username) {
+        if (!id) {
             throw new Error("No user logged in");
         }
         return {
-            id: username,
-            fullName: `${username}`,
+            id: `${id}`,
+            usuario: `${usuario}`,
+            nombre: `${nombre}`,
             rol: rol,
             turno: turno
         };

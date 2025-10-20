@@ -1,3 +1,11 @@
+/*
+Backend para la aplicación SRE (Sistema de Reporte de Emergencias)
+Usa Express y MongoDB
+Contraseñas hasheadas con Argon2
+Autenticación con tokens JWT
+Fecha: 20/08/2025
+*/
+
 const express=require("express");
 const MongoClient=require("mongodb").MongoClient;
 var cors=require("cors");
@@ -11,7 +19,8 @@ const app=express();
 app.use(cors());
 const PORT=3000;
 let db;
-app.use(bodyParser.json());
+// Aumentar tamaño de request para admitir imágenes grandes
+app.use(bodyParser.json({ limit: '8mb' }));
 
 // Conexión a la base de datos
 async function connectToDB() {
@@ -56,7 +65,42 @@ async function log(sujeto, objeto, accion) {
 	toLog["sujeto"]=sujeto;
 	toLog["objeto"]=objeto;
 	toLog["accion"]=accion;
-	await db.collection("log402").insertOne(toLog);
+	await db.collection("logs").insertOne(toLog);
+}
+
+// Verificar permisos de usuario
+async function verificarPermisos(coleccion, id, token) {
+	try {
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+		let user=verifiedToken.usuario;
+		let rol=verifiedToken.rol;
+		let turno=verifiedToken.turno;
+
+		// admin tiene acceso a todo
+		if (rol === "admin") return { permitido: true, usuario: user };
+
+		// Obtener el registro
+		let registro = await db.collection(coleccion).findOne({ id: Number(id) });
+		if (!registro) return { permitido: false, usuario: user };
+
+		// Verificar permisos según rol
+		if (rol === "paramedico" &&
+			coleccion.includes("reportes_medicos") &&
+			registro.personalACargo === user) {
+			return { permitido: true, usuario: user };
+		} else if (rol === "urbano" &&
+			coleccion.includes("reportes_urbanos") &&
+			registro.personalACargo === user) {
+			return { permitido: true, usuario: user };
+		} else if (rol === "jefe" &&
+			registro.turno === turno) {
+			return { permitido: true, usuario: user };
+		} else {
+			return { permitido: false, usuario: user };
+		}
+	} catch (e) {
+		return { permitido: false, usuario: null };
+	}
 }
 
 // getList
@@ -75,7 +119,7 @@ app.get("/reportes_medicos", async (req,res)=>{
 		// Filtros default
 		if (rol === "paramedico") {
 			filters.personalACargo = user;
-		} else if (rol === "jefe_turno" && turno) {
+		} else if (rol === "jefe" && turno) {
 			filters.turno = turno;
 		}
 		
@@ -147,7 +191,7 @@ app.get("/reportes_urbanos", async (req,res)=>{
 		// Filtros default
 		if (rol === "urbano") {
 			filters.personalACargo = user;
-		} else if (rol === "jefe_turno" && turno) {
+		} else if (rol === "jefe" && turno) {
 			filters.turno = turno;
 		}
 		
@@ -220,7 +264,7 @@ app.get("/notas_medicas", async (req,res)=>{
 		// Filtros default
 		if (rol === "paramedico") {
 			filters.personalACargo = user;
-		} else if (rol === "jefe_turno" && turno) {
+		} else if (rol === "jefe" && turno) {
 			filters.turno = turno;
 		}
 		
@@ -291,7 +335,7 @@ app.get("/notas_urbanas", async (req,res)=>{
 		// Filtros default
 		if (rol === "urbano") {
 			filters.personalACargo = user;
-		} else if (rol === "jefe_turno" && turno) {
+		} else if (rol === "jefe" && turno) {
 			filters.turno = turno;
 		}
 		
@@ -405,29 +449,54 @@ app.get("/usuarios", async (req,res)=>{
 	}
 });
 
-//getOne
+// getOne
 
 app.get("/reportes_medicos/:id", async (req,res)=>{
+	// Verificar permisos
+	let token = req.get("Authentication");
+	let permiso = await verificarPermisos("reportes_medicos", req.params.id, token);
+	if (!permiso.permitido) return res.sendStatus(403);
+
 	let data=await db.collection("reportes_medicos").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
 
 app.get("/reportes_urbanos/:id", async (req,res)=>{
+	// Verificar permisos
+	let token = req.get("Authentication");
+	let permiso = await verificarPermisos("reportes_urbanos", req.params.id, token);
+	if (!permiso.permitido) return res.sendStatus(403);
+
 	let data=await db.collection("reportes_urbanos").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
 
 app.get("/notas_medicas/:id", async (req,res)=>{
+	// Verificar permisos
+	let token = req.get("Authentication");
+	let permiso = await verificarPermisos("notas_medicas", req.params.id, token);
+	if (!permiso.permitido) return res.sendStatus(403);
+
 	let data=await db.collection("notas_medicas").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
 
 app.get("/notas_urbanas/:id", async (req,res)=>{
+	// Verificar permisos
+	let token = req.get("Authentication");
+	let permiso = await verificarPermisos("notas_urbanas", req.params.id, token);
+	if (!permiso.permitido) return res.sendStatus(403);
+
 	let data=await db.collection("notas_urbanas").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
 
 app.get("/usuarios/:id", async (req,res)=>{
+	// Verificar permisos
+	let token = req.get("Authentication");
+	let permiso = await verificarPermisos("usuarios", req.params.id, token);
+	if (!permiso.permitido) return res.sendStatus(403);
+
     let data=await db.collection("usuarios").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
     res.json(data[0]);
 });
@@ -649,35 +718,11 @@ app.post("/login", async (req, res)=>{
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.contrasena, pass)){
 		let token=jwt.sign({"usuario":data.usuario, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
-		res.json({"token":token, "id":data.usuario, "nombre":data.nombre, "rol": data.rol, "turno": data.turno})
+		res.json({"token":token, "id":data.id, "usuario":data.usuario, "nombre":data.nombre, "rol":data.rol, "turno":data.turno});
 	}else{
 		res.sendStatus(401);
 	}
 })
-
-/*
-app.post("/login", async (req, res) => {
-  try {
-    const user = req.body.username;
-    const pass = req.body.password;
-
-    const data = await db.collection("usuarios").findOne({ usuario: user });
-    if (!data) return res.sendStatus(401);
-
-    const isHashedOK = data.password ? await argon2.verify(data.password, pass) : false;
-    const isPlainOK  = data.contrasena ? data.contrasena === pass : false;
-
-    if (isHashedOK || isPlainOK) {
-      const token = jwt.sign({ usuario: data.usuario }, "secretKey", { expiresIn: 900 });
-      return res.json({ token, id: data.usuario, nombre: data.nombre, rol: data.rol, turno: data.turno });
-    } else {
-      return res.sendStatus(401);
-    }
-  } catch (e) {
-    return res.sendStatus(401);
-  }
-});
-*/
 
 // Iniciar servidor
 
@@ -691,10 +736,3 @@ https.createServer(options, app).listen(3000, async () => {
 	connectToDB();
 	console.log('HTTPS Server running on port 3000');
 });
-
-/*
-app.listen(PORT, ()=>{
-	connectToDB();
-	console.log("aplicacion corriendo en puerto 3000");
-});
-*/

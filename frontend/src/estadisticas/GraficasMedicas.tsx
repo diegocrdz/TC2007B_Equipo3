@@ -4,6 +4,7 @@ Se generan gráficas y estadísticas basadas en los datos de reportes y notas m�
 Fecha: 11/08/2025
 */
 
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useGetList } from 'react-admin';
 // Íconos
@@ -25,9 +26,10 @@ const DatosIniciales = () => {
     const { data: notasMedicas } = useGetList('notas_medicas');
     const numeroNotas = notasMedicas?.length || 0;
 
-    // Calcular casos de emergencia (prioridad "Alta")
+    // Calcular casos de emergencia
     const casosEmergencia = reportesMedicos?.filter((reporte: any) => 
-        reporte.evalSec.prioridad === "Alta"
+        // Verificar si existe el campo
+        reporte.evalSec && reporte.evalSec.prioridad === 'Negra'
     ).length || 0;
 
     if (isLoading) return <Typography>Cargando...</Typography>;
@@ -53,16 +55,19 @@ const DatosIniciales = () => {
                     titulo="Reportes registrados"
                     valor={numeroTraslados}
                     icono={<LocalHospitalIcon />}
+                    graficas="medicas"
                 />
                 <RecuadroDatos
                     titulo="Notas registradas"
                     valor={numeroNotas}
                     icono={<PermContactCalendarIcon />}
+                    graficas="medicas"
                 />
                 <RecuadroDatos
-                    titulo="Casos de prioridad Alta"
+                    titulo="Casos de prioridad Negra"
                     valor={casosEmergencia}
                     icono={<WarningIcon />}
+                    graficas="medicas"
                 />
             </Box>
         </Box>
@@ -70,50 +75,51 @@ const DatosIniciales = () => {
 };
 
 // Gráfica de barras: Traslados por turno
-const TrasladosPorTurno = () => {
+const ReportesPorTurno = ({fechaInicio, fechaFin}: {
+    fechaInicio?: string,
+    fechaFin?: string,
+}) => {
     // Obtener reportes médicos y usuarios
     const { data: reportesMedicos, isLoading: isLoadingReportes } = useGetList('reportes_medicos');
-    const { data: usuarios, isLoading: isLoadingUsuarios } = useGetList('usuarios');
 
-    // Encontrar el turno de cada usuario y contar los traslados por turno
-    const turnosCount: { [key: number]: number } = {};
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesMedicos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
 
-    // Asociar cada reporte con su usuario
-    if (reportesMedicos && usuarios) {
-        // Crear un mapa de usuarios para acceso rápido
-        const usuariosMap = usuarios.reduce((map: any, usuario: any) => {
-            map[usuario.id] = usuario;
-            return map;
-        }, {});
+    // Encontrar el turno de cada reporte
+    const turnosCount: { [key: string]: number } = {};
 
-        // Para cada reporte, encontrar el usuario y su turno
-        reportesMedicos.forEach((reporte: any) => {
-            const usuarioId = reporte.usuarioId;
-            const usuario = usuariosMap[usuarioId];
-            
-            if (usuario && usuario.turno) {
-                const turno = usuario.turno;
-                if (!turnosCount[turno]) {
-                    turnosCount[turno] = 0;
-                }
-                turnosCount[turno] += 1;
+    // Para cada reporte, contar el turno
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const turno = reporte.turno || 'No especificado';
+            if (!turnosCount[turno]) {
+                turnosCount[turno] = 0;
             }
+            turnosCount[turno] += 1;
         });
     }
     
-    if (isLoadingReportes || isLoadingUsuarios) {
+    if (isLoadingReportes) {
         return <Typography>Cargando...</Typography>;
     }
 
     // Datos para la gráfica
     const turnos = Object.keys(turnosCount).sort();
-    const datos = turnos.map(turno => turnosCount[parseInt(turno)]);
+    const datos = turnos.map(turno => turnosCount[turno]);
     const etiquetas = turnos.map(turno => `Turno ${turno}`);
 
     return (
-        <Box sx={estilosContenedorGrafica()}>
+        <Box sx={estilosContenedorGrafica("medicas")}>
             <Typography variant="h6" gutterBottom>
-                Traslados por turno
+                Reportes por turno
             </Typography>
             <BarChart showToolbar
                 sx={estilosGrafica()}
@@ -128,17 +134,32 @@ const TrasladosPorTurno = () => {
 }
 
 // Gráfica de pie: Incidentes por género
-const IncidentesPorGenero = () => {
+const IncidentesPorGenero = ({fechaInicio, fechaFin}: {
+    fechaInicio?: string,
+    fechaFin?: string,
+}) => {
     // Obtener reportes médicos
     const { data: reportesMedicos, isLoading } = useGetList('reportes_medicos');
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesMedicos || [];
+
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
 
     // Contar incidentes por género
     const generoCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar el género del paciente
-    if (reportesMedicos) {
-        reportesMedicos.forEach((reporte: any) => {
-            const genero = reporte.paciente.sexo || 'No especificado';
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
+            const genero = reporte.paciente && reporte.paciente.sexo ? reporte.paciente.sexo : 'No especificado';
             if (!generoCount[genero]) {
                 generoCount[genero] = 0;
             }
@@ -157,7 +178,7 @@ const IncidentesPorGenero = () => {
     }));
 
     return (
-        <Box sx={estilosContenedorGrafica()}>
+        <Box sx={estilosContenedorGrafica("medicas")}>
             <Typography variant="h6">
                 Incidentes por género
             </Typography>
@@ -172,46 +193,52 @@ const IncidentesPorGenero = () => {
     );
 };
 
-// Reportes generados por operador (Top 10)
-const ReportesPorOperador = () => {
+// Reportes generados por operador
+const ReportesPorOperador = ({fechaInicio, fechaFin}: {
+    fechaInicio?: string,
+    fechaFin?: string,
+}) => {
     // Obtener reportes médicos y usuarios
     const { data: reportesMedicos, isLoading: isLoadingReportes } = useGetList('reportes_medicos');
-    const { data: usuarios, isLoading: isLoadingUsuarios } = useGetList('usuarios');
 
-    // Contar reportes por usuario
-    const reportesCount: { [key: number]: number } = {};
-
-    // Asociar cada reporte con su usuario
-    if (reportesMedicos) {
-        reportesMedicos.forEach((reporte: any) => {
-            const usuarioId = reporte.usuarioId;
-            if (!reportesCount[usuarioId]) {
-                reportesCount[usuarioId] = 0;
-            }
-            reportesCount[usuarioId] += 1;
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesMedicos || [];
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
         });
     }
 
-    if (isLoadingReportes || isLoadingUsuarios) {
+    // Encontrar el usuario de cada reporte
+    const reportesCount: { [key: string]: number } = {};
+
+    // Para cada reporte, contar el usuario
+    reportesFiltrados.forEach((reporte: any) => {
+        const usuario = reporte.personalACargo || 'No especificado';
+        if (!reportesCount[usuario]) {
+            reportesCount[usuario] = 0;
+        }
+        reportesCount[usuario] += 1;
+    });
+
+    if (isLoadingReportes) {
         return <Typography>Cargando...</Typography>;
     }
 
-    // Datos para la gráfica
-    const usuariosMap = usuarios?.reduce((map: any, usuario: any) => {
-        map[usuario.id] = usuario.usuario;
-        return map;
-    }, {});
-
+    // Datos para la gráfica - ya no necesitas mapear por ID
     const sortedUsuarios = Object.keys(reportesCount)
-        .sort((a, b) => reportesCount[parseInt(b)] - reportesCount[parseInt(a)])
+        .sort((a, b) => reportesCount[b] - reportesCount[a])
         .slice(0, 10); // Top 10
-    const datos = sortedUsuarios.map(usuarioId => reportesCount[parseInt(usuarioId)]);
-    const etiquetas = sortedUsuarios.map(usuarioId => usuariosMap[parseInt(usuarioId)] || `ID ${usuarioId}`);
+    const datos = sortedUsuarios.map(usuarioNombre => reportesCount[usuarioNombre]);
+    const etiquetas = sortedUsuarios; // Usar directamente los nombres de usuario
 
     return (
-        <Box sx={estilosContenedorGrafica()}>
+        <Box sx={estilosContenedorGrafica("medicas")}>
             <Typography variant="h6" gutterBottom>
-            Reportes generados por operador (Top 10)
+            Operadores con más reportes
             </Typography>
             <LineChart
                 showToolbar
@@ -228,16 +255,31 @@ const ReportesPorOperador = () => {
 };
 
 // Radar: Gráfica de lugar de ocurrencia
-const LugarOcurrencia = () => {
+const LugarOcurrencia = ({fechaInicio, fechaFin}: {
+    fechaInicio?: string,
+    fechaFin?: string,
+}) => {
     // Obtener reportes médicos
     const { data: reportesMedicos, isLoading } = useGetList('reportes_medicos');
+
+    // Filtrar reportes por fechas
+    let reportesFiltrados = reportesMedicos || [];
+
+    if (fechaInicio && fechaFin) {
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        reportesFiltrados = reportesFiltrados.filter((reporte: any) => {
+            const fechaReporte = new Date(reporte.fecha);
+            return fechaReporte >= inicio && fechaReporte <= fin;
+        });
+    }
 
     // Contar incidentes por lugar de ocurrencia
     const lugarCount: { [key: string]: number } = {};
 
     // Para cada reporte, contar el lugar de ocurrencia
-    if (reportesMedicos) {
-        reportesMedicos.forEach((reporte: any) => {
+    if (reportesFiltrados) {
+        reportesFiltrados.forEach((reporte: any) => {
             const lugar = reporte.lugarOcurrencia || 'No especificado';
             if (!lugarCount[lugar]) {
                 lugarCount[lugar] = 0;
@@ -252,48 +294,79 @@ const LugarOcurrencia = () => {
     const lugares = Object.keys(lugarCount);
     const datos = lugares.map(lugar => lugarCount[lugar]);
 
-    return (
-        <Box sx={estilosContenedorGrafica()}>
-            <Typography variant="h6">
-                Incidentes por lugar de ocurrencia
-            </Typography>
-            <RadarChart
-                sx={estilosGrafica()}
-                colors={[colores[2]]}
-                series={[{
-                    data: datos,
-                    label: 'Incidentes',
-                }]}
-                radar={{
-                    max: 10,
-                    metrics: lugares,
-                }}
-            />
-        </Box>
-    );
+    // Si hay menos de 3 lugares, usar un gráfico de barras
+    if (lugares.length < 2) {
+        return (
+            <Box sx={estilosContenedorGrafica("medicas")}>
+                <Typography variant="h6">
+                    Incidentes por lugar de ocurrencia
+                </Typography>
+                <BarChart
+                    sx={estilosGrafica()}
+                    colors={[colores[2]]}
+                    series={[{
+                        data: datos,
+                        label: 'Incidentes',
+                    }]}
+                    xAxis={[{ data: lugares, scaleType: 'band' }]}
+                />
+            </Box>
+        );
+    } else {
+        return (
+            <Box sx={estilosContenedorGrafica("medicas")}>
+                <Typography variant="h6">
+                    Incidentes por lugar de ocurrencia
+                </Typography>
+                <RadarChart
+                    sx={estilosGrafica()}
+                    colors={[colores[2]]}
+                    series={[{
+                        data: datos,
+                        label: 'Incidentes',
+                    }]}
+                    radar={{
+                        max: Math.max(...datos) + 1, // Ajustar tamaño máximo a datos
+                        metrics: lugares,
+                    }}
+                />
+            </Box>
+        );
+    }
 }
 
-export const GraficasMedicas = () => (
-    <Box>
-        <DatosIniciales />
-        <Filtros />
-        <Typography variant="h5" sx={{ marginBottom: '1em' }}>
-            Gráficas
-        </Typography>
-        <Box
-            sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                    md: '1fr',
-                    lg: '1fr 1fr',
-                },
-                gap: 4,
-            }}
-        >
-            <TrasladosPorTurno />
-            <IncidentesPorGenero />
-            <ReportesPorOperador />
-            <LugarOcurrencia />
+export const GraficasMedicas = () => {
+    // Fechas para los filtros
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    return (
+        <Box>
+            <DatosIniciales />
+            <Filtros
+                fechaInicio={fechaInicio}
+                setFechaInicio={setFechaInicio}
+                fechaFin={fechaFin}
+                setFechaFin={setFechaFin}
+            />
+            <Typography variant="h5" sx={{ marginBottom: '1em' }}>
+                Gráficas
+            </Typography>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        md: '1fr',
+                        lg: '1fr 1fr',
+                    },
+                    gap: 4,
+                }}
+            >
+                <ReportesPorTurno fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <IncidentesPorGenero fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <ReportesPorOperador fechaInicio={fechaInicio} fechaFin={fechaFin} />
+                <LugarOcurrencia fechaInicio={fechaInicio} fechaFin={fechaFin} />
+            </Box>
         </Box>
-    </Box>
-);
+    );
+};
