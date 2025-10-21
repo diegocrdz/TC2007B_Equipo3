@@ -85,7 +85,7 @@ export const checkboxGrid3Style = {
 
 // Componentes para secciones con diferentes layouts
 // Componente para sección en fila
-export const RowSection = ({ title, children, border, labeled=false }:
+export const RowSection = ({ title, children, border, labeled = false }:
     { title: string; children: React.ReactNode; border: boolean; labeled?: boolean }) => (
     <Box sx={border ? columnLayoutStyle : undefined}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
@@ -99,14 +99,14 @@ export const RowSection = ({ title, children, border, labeled=false }:
                     React.isValidElement(child)
                         ? <Labeled key={idx}>{child}</Labeled>
                         : child
-                    )
+                )
                 : children
             }
         </Box>
     </Box>
 );
 // Componente para sección en columna
-export const ColumnSection = ({ title, children, labeled=false }:
+export const ColumnSection = ({ title, children, labeled = false }:
     { title: string, children: React.ReactNode, labeled?: boolean }) => (
     <Box sx={columnLayoutStyle}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
@@ -119,13 +119,13 @@ export const ColumnSection = ({ title, children, labeled=false }:
                 React.isValidElement(child)
                     ? <Labeled key={idx}>{child}</Labeled>
                     : child
-                )
+            )
             : children
         }
     </Box>
 );
 // Componente para sección en grid
-export const GridSection = ({ title, children, labeled=false }:
+export const GridSection = ({ title, children, labeled = false }:
     { title: string, children: React.ReactNode, labeled?: boolean }) => (
     <Box sx={columnLayoutStyle}>
         <Typography variant="h6" sx={{ margin: 0, padding: 0, fontSize: '1em' }}>
@@ -139,7 +139,7 @@ export const GridSection = ({ title, children, labeled=false }:
                     React.isValidElement(child)
                         ? <Labeled key={idx}>{child}</Labeled>
                         : child
-                    )
+                )
                 : children
             }
         </Box>
@@ -147,8 +147,8 @@ export const GridSection = ({ title, children, labeled=false }:
 );
 
 // Componente para horarios
-export const TimeGridSection = ({ title, children, labeled=false }: { 
-    title: string, 
+export const TimeGridSection = ({ title, children, labeled = false }: {
+    title: string,
     children: React.ReactNode,
     labeled?: boolean
 }) => (
@@ -161,7 +161,7 @@ export const TimeGridSection = ({ title, children, labeled=false }: {
         marginBottom: '4em',
         width: '100%',
     }}>
-        <Typography variant="h6" sx={{ 
+        <Typography variant="h6" sx={{
             color: 'primary.main',
             fontWeight: 600,
             display: 'flex',
@@ -174,8 +174,8 @@ export const TimeGridSection = ({ title, children, labeled=false }: {
         <Box sx={{
             display: 'grid',
             gridTemplateColumns: {
-            xs: '1fr',
-            md: '1fr 1fr 1fr'
+                xs: '1fr',
+                md: '1fr 1fr 1fr'
             },
             gap: 2,
         }}>
@@ -218,15 +218,15 @@ export const TimeInputWithIcon = ({
 
 // Componente de entrada de texto con límite de caracteres
 export const TextInputWithCounter = (
-    {source, label, maxLength=0, multiline=true, rows, required=false, disabled=false}: {
-    source: string;
-    label: string;
-    maxLength?: number;
-    multiline?: boolean;
-    rows?: number;
-    required?: boolean;
-    disabled?: boolean;
-}) => {
+    { source, label, maxLength = 0, multiline = true, rows, required = false, disabled = false }: {
+        source: string;
+        label: string;
+        maxLength?: number;
+        multiline?: boolean;
+        rows?: number;
+        required?: boolean;
+        disabled?: boolean;
+    }) => {
     // Observa el valor del campo para contar caracteres
     const value = useWatch({ name: source }) || "";
     return (
@@ -253,7 +253,7 @@ export const TextInputWithCounter = (
 };
 
 // Componente de botones para múltiples opciones (toggle buttons)
-export const MotivoToggleInput = ({ source, label, choices, exclusive=true, required=false } : {
+export const MotivoToggleInput = ({ source, label, choices, exclusive = true, required = false }: {
     source: string;
     label: string;
     choices: { id: string; name: string }[];
@@ -273,7 +273,7 @@ export const MotivoToggleInput = ({ source, label, choices, exclusive=true, requ
     });
 
     const error = fieldState.error !== undefined;
-    
+
     return (
         <Box>
             {required
@@ -358,7 +358,7 @@ export const MyToolbar = () => (
             },
         }}
     >
-        <SaveButton label="Guardar" aria-label="Guardar" />  
+        <SaveButton label="Guardar" aria-label="Guardar" />
         <Button
             aria-label="Volver arriba"
             sx={{
@@ -483,7 +483,7 @@ export const PanelHistorialCambios = () => {
             }}
         >
             {/* Resumen del reporte */}
-            <Box 
+            <Box
                 sx={{
                     background: '#ffffff10',
                     border: '2px solid',
@@ -614,9 +614,9 @@ export const ZonasLesion = () => (
                         { numero: 15, nombre: 'Dolor', codigo: 'DD' },
                     ].map((row) => (
                         <TableRow key={row.codigo} hover>
-                            <TableCell align="center" sx={ tableCellSx }>{row.numero}</TableCell>
-                            <TableCell align="center" sx={ tableCellSx }>{row.nombre}</TableCell>
-                            <TableCell align="center" sx={ tableCellSx }>{row.codigo}</TableCell>
+                            <TableCell align="center" sx={tableCellSx}>{row.numero}</TableCell>
+                            <TableCell align="center" sx={tableCellSx}>{row.nombre}</TableCell>
+                            <TableCell align="center" sx={tableCellSx}>{row.codigo}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -665,9 +665,9 @@ export const Glasgow = () => (
         >
             <TableHead>
                 <TableRow>
-                    <TableCell align="center" sx={ tableHeaderSx }>Parámetro</TableCell>
-                    <TableCell align="center" sx={ tableHeaderSx }>Descripción</TableCell>
-                    <TableCell align="center" sx={ tableHeaderSx }>Valor</TableCell>
+                    <TableCell align="center" sx={tableHeaderSx}>Parámetro</TableCell>
+                    <TableCell align="center" sx={tableHeaderSx}>Descripción</TableCell>
+                    <TableCell align="center" sx={tableHeaderSx}>Valor</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -692,13 +692,12 @@ export const Glasgow = () => (
                     { param: 'Respuesta motora', desc: 'Ninguna', valor: 1 },
                 ].map((row, idx) => (
                     <TableRow key={idx} hover>
-                        <TableCell align="center" sx={ tableCellSx }>{row.param}</TableCell>
-                        <TableCell align="center" sx={ tableCellSx }>{row.desc}</TableCell>
-                        <TableCell align="center" sx={ tableCellSx }>{row.valor}</TableCell>
+                        <TableCell align="center" sx={tableCellSx}>{row.param}</TableCell>
+                        <TableCell align="center" sx={tableCellSx}>{row.desc}</TableCell>
+                        <TableCell align="center" sx={tableCellSx}>{row.valor}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>
         </Table>
     </TableContainer>
 );
-
