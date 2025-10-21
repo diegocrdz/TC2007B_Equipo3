@@ -512,6 +512,7 @@ app.post("/reportes_medicos", async (req, res) => {
 		valores["id"] = await getNextId("reportes_medicos");
 		await db.collection("reportes_medicos").insertOne(valores);
 		log(user, "reportes_medicos", "crear"); // Log de acción
+		log(user, "reportes_medicos", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -527,6 +528,7 @@ app.post("/reportes_urbanos", async (req, res) => {
 		let valores = req.body;
 		valores["id"] = await getNextId("reportes_urbanos");
 		await db.collection("reportes_urbanos").insertOne(valores);
+		log(user, "reportes_urbanos", "crear"); // Log de acción
 		log(user, "reportes_urbanos", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
@@ -544,6 +546,7 @@ app.post("/notas_medicas", async (req, res) => {
 		valores["id"] = await getNextId("notas_medicas");
 		await db.collection("notas_medicas").insertOne(valores);
 		log(user, "notas_medicas", "crear"); // Log de acción
+		log(user, "notas_medicas", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -559,6 +562,7 @@ app.post("/notas_urbanas", async (req, res) => {
 		let valores = req.body;
 		valores["id"] = await getNextId("notas_urbanas");
 		await db.collection("notas_urbanas").insertOne(valores);
+		log(user, "notas_urbanas", "crear"); // Log de acción
 		log(user, "notas_urbanas", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
