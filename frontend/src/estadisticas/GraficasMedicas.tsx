@@ -27,7 +27,7 @@ const DatosIniciales = () => {
     const numeroNotas = notasMedicas?.length || 0;
 
     // Calcular casos de emergencia
-    const casosEmergencia = reportesMedicos?.filter((reporte: any) => 
+    const casosEmergencia = reportesMedicos?.filter((reporte: any) =>
         // Verificar si existe el campo
         reporte.evalSec && reporte.evalSec.prioridad === 'Negra'
     ).length || 0;
@@ -75,7 +75,7 @@ const DatosIniciales = () => {
 };
 
 // Gráfica de barras: Traslados por turno
-const ReportesPorTurno = ({fechaInicio, fechaFin}: {
+const ReportesPorTurno = ({ fechaInicio, fechaFin }: {
     fechaInicio?: string,
     fechaFin?: string,
 }) => {
@@ -106,7 +106,7 @@ const ReportesPorTurno = ({fechaInicio, fechaFin}: {
             turnosCount[turno] += 1;
         });
     }
-    
+
     if (isLoadingReportes) {
         return <Typography>Cargando...</Typography>;
     }
@@ -134,7 +134,7 @@ const ReportesPorTurno = ({fechaInicio, fechaFin}: {
 }
 
 // Gráfica de pie: Incidentes por género
-const IncidentesPorGenero = ({fechaInicio, fechaFin}: {
+const IncidentesPorGenero = ({ fechaInicio, fechaFin }: {
     fechaInicio?: string,
     fechaFin?: string,
 }) => {
@@ -194,7 +194,7 @@ const IncidentesPorGenero = ({fechaInicio, fechaFin}: {
 };
 
 // Reportes generados por operador
-const ReportesPorOperador = ({fechaInicio, fechaFin}: {
+const ReportesPorOperador = ({ fechaInicio, fechaFin }: {
     fechaInicio?: string,
     fechaFin?: string,
 }) => {
@@ -238,7 +238,7 @@ const ReportesPorOperador = ({fechaInicio, fechaFin}: {
     return (
         <Box sx={estilosContenedorGrafica("medicas")}>
             <Typography variant="h6" gutterBottom>
-            Operadores con más reportes
+                Operadores con más reportes
             </Typography>
             <LineChart
                 showToolbar
@@ -255,7 +255,7 @@ const ReportesPorOperador = ({fechaInicio, fechaFin}: {
 };
 
 // Radar: Gráfica de lugar de ocurrencia
-const LugarOcurrencia = ({fechaInicio, fechaFin}: {
+const LugarOcurrencia = ({ fechaInicio, fechaFin }: {
     fechaInicio?: string,
     fechaFin?: string,
 }) => {
