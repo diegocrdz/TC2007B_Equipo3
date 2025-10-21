@@ -157,7 +157,7 @@ app.get("/reportes_medicos", async (req,res)=>{
 			res.set("Access-Control-Expose-Headers", "X-Total-Count");
 			res.set("X-Total-Count", data.length);
 			data=data.slice(inicio,fin)
-			log(user, "reportes", "leer");
+			log(user, "reportes_medicos", "leer"); // Log de acción
 			res.json(data)
 		} else if ("id" in req.query) {
 			let data=[];
@@ -230,7 +230,7 @@ app.get("/reportes_urbanos", async (req,res)=>{
 			res.set("Access-Control-Expose-Headers", "X-Total-Count");
 			res.set("X-Total-Count", data.length);
 			data=data.slice(inicio,fin)
-			log(user, "reportes", "leer");
+			log(user, "reportes_urbanos", "leer"); // Log de acción
 			res.json(data)
 		} else if ("id" in req.query) {
 			let data=[];
@@ -301,7 +301,7 @@ app.get("/notas_medicas", async (req,res)=>{
 			res.set("Access-Control-Expose-Headers", "X-Total-Count");
 			res.set("X-Total-Count", data.length);
 			data=data.slice(inicio,fin)
-			log(user, "notas", "leer");
+			log(user, "notas_medicas", "leer"); // Log de acción
 			res.json(data)
 		} else if ("id" in req.query) {
 			let data=[];
@@ -369,7 +369,7 @@ app.get("/notas_urbanas", async (req,res)=>{
 			res.set("Access-Control-Expose-Headers", "X-Total-Count");
 			res.set("X-Total-Count", data.length);
 			data=data.slice(inicio,fin)
-			log(user, "notas", "leer");
+			log(user, "notas_urbanas", "leer"); // Log de acción
 			res.json(data)
 		} else if ("id" in req.query) {
 			let data=[];
@@ -429,7 +429,7 @@ app.get("/usuarios", async (req,res)=>{
 			res.set("Access-Control-Expose-Headers", "X-Total-Count");
 			res.set("X-Total-Count", data.length);
 			data=data.slice(inicio,fin)
-			log(user, "usuarios", "leer");
+			log(user, "usuarios", "leer"); // Log de acción
 			res.json(data)
 		} else if ("id" in req.query) {
 			let data=[];
@@ -456,7 +456,7 @@ app.get("/reportes_medicos/:id", async (req,res)=>{
 	let token = req.get("Authentication");
 	let permiso = await verificarPermisos("reportes_medicos", req.params.id, token);
 	if (!permiso.permitido) return res.sendStatus(403);
-
+	log(permiso.usuario, "reportes_medicos", "leer"); // Log de acción
 	let data=await db.collection("reportes_medicos").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
@@ -466,7 +466,7 @@ app.get("/reportes_urbanos/:id", async (req,res)=>{
 	let token = req.get("Authentication");
 	let permiso = await verificarPermisos("reportes_urbanos", req.params.id, token);
 	if (!permiso.permitido) return res.sendStatus(403);
-
+	log(permiso.usuario, "reportes_urbanos", "leer"); // Log de acción
 	let data=await db.collection("reportes_urbanos").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
@@ -476,7 +476,7 @@ app.get("/notas_medicas/:id", async (req,res)=>{
 	let token = req.get("Authentication");
 	let permiso = await verificarPermisos("notas_medicas", req.params.id, token);
 	if (!permiso.permitido) return res.sendStatus(403);
-
+	log(permiso.usuario, "notas_medicas", "leer"); // Log de acción
 	let data=await db.collection("notas_medicas").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
@@ -486,7 +486,7 @@ app.get("/notas_urbanas/:id", async (req,res)=>{
 	let token = req.get("Authentication");
 	let permiso = await verificarPermisos("notas_urbanas", req.params.id, token);
 	if (!permiso.permitido) return res.sendStatus(403);
-
+	log(permiso.usuario, "notas_urbanas", "leer"); // Log de acción
 	let data=await db.collection("notas_urbanas").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
 	res.json(data[0]);
 });
@@ -496,7 +496,7 @@ app.get("/usuarios/:id", async (req,res)=>{
 	let token = req.get("Authentication");
 	let permiso = await verificarPermisos("usuarios", req.params.id, token);
 	if (!permiso.permitido) return res.sendStatus(403);
-
+	log(permiso.usuario, "usuarios", "leer"); // Log de acción
     let data=await db.collection("usuarios").find({"id": Number(req.params.id)}).project({_id:0}).toArray();
     res.json(data[0]);
 });
@@ -505,9 +505,13 @@ app.get("/usuarios/:id", async (req,res)=>{
 
 app.post("/reportes_medicos", async (req, res) => {
 	try {
+		let token=req.get("Authentication");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+		let user=verifiedToken.usuario;
 		let valores = req.body;
 		valores["id"]=await getNextId("reportes_medicos");
 		await db.collection("reportes_medicos").insertOne(valores);
+		log(user, "reportes_medicos", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -517,9 +521,13 @@ app.post("/reportes_medicos", async (req, res) => {
 
 app.post("/reportes_urbanos", async (req, res) => {
 	try {
+		let token=req.get("Authentication");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+		let user=verifiedToken.usuario;
 		let valores = req.body;
 		valores["id"]=await getNextId("reportes_urbanos");
 		await db.collection("reportes_urbanos").insertOne(valores);
+		log(user, "reportes_urbanos", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -529,9 +537,13 @@ app.post("/reportes_urbanos", async (req, res) => {
 
 app.post("/notas_medicas", async (req, res) => {
 	try {
+		let token=req.get("Authentication");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+		let user=verifiedToken.usuario;
 		let valores = req.body;
 		valores["id"]=await getNextId("notas_medicas");
 		await db.collection("notas_medicas").insertOne(valores);
+		log(user, "notas_medicas", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -541,9 +553,13 @@ app.post("/notas_medicas", async (req, res) => {
 
 app.post("/notas_urbanas", async (req, res) => {
 	try {
+		let token=req.get("Authentication");
+		let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+		let user=verifiedToken.usuario;
 		let valores = req.body;
 		valores["id"]=await getNextId("notas_urbanas");
 		await db.collection("notas_urbanas").insertOne(valores);
+		log(user, "notas_urbanas", "crear"); // Log de acción
 		return res.status(201).json(valores);
 	} catch (e) {
 		console.error(e);
@@ -571,6 +587,8 @@ app.post("/usuarios", async (req,res)=>{
             // Inserta el nuevo usuario
             let usuarioAgregar={"id": id, "usuario":user, "contrasena":hash, "rol":rol, "nombre":nombre, "turno":turno}
             await db.collection("usuarios").insertOne(usuarioAgregar);
+
+			log(user, "usuarios", "crear"); // Log de acción
             
             // Regresa el usuario creado
             res.status(201).json(usuarioAgregar);
@@ -586,27 +604,47 @@ app.post("/usuarios", async (req,res)=>{
 // deleteOne
 
 app.delete("/reportes_medicos/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let data=await db.collection("reportes_medicos").deleteOne({"id": Number(req.params.id)});
+	log(user, "reportes_medicos", "eliminar"); // Log de acción
 	res.json(data)
 })
 
 app.delete("/reportes_urbanos/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let data=await db.collection("reportes_urbanos").deleteOne({"id": Number(req.params.id)});
+	log(user, "reportes_urbanos", "eliminar"); // Log de acción
 	res.json(data)
 })
 
 app.delete("/notas_medicas/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let data=await db.collection("notas_medicas").deleteOne({"id": Number(req.params.id)});
+	log(user, "notas_medicas", "eliminar"); // Log de acción
 	res.json(data)
 })
 
 app.delete("/notas_urbanas/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let data=await db.collection("notas_urbanas").deleteOne({"id": Number(req.params.id)});
+	log(user, "notas_urbanas", "eliminar"); // Log de acción
 	res.json(data)
 })
 
 app.delete("/usuarios/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let data=await db.collection("usuarios").deleteOne({"id": Number(req.params.id)});
+	log(user, "usuarios", "eliminar"); // Log de acción
 	res.json(data)
 })
 
@@ -645,6 +683,7 @@ app.put("/reportes_medicos/:id", async(req,res)=>{
 	// Actualizar el reporte
 	let data =await db.collection("reportes_medicos").updateOne({"id":valores["id"]}, {"$set":valores})
 	data=await db.collection("reportes_medicos").find({"id":valores["id"]}).project({_id:0}).toArray();
+	log(usuario, "reportes_medicos", "actualizar"); // Log de acción
 	res.json(data[0]);
 })
 
@@ -681,30 +720,43 @@ app.put("/reportes_urbanos/:id", async(req,res)=>{
 	// Actualizar el reporte
 	let data =await db.collection("reportes_urbanos").updateOne({"id":valores["id"]}, {"$set":valores})
 	data=await db.collection("reportes_urbanos").find({"id":valores["id"]}).project({_id:0}).toArray();
+	log(usuario, "reportes_urbanos", "actualizar"); // Log de acción
 	res.json(data[0]);
 })
 
 app.put("/notas_medicas/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let valores=req.body
 	valores["id"]=Number(valores["id"])
 	let data =await db.collection("notas_medicas").updateOne({"id":valores["id"]}, {"$set":valores})
 	data=await db.collection("notas_medicas").find({"id":valores["id"]}).project({_id:0}).toArray();
+	log(user, "notas_medicas", "actualizar"); // Log de acción
 	res.json(data[0]);
 })
 
 app.put("/notas_urbanas/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let valores=req.body
 	valores["id"]=Number(valores["id"])
 	let data =await db.collection("notas_urbanas").updateOne({"id":valores["id"]}, {"$set":valores})
 	data=await db.collection("notas_urbanas").find({"id":valores["id"]}).project({_id:0}).toArray();
+	log(user, "notas_urbanas", "actualizar"); // Log de acción
 	res.json(data[0]);
 })
 
 app.put("/usuarios/:id", async(req,res)=>{
+	let token=req.get("Authentication");
+	let verifiedToken=await jwt.verify(token, await process.env.JWTKEY);
+	let user=verifiedToken.usuario;
 	let valores=req.body
 	valores["id"]=Number(valores["id"])
 	let data =await db.collection("usuarios").updateOne({"id":valores["id"]}, {"$set":valores})
 	data=await db.collection("usuarios").find({"id":valores["id"]}).project({_id:0, contrasena:0}).toArray();
+	log(user, "usuarios", "actualizar"); // Log de acción
 	res.json(data[0]);
 })
 
@@ -718,6 +770,7 @@ app.post("/login", async (req, res)=>{
 		res.sendStatus(401);
 	}else if(await argon2.verify(data.contrasena, pass)){
 		let token=jwt.sign({"usuario":data.usuario, "nombre":data.nombre, "rol": data.rol, "turno": data.turno}, await process.env.JWTKEY, {expiresIn: 900})
+		log(user, "sistema", "login"); // Log de acción
 		res.json({"token":token, "id":data.id, "usuario":data.usuario, "nombre":data.nombre, "rol":data.rol, "turno":data.turno});
 	}else{
 		res.sendStatus(401);

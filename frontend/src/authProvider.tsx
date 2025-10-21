@@ -116,6 +116,7 @@ export const authProvider: AuthProvider = {
         return {
             id: `${id}`,
             usuario: `${usuario}`,
+            fullName: `${usuario}`,
             nombre: `${nombre}`,
             rol: rol,
             turno: turno
