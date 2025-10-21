@@ -1,0 +1,1286 @@
+db.usuarios.insertMany([
+  {
+    _id: ObjectId('68ee87b62c3b4f8380c26cfb'),
+    id: 8,
+    usuario: 'admin',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$3AaSw6SYqbb8nbJQZG1/dA$88vVz7mS/68tt/8a70VUzyrBsbfX9VYWEOt58oArNRQ',
+    rol: 'admin',
+    nombre: 'Administrador',
+    turno: 1
+  },
+  {
+    _id: ObjectId('68f2ff9acf4314cb0b805fc0'),
+    id: 9,
+    usuario: 'paramedico1',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$ADNEhSSVfHqR7KLpk1pigQ$d0X3NeYKi+YLbDdMcf5GM9fes3vCKj+D8fwdA9Sx/Hg',
+    rol: 'paramedico',
+    nombre: 'Paramédico 1',
+    turno: 1
+  },
+  {
+    _id: ObjectId('68f2ffaacf4314cb0b805fc3'),
+    id: 10,
+    usuario: 'paramedico2',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$/icIXWru6p21ixj/wwEUEQ$RICNyw1fKDNvdWg8l5DCtLC7/VqK3qWMcJDJCPAHvLs',
+    rol: 'paramedico',
+    nombre: 'Paramédico 2',
+    turno: 2
+  },
+  {
+    _id: ObjectId('68f30023cf4314cb0b805fdb'),
+    id: 11,
+    usuario: 'paramedico3',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$BMrZUMZgGj3bbkPrtl+gjA$M0D6uf1EVkfk4Jw+SJvpFbpU6bFdNAb/mpwpRI+hr8E',
+    rol: 'paramedico',
+    nombre: 'Paramédico 3',
+    turno: 3
+  },
+  {
+    _id: ObjectId('68f3002ecf4314cb0b805fde'),
+    id: 12,
+    usuario: 'urbano1',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$NkYO/Pl2Vadt9a1aA9WnIg$zbKC+cDKVbgqUDiXCoPZZLA1o6aZxrHMVP69T5vroPQ',
+    rol: 'urbano',
+    nombre: 'Urbano 1',
+    turno: 1
+  },
+  {
+    _id: ObjectId('68f3003acf4314cb0b805fe1'),
+    id: 13,
+    usuario: 'urbano2',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$OeS6RMn5JuIx/8Opo6Bqcw$3/87DwpvnznBkDymhHADjjFo4fRYgUqzD5WO0MeA9eE',
+    rol: 'urbano',
+    nombre: 'Urbano 2',
+    turno: 2
+  },
+  {
+    _id: ObjectId('68f3004dcf4314cb0b805fe4'),
+    id: 14,
+    usuario: 'urbano3',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$gVUWsauM74dIM1DRRkel2g$Qu5yEgPJ21igC5b09HZGy0vnPLpvo4xJr1LOBI/aPaM',
+    rol: 'urbano',
+    nombre: 'Urbano 3',
+    turno: 3
+  },
+  {
+    _id: ObjectId('68f30064cf4314cb0b805fe7'),
+    id: 15,
+    usuario: 'jefe_turno1',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$1yZ8WZkFXOinJ62KEjD9cA$SWsR1ckU22gxIc6JKniIrAG/b5Llk8+tawchocBCN2U',
+    rol: 'jefe',
+    nombre: 'Jefe de Turno 1',
+    turno: 1
+  },
+  {
+    _id: ObjectId('68f30077cf4314cb0b805fea'),
+    id: 16,
+    usuario: 'jefe_turno2',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$/c9ro2PhFp/DhLy5EdO3zw$IfmakT+vsW3siipIX6MLw2pYFQQbgkJZAqZxX+ckeO4',
+    rol: 'jefe',
+    nombre: 'Jefe de Turno 2',
+    turno: 2
+  },
+  {
+    _id: ObjectId('68f30087cf4314cb0b805fed'),
+    id: 17,
+    usuario: 'jefe_turno3',
+    contrasena: '$argon2id$v=19$m=19456,t=2,p=1$/+GaSpcHKBIYrqWAuvhVlQ$PTUMsJCxcWt06IvEH2UEJFDSwhSE8bneyvlT0T7gAEo',
+    rol: 'jefe',
+    nombre: 'Jefe de Turno 3',
+    turno: 3
+  }
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.2.- reportes_medicos
+
+db.reportes_medicos.insertMany([
+  {
+    _id: ObjectId('68f30323e4e87383df377b43'),
+    id: 1,
+    folio: 'RM-2025-001',
+    fecha: '2025-10-17',
+    turno: 1,
+    personalACargo: 'paramedico1',
+    horaLlam: '07:12',
+    horaSal: '07:15',
+    horaLlegada: '07:27',
+    horaTras: '07:45',
+    horaHos: '08:02',
+    horaSalidaHos: '08:25',
+    horaBase: '08:48',
+    nombrePaciente: 'Jorge Hernández',
+    nombreTestigo: 'Laura Cruz',
+    nombreParamedico: 'María López Ramírez',
+    nombreMedico: 'Dr. Iván Torres',
+    motivo: 'Traumatismo',
+    ubicacion: {
+      calle: 'Av. Insurgentes Sur',
+      entre: 'Xola',
+      y: 'Eugenia',
+      colonia: 'Del Valle',
+      municipio: 'Benito Juárez'
+    },
+    lugarOcurrencia: 'Vía Pública',
+    lugarOcurrenciaOtro: '',
+    control: {
+      numAmbulancia: 'AMB-021',
+      operador: 'Luis Peña',
+      tum: 'TUM-III',
+      socorrista: 'Daniel García',
+      helicopteroMatricula: ''
+    },
+    paciente: {
+      sexo: 'Masculino',
+      edad: 34,
+      domicilio: 'Calle Lisboa 120',
+      colonia: 'Juárez',
+      alcaldia: 'Cuauhtémoc',
+      derechohabiente: 'IMSS',
+      telefono: 5550123456,
+      ubicacion: 'Ingeniero de software'
+    },
+    parto: {},
+    agente: { causal: 'Automotor', especificar: '' },
+    accidente: {
+      tipo: 'Colisión',
+      impacto: [ 'Frontal', 'Lateral' ],
+      cms: 'Alta energía',
+      parabrisas: 'Estrellado',
+      volante: 'Doblado',
+      bolsa: 'Sí',
+      cinturon: 'Colocado',
+      dentroVehiculo: 'Sí'
+    },
+    atropellado: { vehiculo: '' },
+    causaClinica: {
+      origenProbable: '',
+      especifique: '',
+      primeraVez: '',
+      subsecuente: ''
+    },
+    evaluacionInicial: {
+      nivelConsciencia: 'Alerta',
+      deglucion: 'Presente',
+      viaAerea: 'Permeable',
+      ventilacion: 'Automatismo regular',
+      auscultacion: 'Ruidos respiratorios normales',
+      hemitorax: 'Derecho',
+      sitio: 'Apical',
+      presenciaPulsos: 'Radial',
+      calidad: 'Rítmico',
+      piel: 'Normal',
+      caracteristicas: 'Normotérmico',
+      observaciones: 'Paciente consciente, refiere dolor torácico y abrasiones en brazo izquierdo.'
+    },
+    evalSec: {
+      nombre: 'Jorge Hernández',
+      asuntoNo: 1001,
+      fecha: '2025-10-17',
+      zonasLesion: [ { zona: 2, lesion: 'ESC' }, { zona: 5, lesion: 'HMT' } ],
+      signosVitales: [
+        {
+          hora: '07:30',
+          fr: '18',
+          fc: '96',
+          tas: '128',
+          tad: '82',
+          sao2: '96',
+          temp: '36.7',
+          glucosa: '98',
+          a: '4',
+          v: '5',
+          d: '6',
+          i: 'NA'
+        },
+        {
+          hora: '07:55',
+          fr: '17',
+          fc: '92',
+          tas: '124',
+          tad: '80',
+          sao2: '97',
+          temp: '36.7',
+          glucosa: '99',
+          a: '4',
+          v: '5',
+          d: '6',
+          i: 'NA'
+        }
+      ],
+      glasgowTotal: 15,
+      alergias: 'Ninguna conocida',
+      medicamentos: 'Ibuprofeno ocasional',
+      padecimientos: 'N/A',
+      ultimaComida: '06:30',
+      condicion: 'Estable',
+      prioridad: 'Amarillo'
+    },
+    traslado: {
+      hospital: 'Hospital General Xoco',
+      doctor: 'Dra. Sofía Morales',
+      cru: 'CRU-77821',
+      nombre: 'Recepción Urgencias',
+      firma: 'S. Morales'
+    },
+    tratamiento: {
+      viaAerea: 'Permeable',
+      controlCervical: 'Collarín rígido',
+      asistenciaVentilatoria: [ 'Mascarilla simple' ],
+      medicacion: [
+        {
+          hora: '07:40',
+          medicamento: 'Paracetamol IV',
+          dosis: '1 g',
+          via: 'IV'
+        }
+      ],
+      doctorTratante: 'Dra. Sofía Morales',
+      controlHemorragias: 'Vendaje compresivo',
+      viasVenosas: {
+        soluciones: 'NaCl 0.9 %',
+        linea: 1,
+        cateter: 18,
+        cantidad: 250
+      },
+      atencionBasica: 'Inmovilización de extremidades'
+    },
+    observaciones: 'Se traslada con monitorización continua, sin eventos durante traslado.',
+    ministerioPublico: { sello: '', funcionario: '' },
+    datosLegales: {
+      autoridadDependencia: 'Policía',
+      numeroUnidad: 'MX-4321',
+      numeroOficiales: 'OP-22 y OP-35',
+      vehiculosInvolucrados: [
+        { tipo: 'Sedán Toyota', placas: 'ABC-123-CDMX' },
+        { tipo: 'SUV Ford', placas: 'XYZ-987-CDMX' }
+      ]
+    },
+    evidencia: [
+      {
+        src: 'https://example.com/evidencia/1_foto1.jpg',
+        title: 'Vehículo 1'
+      },
+      {
+        src: 'https://example.com/evidencia/1_foto2.jpg',
+        title: 'Abrasión brazo'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('68f30323e4e87383df377b44'),
+    id: 2,
+    folio: 'RM-2025-002',
+    fecha: '2025-10-17',
+    turno: 1,
+    personalACargo: 'paramedico1',
+    horaLlam: '12:02',
+    horaSal: '12:05',
+    horaLlegada: '12:16',
+    horaTras: '12:35',
+    horaHos: '12:52',
+    horaSalidaHos: '13:18',
+    horaBase: '13:40',
+    nombrePaciente: 'Elena Ríos',
+    nombreTestigo: 'Pedro Vázquez',
+    nombreParamedico: 'Carlos Méndez',
+    nombreMedico: 'Dra. Aline Pérez',
+    motivo: 'Enfermedad',
+    ubicacion: {
+      calle: 'Calle 5 de Mayo',
+      entre: 'Ignacio Allende',
+      y: 'Hidalgo',
+      colonia: 'Centro',
+      municipio: 'Coyoacán'
+    },
+    lugarOcurrencia: 'Hogar',
+    lugarOcurrenciaOtro: '',
+    control: {
+      numAmbulancia: 'AMB-034',
+      operador: 'R. Salgado',
+      tum: 'TUM-II',
+      socorrista: 'A. Pineda',
+      helicopteroMatricula: ''
+    },
+    paciente: {
+      sexo: 'Femenino',
+      edad: 62,
+      domicilio: '5 de Mayo 144',
+      colonia: 'Centro',
+      alcaldia: 'Coyoacán',
+      derechohabiente: 'ISSSTE',
+      telefono: 5550987654,
+      ubicacion: 'Jubilada'
+    },
+    parto: {},
+    agente: { causal: '', especificar: '' },
+    accidente: {},
+    atropellado: { vehiculo: '' },
+    causaClinica: {
+      origenProbable: 'Cardiovascular',
+      especifique: 'Dolor torácico súbito con irradiación',
+      primeraVez: 'Sí',
+      subsecuente: 'No'
+    },
+    evaluacionInicial: {
+      nivelConsciencia: 'Verbal',
+      deglucion: 'Presente',
+      viaAerea: 'Permeable',
+      ventilacion: 'Automatismo rápido',
+      auscultacion: 'Ruidos respiratorios normales',
+      hemitorax: 'Izquierdo',
+      sitio: 'Base',
+      presenciaPulsos: 'Radial',
+      calidad: 'Arrítmico',
+      piel: 'Pálida',
+      caracteristicas: 'Diaforesis',
+      observaciones: 'Paciente con diaforesis, náusea y disnea leve.'
+    },
+    evalSec: {
+      nombre: 'Elena Ríos',
+      asuntoNo: 1002,
+      fecha: '2025-10-17',
+      zonasLesion: [],
+      signosVitales: [
+        {
+          hora: '12:20',
+          fr: '22',
+          fc: '110',
+          tas: '150',
+          tad: '95',
+          sao2: '94',
+          temp: '36.5',
+          glucosa: '120',
+          a: '4',
+          v: '4',
+          d: '6',
+          i: 'NA'
+        },
+        {
+          hora: '12:45',
+          fr: '20',
+          fc: '104',
+          tas: '142',
+          tad: '90',
+          sao2: '95',
+          temp: '36.6',
+          glucosa: '118',
+          a: '4',
+          v: '4',
+          d: '6',
+          i: 'NA'
+        }
+      ],
+      glasgowTotal: 14,
+      alergias: 'Penicilina',
+      medicamentos: 'Amlodipino',
+      padecimientos: 'HTA',
+      ultimaComida: '10:30',
+      condicion: 'Inestable',
+      prioridad: 'Rojo'
+    },
+    traslado: {
+      hospital: 'Instituto Nacional de Cardiología',
+      doctor: 'Dr. Ricardo León',
+      cru: 'CRU-77902',
+      nombre: 'Triage Cardiología',
+      firma: 'R. León'
+    },
+    tratamiento: {
+      viaAerea: 'Permeable',
+      controlCervical: 'Manual',
+      asistenciaVentilatoria: [ 'Mascarilla con reservorio' ],
+      medicacion: [
+        {
+          hora: '12:22',
+          medicamento: 'Aspirina',
+          dosis: '300 mg',
+          via: 'VO'
+        },
+        {
+          hora: '12:23',
+          medicamento: 'Nitroglicerina',
+          dosis: '0.4 mg',
+          via: 'SL'
+        }
+      ],
+      doctorTratante: 'Dr. Ricardo León',
+      controlHemorragias: '',
+      viasVenosas: { soluciones: 'Hartmann', linea: 1, cateter: 20, cantidad: 200 },
+      atencionBasica: 'RCP básica'
+    },
+    observaciones: 'Se traslada en condición inestable con manejo inicial del dolor torácico.',
+    ministerioPublico: { sello: '', funcionario: '' },
+    datosLegales: {
+      autoridadDependencia: '',
+      numeroUnidad: '',
+      numeroOficiales: '',
+      vehiculosInvolucrados: []
+    },
+    evidencia: [
+      {
+        src: 'https://example.com/evidencia/2_ecg.jpg',
+        title: 'ECG prehospitalario'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('68f30323e4e87383df377b45'),
+    id: 3,
+    folio: 'RM-2025-003',
+    fecha: '2025-10-17',
+    turno: 2,
+    personalACargo: 'paramedico2',
+    horaLlam: '14:11',
+    horaSal: '14:13',
+    horaLlegada: '14:22',
+    horaTras: '14:40',
+    horaHos: '14:55',
+    horaSalidaHos: '15:30',
+    horaBase: '15:58',
+    nombrePaciente: 'Mariana Díaz',
+    nombreTestigo: 'Sergio Díaz',
+    nombreParamedico: 'Ana Paulina Reyes',
+    nombreMedico: 'Dra. Gabriela Núñez',
+    motivo: 'Ginecoobstétrico',
+    ubicacion: {
+      calle: 'Av. Universidad',
+      entre: 'Copilco',
+      y: 'Portal',
+      colonia: 'Copilco Universidad',
+      municipio: 'Coyoacán'
+    },
+    lugarOcurrencia: 'Hogar',
+    lugarOcurrenciaOtro: '',
+    control: {
+      numAmbulancia: 'AMB-019',
+      operador: 'K. Ortega',
+      tum: 'TUM-II',
+      socorrista: 'M. Rangel',
+      helicopteroMatricula: ''
+    },
+    paciente: {
+      sexo: 'Femenino',
+      edad: 27,
+      domicilio: 'Universidad 300',
+      colonia: 'Copilco',
+      alcaldia: 'Coyoacán',
+      derechohabiente: 'Seguro Popular',
+      telefono: 5512347788,
+      ubicacion: 'Ama de casa'
+    },
+    parto: {
+      semanas: '39',
+      horaContracciones: '13:20',
+      frecuencia: 'Cada 3 min',
+      duracion: '45 seg',
+      horaNacimiento: '14:48',
+      placenta: 'Sí',
+      producto: 'Vivo',
+      sexo: 'Femenino',
+      edadGestacional: 39,
+      apgar1min: 8,
+      apgar5min: 9,
+      apgar10min: 10,
+      apgar15min: 10,
+      apgar20min: 10
+    },
+    agente: { causal: '', especificar: '' },
+    accidente: {},
+    atropellado: { vehiculo: '' },
+    causaClinica: {
+      origenProbable: 'Ginecoobstétrica',
+      especifique: '',
+      primeraVez: 'Sí',
+      subsecuente: 'No'
+    },
+    evaluacionInicial: {
+      nivelConsciencia: 'Alerta',
+      deglucion: 'Presente',
+      viaAerea: 'Permeable',
+      ventilacion: 'Automatismo regular',
+      auscultacion: 'Ruidos respiratorios normales',
+      hemitorax: 'Derecho',
+      sitio: 'Base',
+      presenciaPulsos: 'Radial',
+      calidad: 'Rítmico',
+      piel: 'Normal',
+      caracteristicas: 'Normotérmico',
+      observaciones: 'Trabajo de parto activo; signos vitales maternos dentro de parámetros.'
+    },
+    evalSec: {
+      nombre: 'Mariana Díaz',
+      asuntoNo: 1003,
+      fecha: '2025-10-17',
+      zonasLesion: [],
+      signosVitales: [
+        {
+          hora: '14:25',
+          fr: '20',
+          fc: '92',
+          tas: '120',
+          tad: '76',
+          sao2: '98',
+          temp: '36.8',
+          glucosa: '90',
+          a: '4',
+          v: '5',
+          d: '6',
+          i: 'NA'
+        }
+      ],
+      glasgowTotal: 15,
+      alergias: 'Ninguna',
+      medicamentos: 'Prenatales',
+      padecimientos: 'N/A',
+      ultimaComida: '12:00',
+      condicion: 'Estable',
+      prioridad: 'Verde'
+    },
+    traslado: {
+      hospital: 'Hospital Materno Infantil Inguarán',
+      doctor: 'Dr. Julio Pacheco',
+      cru: 'CRU-78011',
+      nombre: 'Tococirugía',
+      firma: 'J. Pacheco'
+    },
+    tratamiento: {
+      viaAerea: 'Permeable',
+      controlCervical: 'Manual',
+      asistenciaVentilatoria: [ 'Puntas nasales' ],
+      medicacion: [],
+      doctorTratante: 'Dr. Julio Pacheco',
+      controlHemorragias: '',
+      viasVenosas: { soluciones: 'Mixta', linea: 1, cateter: 20, cantidad: 300 },
+      atencionBasica: 'Empaquetamiento'
+    },
+    observaciones: 'RN vigoroso, llanto fuerte, sin complicaciones aparentes.',
+    ministerioPublico: { sello: '', funcionario: '' },
+    datosLegales: {
+      autoridadDependencia: '',
+      numeroUnidad: '',
+      numeroOficiales: '',
+      vehiculosInvolucrados: []
+    },
+    evidencia: [
+      {
+        src: 'https://example.com/evidencia/3_parto.jpg',
+        title: 'Registro parto'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('68f30323e4e87383df377b46'),
+    id: 4,
+    folio: 'RM-2025-004',
+    fecha: '2025-10-16',
+    turno: 2,
+    personalACargo: 'paramedico2',
+    horaLlam: '22:09',
+    horaSal: '22:12',
+    horaLlegada: '22:24',
+    horaTras: '22:40',
+    horaHos: '22:58',
+    horaSalidaHos: '23:20',
+    horaBase: '23:48',
+    nombrePaciente: 'Raúl Castillo',
+    nombreTestigo: 'Mónica Pérez',
+    nombreParamedico: 'Héctor Salas',
+    nombreMedico: 'Dr. Óscar Medina',
+    motivo: 'Traumatismo',
+    ubicacion: {
+      calle: 'Calz. Ignacio Zaragoza',
+      entre: 'Av. Guelatao',
+      y: 'Gral. Antonio de León',
+      colonia: 'Agrícola Oriental',
+      municipio: 'Iztacalco'
+    },
+    lugarOcurrencia: 'Vía Pública',
+    lugarOcurrenciaOtro: '',
+    control: {
+      numAmbulancia: 'AMB-055',
+      operador: 'R. Valdez',
+      tum: 'TUM-I',
+      socorrista: 'C. Ríos',
+      helicopteroMatricula: ''
+    },
+    paciente: {
+      sexo: 'Masculino',
+      edad: 19,
+      domicilio: 'Guelatao 77',
+      colonia: 'Agrícola Oriental',
+      alcaldia: 'Iztacalco',
+      derechohabiente: 'IMSS',
+      telefono: 5540012233,
+      ubicacion: 'Estudiante'
+    },
+    parto: {},
+    agente: { causal: 'Motocicleta', especificar: '' },
+    accidente: {
+      tipo: 'Motocicleta',
+      impacto: [ 'Lateral' ],
+      cms: 'Media',
+      parabrisas: 'Íntegro',
+      volante: 'Íntegro',
+      bolsa: 'No',
+      cinturon: 'No colocado',
+      dentroVehiculo: 'Eyectado'
+    },
+    atropellado: { vehiculo: '' },
+    causaClinica: {
+      origenProbable: '',
+      especifique: '',
+      primeraVez: '',
+      subsecuente: ''
+    },
+    evaluacionInicial: {
+      nivelConsciencia: 'Dolor',
+      deglucion: 'Presente',
+      viaAerea: 'Permeable',
+      ventilacion: 'Automatismo superficial',
+      auscultacion: 'Ruidos respiratorios disminuidos',
+      hemitorax: 'Izquierdo',
+      sitio: 'Base',
+      presenciaPulsos: 'Carótideo',
+      calidad: 'Rápido',
+      piel: 'Pálida',
+      caracteristicas: 'Diaforesis',
+      observaciones: 'Contusión en cadera izquierda y laceraciones múltiples.'
+    },
+    evalSec: {
+      nombre: 'Raúl Castillo',
+      asuntoNo: 1004,
+      fecha: '2025-10-16',
+      zonasLesion: [ { zona: 3, lesion: 'LAC' }, { zona: 6, lesion: 'HMT' } ],
+      signosVitales: [
+        {
+          hora: '22:28',
+          fr: '24',
+          fc: '118',
+          tas: '110',
+          tad: '70',
+          sao2: '93',
+          temp: '36.4',
+          glucosa: '105',
+          a: '3',
+          v: '5',
+          d: '5',
+          i: 'NA'
+        },
+        {
+          hora: '22:50',
+          fr: '22',
+          fc: '112',
+          tas: '108',
+          tad: '68',
+          sao2: '94',
+          temp: '36.4',
+          glucosa: '104',
+          a: '3',
+          v: '5',
+          d: '5',
+          i: 'NA'
+        }
+      ],
+      glasgowTotal: 13,
+      alergias: 'Ninguna',
+      medicamentos: 'N/A',
+      padecimientos: 'N/A',
+      ultimaComida: '20:00',
+      condicion: 'No crítico',
+      prioridad: 'Amarillo'
+    },
+    traslado: {
+      hospital: 'Hospital Balbuena',
+      doctor: 'Dra. Teresa Roldán',
+      cru: 'CRU-78110',
+      nombre: 'Trauma',
+      firma: 'T. Roldán'
+    },
+    tratamiento: {
+      viaAerea: 'Permeable',
+      controlCervical: 'Collarín blando',
+      asistenciaVentilatoria: [ 'Mascarilla Venturi' ],
+      medicacion: [
+        {
+          hora: '22:32',
+          medicamento: 'Ketorolaco',
+          dosis: '30 mg',
+          via: 'IV'
+        }
+      ],
+      doctorTratante: 'Dra. Teresa Roldán',
+      controlHemorragias: 'Presión directa',
+      viasVenosas: {
+        soluciones: 'NaCl 0.9 %',
+        linea: 1,
+        cateter: 18,
+        cantidad: 300
+      },
+      atencionBasica: 'Inmovilización de extremidades'
+    },
+    observaciones: 'Se inmoviliza cadera y se realiza control de hemorragia.',
+    ministerioPublico: { sello: 'MP-IZT-554', funcionario: 'Of. C. López' },
+    datosLegales: {
+      autoridadDependencia: 'Seguridad Pública',
+      numeroUnidad: 'SP-772',
+      numeroOficiales: 'P-102 y P-118',
+      vehiculosInvolucrados: [ { tipo: 'Motocicleta Italika', placas: 'MOT-22-CDMX' } ]
+    },
+    evidencia: [
+      {
+        src: 'https://example.com/evidencia/4_casco.jpg',
+        title: 'Casco dañado'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('68f30323e4e87383df377b47'),
+    id: 5,
+    folio: 'RM-2025-008',
+    fecha: '2025-10-15',
+    turno: 3,
+    personalACargo: 'paramedico3',
+    horaLlam: '09:03',
+    horaSal: '09:06',
+    horaLlegada: '09:18',
+    horaTras: '09:42',
+    horaHos: '09:58',
+    horaSalidaHos: '10:25',
+    horaBase: '10:51',
+    nombrePaciente: 'Rogelio Martínez',
+    nombreTestigo: 'Cecilia Gómez',
+    nombreParamedico: 'Itzel Navarro',
+    nombreMedico: 'Dr. Manuel Ortiz',
+    motivo: 'Traumatismo',
+    ubicacion: {
+      calle: 'Av. Industria',
+      entre: 'Torno',
+      y: 'Prensa',
+      colonia: 'Parque Industrial',
+      municipio: 'Tlalnepantla'
+    },
+    lugarOcurrencia: 'Trabajo',
+    lugarOcurrenciaOtro: '',
+    control: {
+      numAmbulancia: 'AMB-066',
+      operador: 'E. Vargas',
+      tum: 'TUM-III',
+      socorrista: 'V. Cano',
+      helicopteroMatricula: ''
+    },
+    paciente: {
+      sexo: 'Masculino',
+      edad: 45,
+      domicilio: 'Av. Industria 400',
+      colonia: 'Industrial',
+      alcaldia: 'Tlalnepantla',
+      derechohabiente: 'IMSS',
+      telefono: 5588776655,
+      ubicacion: 'Operador de maquinaria'
+    },
+    parto: {},
+    agente: { causal: 'Sustancia caliente', especificar: 'Aceite industrial' },
+    accidente: {
+      tipo: 'Maquinaria',
+      impacto: [ 'Posterior', 'Rotacional' ],
+      cms: 'Baja',
+      parabrisas: 'Íntegro',
+      volante: 'Íntegro',
+      bolsa: 'No',
+      cinturon: 'Colocado',
+      dentroVehiculo: 'No'
+    },
+    atropellado: { vehiculo: '' },
+    causaClinica: {},
+    evaluacionInicial: {
+      nivelConsciencia: 'Alerta',
+      deglucion: 'Presente',
+      viaAerea: 'Permeable',
+      ventilacion: 'Automatismo irregular',
+      auscultacion: 'Ruidos respiratorios normales',
+      hemitorax: 'Derecho',
+      sitio: 'Base',
+      presenciaPulsos: 'Radial',
+      calidad: 'Rítmico',
+      piel: 'Cianótica',
+      caracteristicas: 'Diaforesis',
+      observaciones: 'Quemadura superficial en antebrazo derecho por salpicadura de aceite caliente.'
+    },
+    evalSec: {
+      nombre: 'Rogelio Martínez',
+      asuntoNo: 1005,
+      fecha: '2025-10-15',
+      zonasLesion: [ { zona: 4, lesion: 'QMD' } ],
+      signosVitales: [
+        {
+          hora: '09:22',
+          fr: '19',
+          fc: '88',
+          tas: '126',
+          tad: '84',
+          sao2: '97',
+          temp: '37.3',
+          glucosa: '102',
+          a: '4',
+          v: '5',
+          d: '6',
+          i: 'NA'
+        }
+      ],
+      glasgowTotal: 15,
+      alergias: 'Ninguna',
+      medicamentos: 'N/A',
+      padecimientos: 'N/A',
+      ultimaComida: '07:30',
+      condicion: 'No crítico',
+      prioridad: 'Verde'
+    },
+    traslado: {
+      hospital: 'Clin. 72 IMSS',
+      doctor: 'Dra. Karla Luna',
+      cru: 'CRU-78233',
+      nombre: 'Urgencias',
+      firma: 'K. Luna'
+    },
+    tratamiento: {
+      viaAerea: 'Permeable',
+      controlCervical: 'Manual',
+      asistenciaVentilatoria: [ 'Mascarilla simple' ],
+      medicacion: [
+        {
+          hora: '09:25',
+          medicamento: 'Diclofenaco',
+          dosis: '75 mg',
+          via: 'IM'
+        },
+        {
+          hora: '09:26',
+          medicamento: 'Solución salina',
+          dosis: 'Irrigación',
+          via: 'Tópica'
+        }
+      ],
+      doctorTratante: 'Dra. Karla Luna',
+      controlHemorragias: 'Crioterapia',
+      viasVenosas: {
+        soluciones: 'Glucosa 5%',
+        linea: 1,
+        cateter: 22,
+        cantidad: 100
+      },
+      atencionBasica: 'Curación'
+    },
+    observaciones: 'Se instruye protección de la zona y seguimiento en clínica.',
+    ministerioPublico: { sello: '', funcionario: '' },
+    datosLegales: {
+      autoridadDependencia: 'Otra',
+      numeroUnidad: 'SS-15',
+      numeroOficiales: '—',
+      vehiculosInvolucrados: []
+    },
+    evidencia: [
+      {
+        src: 'https://example.com/evidencia/5_quemadura.jpg',
+        title: 'Lesión antebrazo'
+      }
+    ],
+    historialCambios: [
+      {
+        usuarioId: 'admin',
+        folioAnterior: 'RM-2025-005',
+        folioNuevo: 'RM-2025-006',
+        fechaCambio: ISODate('2025-10-19T02:37:59.720Z')
+      },
+      {
+        usuarioId: 'admin',
+        folioAnterior: 'RM-2025-006',
+        folioNuevo: 'RM-2025-007',
+        fechaCambio: ISODate('2025-10-19T02:38:13.463Z')
+      },
+      {
+        usuarioId: 'paramedico3',
+        folioAnterior: 'RM-2025-007',
+        folioNuevo: 'RM-2025-008',
+        fechaCambio: ISODate('2025-10-19T02:38:31.046Z')
+      }
+    ]
+  }
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.3.- notas_medicas
+
+db.notas_medicas.insertMany([
+  {
+    id: 1,
+    fecha: "2025-10-17",
+    hora: "07:42",
+    turno: 1,
+    personalACargo: "paramedico1",
+    nombrePaciente: "Jorge Hernández",
+    nombreTestigo: "Laura Cruz",
+    nombreParamedico: "María López Ramírez",
+    nombreMedico: "Dr. Iván Torres",
+    location: { type: "Point", coordinates: [-99.1579, 19.3907] },
+    ubicacion: {
+      calle: "Av. Insurgentes Sur",
+      numExt: "Xola",
+      numInt: "Eugenia",
+      colonia: "Del Valle",
+      municipio: "Benito Juárez"
+    },
+    ocurrencia: "Vía Pública",
+    ocurrenciaOtro: "",
+    asunto: "Seguimiento por contusión torácica",
+    observaciones: "Paciente refiere dolor leve (EVA 3/10) y mareo ocasional. Se indica reposo relativo, compresas frías y vigilancia de signos de alarma por 24-48 h. Se recomienda control en consulta externa."
+  },
+  {
+    id: 2,
+    fecha: "2025-10-17",
+    hora: "12:28",
+    turno: 1,
+    personalACargo: "paramedico1",
+    nombrePaciente: "Elena Ríos",
+    nombreTestigo: "Pedro Vázquez",
+    nombreParamedico: "Carlos Méndez",
+    nombreMedico: "Dra. Aline Pérez",
+    location: { type: "Point", coordinates: [-99.1612, 19.3437] },
+    ubicacion: {
+      calle: "5 de Mayo",
+      numExt: "Ignacio Allende",
+      numInt: "Hidalgo",
+      colonia: "Centro",
+      municipio: "Coyoacán"
+    },
+    ocurrencia: "Hogar",
+    ocurrenciaOtro: "",
+    asunto: "Nota evolutiva por dolor torácico",
+    observaciones: "Dolor disminuye tras manejo inicial; persiste disnea leve de esfuerzo. Se mantiene ASA y nitroglicerina sublingual PRN si reaparece dolor. Indicación de acudir a urgencias si dolor >5/10, náusea intensa o diaforesis profusa."
+  },
+  {
+    id: 3,
+    fecha: "2025-10-17",
+    hora: "14:59",
+    turno: 2,
+    personalACargo: "paramedico2",
+    nombrePaciente: "Mariana Díaz",
+    nombreTestigo: "Sergio Díaz",
+    nombreParamedico: "Ana Paulina Reyes",
+    nombreMedico: "Dra. Gabriela Núñez",
+    location: { type: "Point", coordinates: [-99.1674, 19.3325] },
+    ubicacion: {
+      calle: "Av. Universidad",
+      numExt: "Copilco",
+      numInt: "Portal",
+      colonia: "Copilco Universidad",
+      municipio: "Coyoacán"
+    },
+    ocurrencia: "Hogar",
+    ocurrenciaOtro: "",
+    asunto: "Nota de puerperio inmediato",
+    observaciones: "Paciente estable post-parto, sangrado escaso, dolor uterino controlado. Se indica hidratación, lactancia a libre demanda y signos de alarma (sangrado abundante, fiebre, dolor intenso)."
+  },
+  {
+    id: 4,
+    fecha: "2025-10-16",
+    hora: "22:41",
+    turno: 2,
+    personalACargo: "paramedico2",
+    nombrePaciente: "Raúl Castillo",
+    nombreTestigo: "Mónica Pérez",
+    nombreParamedico: "Héctor Salas",
+    nombreMedico: "Dr. Óscar Medina",
+    location: { type: "Point", coordinates: [-99.0723, 19.4002] },
+    ubicacion: {
+      calle: "Calz. Ignacio Zaragoza",
+      numExt: "Av. Guelatao",
+      numInt: "Gral. Antonio de León",
+      colonia: "Agrícola Oriental",
+      municipio: "Iztacalco"
+    },
+    ocurrencia: "Recreación y Deporte",
+    ocurrenciaOtro: "",
+    asunto: "Revisión posterior a caída en moto",
+    observaciones: "Persisten laceraciones superficiales y dolor en cadera izquierda. Se refuerza inmovilización relativa y curaciones diarias. Se instruye acudir si aparece fiebre, supuración o aumento del dolor."
+  },
+  {
+    id: 5,
+    fecha: "2025-10-15",
+    hora: "09:37",
+    turno: 3,
+    personalACargo: "paramedico3",
+    nombrePaciente: "Rogelio Martínez",
+    nombreTestigo: "Cecilia Gómez",
+    nombreParamedico: "Itzel Navarro",
+    nombreMedico: "Dr. Manuel Ortiz",
+    location: { type: "Point", coordinates: [-99.1944, 19.5488] },
+    ubicacion: {
+      calle: "Av. Industria",
+      numExt: "Torno",
+      numInt: "Prensa",
+      colonia: "Parque Industrial",
+      municipio: "Tlalnepantla"
+    },
+    ocurrencia: "Otro",
+    ocurrenciaOtro: "Planta industrial",
+    asunto: "Seguimiento de quemadura superficial",
+    observaciones: "Zona eritematosa en antebrazo derecho, sin flictenas. Curación con irrigación y apósito limpio. Analgésico IM previo; hoy sin dolor importante. Se instruye protección térmica y revisión en 48 h."
+  }
+]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.4.- reportes_urbanos
+
+db.reportes_urbanos.insertMany([
+  {
+    id: 1,
+    folio: "RU-2025-001",
+    fecha: "2025-10-17",
+    turno: 1,
+    personalACargo: "urbano1",
+    modoActivacion: "911",
+    tipoServicio: "Árbol caído",
+    fechaHoraAtencion: "2025-10-17T07:20:00-06:00",
+    tiempoTrasladoMinutos: 14,
+    location: { type: "Point", coordinates: [-99.1618, 19.3915] },
+    ubicacion: {
+      calle: "Av. Insurgentes Sur",
+      entreCalles1: "Xola",
+      entreCalles2: "Eugenia",
+      colonia: "Del Valle",
+      municipio: "Benito Juárez",
+      direccion: "Av. Insurgentes Sur entre Xola y Eugenia, Col. Del Valle, Benito Juárez"
+    },
+    gravedad: "Moderada",
+    kmRecorridos: 8.7,
+    observacionesGenerales: "Árbol derribado obstruyendo carril derecho; se delimita zona y se corta rama principal.",
+    evidencia: [
+      { src: "https://example.com/ru/1-arbol1.jpg", title: "Árbol derribado" },
+      { src: "https://example.com/ru/1-corte.jpg", title: "Corte controlado" }
+    ],
+    dictamen: "Riesgo mitigado; requiere retiro total por Obras Públicas.",
+    responsableInmueble: "Administrador del condominio Altus",
+    responsableZona: "Jefe de cuadrilla zona Centro",
+    autoridadesParticipantes: ["Protección Civil", "Obras Públicas"],
+    autoridadesParticipantesOtros: ""
+  },
+  {
+    id: 2,
+    folio: "RU-2025-002",
+    fecha: "2025-10-17",
+    turno: 1,
+    personalACargo: "urbano1",
+    modoActivacion: "Llamada directa",
+    tipoServicio: "Fuga de agua",
+    fechaHoraAtencion: "2025-10-17T10:05:00-06:00",
+    tiempoTrasladoMinutos: 9,
+    location: { type: "Point", coordinates: [-99.1332, 19.4327] },
+    ubicacion: {
+      calle: "República de Uruguay",
+      entreCalles1: "5 de Febrero",
+      entreCalles2: "Isabel la Católica",
+      colonia: "Centro",
+      municipio: "Cuauhtémoc",
+      direccion: "Rep. de Uruguay entre 5 de Febrero e Isabel la Católica, Col. Centro, Cuauhtémoc"
+    },
+    gravedad: "Leve",
+    kmRecorridos: 5.3,
+    observacionesGenerales: "Fuga visible en toma domiciliaria; se cierra válvula y se notifica a SACMEX.",
+    evidencia: [
+      { src: "https://example.com/ru/2-fuga1.jpg", title: "Fuga en banqueta" }
+    ],
+    dictamen: "Control temporal; requiere reparación definitiva por cuadrilla de agua.",
+    responsableInmueble: "Propietario local 27",
+    responsableZona: "Coordinador de servicios hidráulicos",
+    autoridadesParticipantes: ["Protección Civil"],
+    autoridadesParticipantesOtros: ""
+  },
+  {
+    id: 3,
+    folio: "RU-2025-003",
+    fecha: "2025-10-17",
+    turno: 2,
+    personalACargo: "urbano2",
+    modoActivacion: "Radio corporativo",
+    tipoServicio: "Incendio de pastizal",
+    fechaHoraAtencion: "2025-10-17T14:32:00-06:00",
+    tiempoTrasladoMinutos: 18,
+    location: { type: "Point", coordinates: [-99.2105, 19.3204] },
+    ubicacion: {
+      calle: "Prol. División del Norte",
+      entreCalles1: "Camino al Ajusco",
+      entreCalles2: "Calle Ceibas",
+      colonia: "Héroes de Padierna",
+      municipio: "Tlalpan",
+      direccion: "Prol. División del Norte entre Camino al Ajusco y Ceibas, Héroes de Padierna, Tlalpan"
+    },
+    gravedad: "Severa",
+    kmRecorridos: 16.2,
+    observacionesGenerales: "Fuego superficial de rápida propagación por viento; se establece línea de defensa y enfriamiento.",
+    evidencia: [
+      { src: "https://example.com/ru/3-pastizal1.jpg", title: "Frente de fuego" },
+      { src: "https://example.com/ru/3-control.jpg", title: "Control del perímetro" }
+    ],
+    dictamen: "Incendio controlado y sofocado; monitoreo 2 h para reignición.",
+    responsableInmueble: "Terreno baldío municipal",
+    responsableZona: "Subdirector de emergencias zona Sur",
+    autoridadesParticipantes: ["Bomberos", "Protección Civil", "Seguridad Pública"],
+    autoridadesParticipantesOtros: ""
+  },
+  {
+    id: 4,
+    folio: "RU-2025-004",
+    fecha: "2025-10-16",
+    turno: 2,
+    personalACargo: "urbano2",
+    modoActivacion: "Aplicación móvil",
+    tipoServicio: "Choque menor",
+    fechaHoraAtencion: "2025-10-16T21:18:00-06:00",
+    tiempoTrasladoMinutos: 7,
+    location: { type: "Point", coordinates: [-99.0723, 19.4002] },
+    ubicacion: {
+      calle: "Calz. Ignacio Zaragoza",
+      entreCalles1: "Av. Guelatao",
+      entreCalles2: "Gral. Antonio de León",
+      colonia: "Agrícola Oriental",
+      municipio: "Iztacalco",
+      direccion: "Calz. Ignacio Zaragoza entre Av. Guelatao y Gral. Antonio de León, Agrícola Oriental, Iztacalco"
+    },
+    gravedad: "Moderada",
+    kmRecorridos: 4.9,
+    observacionesGenerales: "Colisión por alcance sin lesionados; se retiran vehículos y se libera carril.",
+    evidencia: [
+      { src: "https://example.com/ru/4-choque1.jpg", title: "Golpe en fascia" }
+    ],
+    dictamen: "Sin riesgo estructural; seguimiento vial por SSP.",
+    responsableInmueble: "No aplica",
+    responsableZona: "Jefe de turno vialidad",
+    autoridadesParticipantes: ["Seguridad Pública"],
+    autoridadesParticipantesOtros: ""
+  },
+  {
+    id: 5,
+    folio: "RU-2025-005",
+    fecha: "2025-10-15",
+    turno: 3,
+    personalACargo: "urbano3",
+    modoActivacion: "Otro",
+    tipoServicio: "Corte de energía",
+    fechaHoraAtencion: "2025-10-15T23:07:00-06:00",
+    tiempoTrasladoMinutos: 11,
+    location: { type: "Point", coordinates: [-99.2476, 19.5351] },
+    ubicacion: {
+      calle: "Av. Industria",
+      entreCalles1: "Torno",
+      entreCalles2: "Prensa",
+      colonia: "Parque Industrial",
+      municipio: "Tlalnepantla",
+      direccion: "Av. Industria entre Torno y Prensa, Parque Industrial, Tlalnepantla"
+    },
+    gravedad: "Crítica",
+    kmRecorridos: 12.4,
+    observacionesGenerales: "Apagón en nave industrial con afectación a sistemas de seguridad; se aísla área y se coordina planta de emergencia.",
+    evidencia: [
+      { src: "https://example.com/ru/5-energia1.jpg", title: "Área sin iluminación" }
+    ],
+    dictamen: "Restablecimiento temporal con planta; requiere inspección de CFE y mantenimiento interno.",
+    responsableInmueble: "Ing. Rogelio Martínez",
+    responsableZona: "Supervisor del parque industrial",
+    autoridadesParticipantes: ["Protección Civil", "Otra dependencia"],
+    autoridadesParticipantesOtros: "CFE"
+  }
+]);
+
+2.5.- notas_urbanas
+
+
+db.notas_urbanas.insertMany([
+  {
+    id: 1,
+    fecha: "2025-10-17",
+    hora: "07:35",
+    turno: 1,
+    personalACargo: "urbano1",
+    asunto: "Retiro de ramas y liberación de carril",
+    observaciones: "Cuadrilla delimita zona en Insurgentes; se trocean ramas caídas y se despeja carril derecho. Se deja señalización temporal y se solicita a Obras Públicas retiro final."
+  },
+  {
+    id: 2,
+    fecha: "2025-10-17",
+    hora: "10:22",
+    turno: 1,
+    personalACargo: "urbano1",
+    asunto: "Señalización provisional por bache profundo",
+    observaciones: "En Centro Histórico se colocan conos y cinta preventiva alrededor de bache de ~70 cm. Se levanta reporte a servicios hidráulicos y se notifica a tránsito para apoyo vial."
+  },
+  {
+    id: 3,
+    fecha: "2025-10-17",
+    hora: "14:48",
+    turno: 2,
+    personalACargo: "urbano2",
+    asunto: "Monitoreo post control de pastizal",
+    observaciones: "Zona caliente sin reignición tras 90 min de enfriamiento. Viento moderado; se recomienda ronda adicional al anochecer y mantener línea corta-fuego en talud."
+  },
+  {
+    id: 4,
+    fecha: "2025-10-16",
+    hora: "21:26",
+    turno: 2,
+    personalACargo: "urbano2",
+    asunto: "Choque por alcance sin lesionados",
+    observaciones: "Se apoya reubicación de vehículos a orilla; derrame menor de anticongelante neutralizado con material absorbente. Se libera un carril y se turna a aseguradoras."
+  },
+  {
+    id: 5,
+    fecha: "2025-10-15",
+    hora: "23:14",
+    turno: 3,
+    personalACargo: "urbano3",
+    asunto: "Apagón en nave industrial y activación de planta",
+    observaciones: "Se coordina encendido de generador para sistemas críticos (iluminación y CCTV). Se recomienda inspección de acometida por CFE y prueba de carga en 24 h."
+  }
+]);
