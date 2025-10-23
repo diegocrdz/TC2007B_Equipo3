@@ -1,7 +1,7 @@
 /*
 Recurso para Reportes Urbanos
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 20/08/2025
+Fecha: 22/10/2025
 */
 
 // react-admin
@@ -69,7 +69,7 @@ export const RUFilters = [
 
 export const RUList = () => {
     // Verificar acceso del usuario
-    const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    const { canAccess } = useCanAccess({ resource: 'reportes_urbanos', action: 'delete' });
 
     // Obtener tamaño de pantalla
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));

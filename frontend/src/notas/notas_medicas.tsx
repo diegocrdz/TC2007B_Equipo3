@@ -1,7 +1,7 @@
 /*
 Recurso para Notas Médicas
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 11/08/2025
+Fecha: 22/10/2025
 */
 
 // react-admin
@@ -50,7 +50,7 @@ export const NMFilters = [
 
 export const NMList = () => {
     // Verificar acceso del usuario
-    const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    const { canAccess } = useCanAccess({ resource: 'notas_medicas', action: 'delete' });
     
     // Obtener tamaño de pantalla
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));

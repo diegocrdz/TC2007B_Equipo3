@@ -1,7 +1,7 @@
 /*
 Recurso para Reportes Médicos
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 20/08/2025
+Fecha: 22/10/2025
 */
 
 // react-admin
@@ -88,7 +88,7 @@ export const RMFilters = [
 
 export const RMList = () => {
     // Verificar acceso del usuario
-    const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    const { canAccess } = useCanAccess({ resource: 'reportes_medicos', action: 'delete' });
 
     // El filtrado por rol ahora se maneja en el backend
     // Solo necesitamos un filtro vacío ya que el backend aplicará los filtros de seguridad

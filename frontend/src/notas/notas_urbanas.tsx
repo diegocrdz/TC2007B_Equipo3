@@ -1,7 +1,7 @@
 /*
 Recurso para Notas Urbanas
 Se proporcionan operaciones CRUD (listar, crear, editar y mostrar)
-Fecha: 11/08/2025
+Fecha: 22/10/2025
 */
 
 // react-admin
@@ -45,7 +45,7 @@ export const NUFilters = [
 
 export const NUList = () => {
     // Verificar acceso del usuario
-    const { canAccess } = useCanAccess({ resource: 'posts', action: 'delete' });
+    const { canAccess } = useCanAccess({ resource: 'notas_urbanas', action: 'delete' });
     
     // Obtener tamaño de pantalla
     const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
