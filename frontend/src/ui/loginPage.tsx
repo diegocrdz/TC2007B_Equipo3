@@ -1,9 +1,9 @@
 /*
 Página de inicio de sesión personalizada
-Fecha: 11/08/2025
+Fecha: 22/10/2025
 */
 
-import { useLogin, useNotify, useTheme, PasswordInput, SimpleForm, TextInput } from "react-admin";
+import { useLogin, useNotify, useRedirect, useTheme, PasswordInput, SimpleForm, TextInput } from "react-admin";
 import { Box, Paper, Button, Typography, IconButton } from "@mui/material";
 // Íconos de cambio de tema
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -15,6 +15,7 @@ import { useEffect } from "react";
 export const LoginPage = () => {
     const login = useLogin(); // Función para iniciar sesión del authProvider
     const notify = useNotify(); // Notificaciones de por parte del authprovider
+    const redirect = useRedirect(); // Redirección después del inicio de sesión
 
     // Cerrar sesión cuando se monta el componente
     useEffect(() => {
@@ -30,6 +31,7 @@ export const LoginPage = () => {
     const handleSubmit = async (formData: any) => {
         try {
             await login({ username: formData.username, password: formData.password });
+            redirect("/"); // Redirigir a la página principal
         } catch {
             notify("Credenciales inválidas", { type: "error" });
         }
