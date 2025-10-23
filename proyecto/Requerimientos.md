@@ -1,5 +1,19 @@
 # Requerimientos
 
+## Requerimientos de usuario
+
+Cada uno de los requerimientos (funcionales, no funcionales y restricciones) cuenta con un ID único para su fácil identificación. A continuación se detalla la clasificación y convención de IDs para cada tipo de requerimiento.
+
+- Requerimientos funcionales: prefijo "RF" seguido por el número correlativo (por ejemplo, RF01).
+- Requerimientos no funcionales: prefijo "RNF" seguido por el número correlativo (por ejemplo, RNF01).
+- Restricciones: prefijo "R" seguido por el número correlativo (por ejemplo, R01).
+
+Los requerimientos funcionales se encuentran organizados por prioridad:
+
+- Alta: Requerimientos esenciales para las funciones de la aplicación. Son los que cumplen los objetivos principales del proyecto.
+- Media: Características que permiten mejorar la usabilidad y control sobre el sistema.
+- Baja: Requerimientos básicos para la aplicación. Son cruciales para que la aplicación funcione de manera adecuada y su ausencia comprometería lo requerido por la organización socio formadora.
+
 ## Requerimientos funcionales
 
 **RF01**
@@ -16,7 +30,7 @@
 - La aplicación cuenta con niveles de acceso con sus respectivos permisos:
   - Administrador: puede visualizar todos los registros con sus respectivos datos, fecha de creación y folio
   - Jefe de turno: puede visualizar todos los registros de ese turno.
-  - Operador: puede visualizar y editar únicamente el campo ‘folio’ de los reportes que él creó; no puede editar otros campos del reporte.
+  - Operador: puede ver sólo sus propios reportes y editar únicamente el campo "folio" de sus reportes.
 - Se muestran los registros correspondientes dependiendo del nivel de permisos que posea la cuenta.
 
 **RF03**
@@ -263,4 +277,38 @@ La aplicación debe cumplir con el 80% de porcentaje de accesibilidad usando la 
 
 **RNF11**
 **Descripción**: Compatibilidad de dispositivos
-**Criterio**: La aplicación debe ser ejecutada correctamente en al menos 2 dispositivos distintos (computadora de escritorio y teléfono móvil IOS).
+**Criterio**: La aplicación debe ser ejecutada correctamente en al menos 2 dispositivos distintos (iOS + Android + desktop).
+
+## Restricciones
+
+**R01**
+**Nombre**: Conexión a internet obligatoria
+**Descripción**: La aplicación requiere que los dispositivos tengan acceso a internet para funcionar correctamente y hacer la conexión con la base de datos.
+
+**R02**
+**Nombre**: Acceso desde dispositivos celulares, tabletas y computadores (portátiles o de escritorio)
+**Descripción**: La aplicación debe ser accesible desde celulares, tabletas y computadoras, comprendiendo que cada dispositivo debe tener acceso a internet.
+
+**R03**
+**Nombre**: Acceso a la aplicación a través de un navegador web
+**Descripción**: La aplicación debe poder accederse a través de un navegador web, adaptándose a los diferentes tamaños de dispositivos.
+
+**R04**
+**Nombre**: Señalética
+**Descripción**: La aplicación debe usar todos los colores de la Alcaldía Cuajimalpa.
+
+**R05**
+**Nombre**: Uso de MongoDB para base de datos
+**Descripción**: La aplicación debe usar MongoDB como sistema de gestión de base de datos.
+
+**R06**
+**Nombre**: Framework de desarrollo
+**Descripción**: La aplicación debe ser desarrollada utilizando como base el framework React-Admin, utilizando como lenguajes de programación JavaScript, JSX, HTML y TypeScript.
+
+**R07**
+**Nombre**: Idioma
+**Descripción**: Todo el desarrollo de la aplicación, desde la base de datos hasta las interfaces de usuario, debe estar en Español Latinoamericano.
+
+**R08**
+**Nombre**: Despliegue de producción
+**Descripción**: La aplicación no debe ser implementada en un servidor final, sino estar únicamente limitada al entorno de pruebas, siguiendo la idea de que se trata de un MVP (Minimum Viable Product).
